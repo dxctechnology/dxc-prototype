@@ -105,7 +105,7 @@
       "MinLength" : 7,
       "MaxLength" : 64,
       "Default" : "b.us-west-2.dxcp.technology",
-      "AllowedPattern" : "^((?!-)[a-z0-9-]{1,63}(?<!-)\\.)+[a-z]{2,6}$",
+      "AllowedPattern" : "^((?!-)[a-z0-9-]{1,63}(?<!-)\\.)+[a-z]{2,10}$",
       "ConstraintDescription" : "must be a valid domain name and contain only lower-case letters, numbers, dashes and periods."
     },
 
@@ -115,7 +115,7 @@
       "MinLength" : 7,
       "MaxLength" : 64,
       "Default" : "b.dxcp.technology",
-      "AllowedPattern" : "^((?!-)[a-z0-9-]{1,63}(?<!-)\\.)+[a-z]{2,6}$",
+      "AllowedPattern" : "^((?!-)[a-z0-9-]{1,63}(?<!-)\\.)+[a-z]{2,10}$",
       "ConstraintDescription" : "must be a valid DNS domain name."
     },
 
