@@ -9,7 +9,7 @@
 
 var companyNameToCode = {
   'Demo'   : 'demo',
-  'Travel' : 'tvl'
+  'DXC'    : 'dxc'
 };
 
 var locationNameToCode = {
@@ -65,7 +65,7 @@ var environmentNameToCode = {
 };
 
 var systemNameToCode = {
-  'IROPS' : 'irops'
+  'Prototype' : 'proto'
 };
 
 var applicationNameToCode = {

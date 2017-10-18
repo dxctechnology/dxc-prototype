@@ -9,7 +9,7 @@
 
 var companyNameToCode = {
   'Demo'   : 'demo',
-  'Travel' : 'tvl'
+  'DXC'    : 'dxc'
 };
 
 var environmentNameToCode = {
