@@ -44,7 +44,7 @@
       "Type" : "String",
       "MinLength" : 8,
       "MaxLength" : 64,
-      "Default" : "CharlotteCustomerGateway",
+      "Default" : "SantaBarbaraCustomerGateway",
       "AllowedPattern" : "^[A-Z][-a-zA-Z0-9]*$",
       "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters and dashes."
     },
@@ -54,7 +54,7 @@
       "Type" : "String",
       "MinLength" : "9",
       "MaxLength" : "18",
-      "Default" : "204.26.128.0/17",
+      "Default" : "10.0.0.0/16",
       "AllowedPattern" : "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\\/(1[6-9]|2[0-8]))$",
       "ConstraintDescription" : "must be a valid IP CIDR range of the form X.X.X.X/16-28."
     }
