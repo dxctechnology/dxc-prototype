@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "Bootstrap-LinuxBastion Template: This creates an initial Linux Bastion to the Default VPC. This Bastion is intended to bootstrap creation of the IROPS system.",
+  "Description" : "Bootstrap-LinuxBastion Template: This creates an initial Linux Bastion to the Default VPC. This Bastion is intended to bootstrap creation of the DXC Prototype system.",
 
   "Metadata" : {
     "AWS::CloudFormation::Interface" : {
@@ -81,7 +81,7 @@
       "Type" : "String",
       "MinLength" : 2,
       "MaxLength" : 32,
-      "Default" : "Travel",
+      "Default" : "DXC",
       "AllowedPattern" : "^[A-Z][a-zA-Z0-9]*$",
       "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters."
     },
@@ -91,7 +91,7 @@
       "Type" : "String",
       "MinLength" : 2,
       "MaxLength" : 32,
-      "Default" : "IROPS",
+      "Default" : "Prototype",
       "AllowedPattern" : "^[A-Z][a-zA-Z0-9]*$",
       "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters."
     },
@@ -671,11 +671,11 @@
               },
               "/etc/motd" : {
                 "content" : { "Fn::Join" : [ "\n", [
-                  "+-------------------------------------+",
-                  "|                                     |",
-                  "| Welcome to IROPS Bootstrap Bastion! |",
-                  "|                                     |",
-                  "+-------------------------------------+",
+                  "+---------------------------------------------+",
+                  "|                                             |",
+                  "| Welcome to DXC Prototype Bootstrap Bastion! |",
+                  "|                                             |",
+                  "+---------------------------------------------+",
                   ""
                 ]]},
                 "mode"  : "000644",

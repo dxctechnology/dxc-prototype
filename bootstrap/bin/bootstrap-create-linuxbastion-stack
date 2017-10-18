@@ -3,7 +3,7 @@
 # This script creates the Bootstrap LinuxBastion Stack in the Default VPC in the us-east-1 Region.
 #
 # This script is designed to be run first to bootstrap an Instance which can then create the rest
-# of the IROPS Infrastructure, prior to the point when other Bastion/Management Instances exist.
+# of the DXC prototype Infrastructure, prior to the point when other Bastion/Management Instances exist.
 #
 # This Bootstrap Instance should be destroyed when no longer needed, as it will not exist within
 # the formal VPC infrastructure, and may present a security risk.
@@ -28,15 +28,15 @@ speed=100
 verbose=0
 monitor=0
 owner=${OWNER_EMAIL:-$USER@dxc.com}
-company=${COMPANY_NAME:-Travel}
-system=${SYSTEM_NAME:-IROPS}
+company=${COMPANY_NAME:-DXC}
+system=${SYSTEM_NAME:-Prototype}
 environment=Bootstrap # This exists outside Environments
 environment_type=${ENVIRONMENT_TYPE:-micro}
 utility=${UTILITY_NAME:-LinuxBastion}
 home_snapshot=
 user_networks=${LINUXBASTIONS_USER_NETWORKS:-0.0.0.0/0,NONE,NONE,NONE,NONE,NONE,NONE,NONE}
 region=us-east-1 # This should run only in us-east-1
-account=${AWS_ACCOUNT_ALIAS:-irops}
+account=${AWS_ACCOUNT_ALIAS:-dxcp}
 user=bootstrapadministrator
 key=${AWS_KEY_NAME:-bootstrap}
 
@@ -195,10 +195,10 @@ if [ -z $company ]; then
     exit 12
 else
     case $company in
-      Travel)
+      DXC)
         ;;
       *)
-        echo "-C $company invalid! Must be Travel"
+        echo "-C $company invalid! Must be DXC"
         exit 13;;
     esac
 fi
@@ -209,10 +209,10 @@ if [ -z $system ]; then
     exit 14
 else
     case $system in
-      IROPS)
+      Prototype)
         ;;
       *)
-        echo "-S $system invalid! Must be IROPS"
+        echo "-S $system invalid! Must be Prototype"
         exit 15;;
     esac
 fi

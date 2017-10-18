@@ -88,21 +88,14 @@
 #
 # 13. Delete VPNConnections
 #     13.1. Delete Production-SantaBarbaraVPNConnection Stack
-#     13.2. Delete Production-CharlotteVPNConnection Stack
-#     13.3. Delete Staging-SantaBarbaraVPNConnection Stack
-#     13.4. Delete Staging-CharlotteVPNConnection Stack
-#     13.5. Delete Testing-SantaBarbaraVPNConnection Stack
-#     13.6. Delete Testing-CharlotteVPNConnection Stack
-#     13.7. Delete Development-SantaBarbaraVPNConnection Stack
-#     13.8. Delete Development-CharlotteVPNConnection Stack
-#     13.9. Delete Core-SantaBarbaraVPNConnection Stack
-#     13.10. Delete Core-CharlotteVPNConnection Stack
-#     13.11. Delete Build-SantaBarbaraVPNConnection Stack
-#     13.12. Delete Build-CharlotteVPNConnection Stack
+#     13.2. Delete Staging-SantaBarbaraVPNConnection Stack
+#     13.3. Delete Testing-SantaBarbaraVPNConnection Stack
+#     13.4. Delete Development-SantaBarbaraVPNConnection Stack
+#     13.5. Delete Core-SantaBarbaraVPNConnection Stack
+#     13.6. Delete Build-SantaBarbaraVPNConnection Stack
 #
 # 14. Delete CustomerGateways
 #     14.1. Delete SantaBarbaraCustomerGateway Stack
-#     14.2. Delete CharlotteCustomerGateway Stack
 #
 # 15. Delete NetworkACLs
 #     15.1. Delete Production-NetworkAcls Stack
@@ -163,7 +156,7 @@ examplebindir=${bindir%/*}/example/bin
 identitybindir=${bindir%/*}/identity/bin
 utilitybindir=${bindir%/*}/utility/bin
 
-source $bindir/irops-define-stable-production
+source $bindir/dxcp-define-stable-production
 
 i="-i"
 f="-ffff"
@@ -323,38 +316,24 @@ run "$corebindir/core-delete-vpcpeeringconnections-stack -m $i $f"
 
 # 13. Delete VPNConnections
 #     13.1. Delete Production-SantaBarbaraVPNConnection Stack
-#     13.2. Delete Production-CharlotteVPNConnection Stack
-#     13.3. Delete Staging-SantaBarbaraVPNConnection Stack
-#     13.4. Delete Staging-CharlotteVPNConnection Stack
-#     13.5. Delete Testing-SantaBarbaraVPNConnection Stack
-#     13.6. Delete Testing-CharlotteVPNConnection Stack
-#     13.7. Delete Development-SantaBarbaraVPNConnection Stack
-#     13.8. Delete Development-CharlotteVPNConnection Stack
-#     13.9. Delete Core-SantaBarbaraVPNConnection Stack
-#     13.10. Delete Core-CharlotteVPNConnection Stack
-#     13.11. Delete Build-SantaBarbaraVPNConnection Stack
-#     13.12. Delete Build-CharlotteVPNConnection Stack
+#     13.2. Delete Staging-SantaBarbaraVPNConnection Stack
+#     13.3. Delete Testing-SantaBarbaraVPNConnection Stack
+#     13.4. Delete Development-SantaBarbaraVPNConnection Stack
+#     13.5. Delete Core-SantaBarbaraVPNConnection Stack
+#     13.6. Delete Build-SantaBarbaraVPNConnection Stack
 
-#run "$commonbindir/common-delete-vpnconnection-stack -E Production -G SantaBarbara $i $f"
-run "$commonbindir/common-delete-vpnconnection-stack -E Production -G Charlotte $i $f"
-#run "$commonbindir/common-delete-vpnconnection-stack -E Staging -G SantaBarbara $i $f"
-run "$commonbindir/common-delete-vpnconnection-stack -E Staging -G Charlotte $i $f"
-#run "$commonbindir/common-delete-vpnconnection-stack -E Testing -G SantaBarbara $i $f"
-run "$commonbindir/common-delete-vpnconnection-stack -E Testing -G Charlotte $i $f"
-#run "$commonbindir/common-delete-vpnconnection-stack -E Development -G SantaBarbara $i $f"
-run "$commonbindir/common-delete-vpnconnection-stack -E Development -G Charlotte $i $f"
-#run "$commonbindir/common-delete-vpnconnection-stack -E Core -G SantaBarbara $i $f"
-run "$commonbindir/common-delete-vpnconnection-stack -E Core -G Charlotte $i $f"
-#run "$commonbindir/common-delete-vpnconnection-stack -E Build -G SantaBarbara $i $f"
-run "$commonbindir/common-delete-vpnconnection-stack -E Build -G Charlotte -m $i $f"
+run "$commonbindir/common-delete-vpnconnection-stack -E Production -G SantaBarbara $i $f"
+run "$commonbindir/common-delete-vpnconnection-stack -E Staging -G SantaBarbara $i $f"
+run "$commonbindir/common-delete-vpnconnection-stack -E Testing -G SantaBarbara $i $f"
+run "$commonbindir/common-delete-vpnconnection-stack -E Development -G SantaBarbara $i $f"
+run "$commonbindir/common-delete-vpnconnection-stack -E Core -G SantaBarbara $i $f"
+run "$commonbindir/common-delete-vpnconnection-stack -E Build -G SantaBarbara $i $f"
 
 
 # 14. Delete CustomerGateways
 #     14.1. Delete SantaBarbaraCustomerGateway Stack
-#     14.2. Delete CharlotteCustomerGateway Stack
 
-#run "$commonbindir/common-delete-customergateway-stack -G SantaBarbara $i $f"
-run "$commonbindir/common-delete-customergateway-stack -G Charlotte -m $i $f"
+run "$commonbindir/common-delete-customergateway-stack -G SantaBarbara $i $f"
 
 
 # 15. Delete NetworkACLs

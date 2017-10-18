@@ -51,23 +51,20 @@
 #
 ###### OPTIONAL #########################################################
 #
-# 11. Create Hosted Zones
-#     11.1. Create Identity-HostedZone Stack (Public DNS Zone)
-#
-# 12. Create VPC
+# 11. Create VPC
 #     12.1. Create Identity-VPC Stack
 #
-# 13. Create NetworkACLs
+# 12. Create NetworkACLs
 #     13.1. Create Identity-NetworkAcls Stack
 #
-# 14. Create OpenVPNAS Instances
+# 13. Create OpenVPNAS Instances
 #     14.1. Create Identity-OpenVPNAS Stack
 #
-# 15. Create Bastions
+# 14. Create Bastions
 #     15.1. Create Identity-LinuxBastions Stack
 #     15.1. Create Identity-WindowsBastions Stack (future)
 #
-# 16. Create Example Applications
+# 15. Create Example Applications
 #     16.1. Create Identity-WindowsDomainControllers Stack (future)
 #
 
@@ -99,7 +96,7 @@ examplebindir=${bindir%/*}/example/bin
 identitybindir=${bindir%/*}/identity/bin
 utilitybindir=${bindir%/*}/utility/bin
 
-source $bindir/irops-define-stable-production
+source $bindir/dxcp-define-stable-production
 
 
 #  2. Create IAM ManagedPolicies
@@ -184,10 +181,10 @@ exit
 
 ###### OPTIONAL #########################################################
 
-# 11. Create Hosted Zones
-#     11.1. Create Identity-HostedZone Stack (Public DNS Zone)
+# 11. Create VPC
+#     11.1. Create Identity-VPC Stack
 
-run "$commonbindir/common-create-hostedzone-stack -E Identity -D i.us-east-1.tvl.iropshub.com"
+run "$identitybindir/identity-create-vpc-stack -E Identity -N 172.21.62.0/23 -D i.us-east-1.dxcp.technology -d i.dxcp.technology -b dxcpi -r us-east-1"
 
 echo
 echo "Note: Currently, you must manually create the NS records which are needed in each"
@@ -195,33 +192,27 @@ echo "      parent DNS Zone to delegate to the sub-domain Zone. This should be d
 echo
 
 
-# 12. Create VPC
-#     12.1. Create Identity-VPC Stack
-
-run "$identitybindir/identity-create-vpc-stack -E Identity -N 172.21.62.0/23 -r us-east-1"
-
-
-# 13. Create NetworkACLs
-#     13.1. Create Identity-NetworkAcls Stack
+# 12. Create NetworkACLs
+#     12.1. Create Identity-NetworkAcls Stack
 
 run "$identitybindir/identity-create-networkacls-stack -E Identity -r us-east-1"
 
 
-# 14. Create OpenVPNAS Instances
-#     14.1. Create Identity-OpenVPNAS Stack
+# 13. Create OpenVPNAS Instances
+#     13.1. Create Identity-OpenVPNAS Stack
 
 run "$utilitybindir/utility-create-openvpnas-stack -E Identity -U OpenVPNAS -Z micro -r us-east-1"
 
 
-# 15. Create Bastions
-#     15.1. Create Identity-LinuxBastions Stack
-#     15.1. Create Identity-WindowsBastions Stack (future)
+# 14. Create Bastions
+#     14.1. Create Identity-LinuxBastions Stack
+#     14.1. Create Identity-WindowsBastions Stack (future)
 
 run "$utilitybindir/utility-create-linuxbastions-stack -E Identity -U LinuxBastions -Z standby -r us-east-1"
 #run "$utilitybindir/utility-create-windowsbastions-stack -E Identity -U WindowsBastions -r us-east-1"
 
 
-# 16. Create Example Applications
-#     16.1. Create Identity-WindowsDomainControllers Stack (future)
+# 15. Create Example Applications
+#     15.1. Create Identity-WindowsDomainControllers Stack (future)
 
 #run "$examplebindir/example-create-windowsdomaincontrollers-stack -E Identity -A WindowsDomainControllers -D dc -r us-east-1"

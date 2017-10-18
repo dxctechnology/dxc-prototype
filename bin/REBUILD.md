@@ -22,9 +22,9 @@ We currently have 3 separate MultiEnvironments:
 To tear down a MultiEnvironment prior to rebuilding it, you can use the appropriate MultiEnvironment's
 delete sequence script, in this section, named:
 
-- irops-delete-stable
-- irops-delete-unstable
-- irops-delete-training
+- dxcp-delete-stable
+- dxcp-delete-unstable
+- dxcp-delete-training
 
 Running these scripts will sequentially run the appropriate driver scripts to delete all Stacks
 in the correct order.
@@ -75,9 +75,9 @@ There are three use-cases, plus I'll list the fourth when you want to delete eve
 Once you have deleted existing Stacks down to the point where you want to stop, you can use the
 appropriate MultiEnvironment's create sequence script, in this section, named:
 
-- irops-create-stable
-- irops-create-unstable
-- irops-create-training
+- dxcp-create-stable
+- dxcp-create-unstable
+- dxcp-create-training
 
 Running these scripts will sequentially run the appropriate driver scripts to create all Stacks
 in the correct order.
@@ -119,32 +119,29 @@ but a list of them will be repeated here for additional reference.
 3. Once the VPCs are created, along with the Public (usual) and/or Private (unusual) HostedZones
    created by the VPC Templates, sub-domain delegation records must be manually created in Route53.
 
-   The following sub-domain delegations must exist for All MultiEnvironments.
-   - iropshub.com must delegate to tvl.iropshub.com
-
    The following sub-domain delegations must exist for the Stable MultiEnvironment.
-   - tvl.iropshub.com must delegate to us-west-2.tvl.iropshub.com (Production Public Domain)
-   - us-west-2.tvl.iropshub.com must delegate to s.us-west-2.tvl.iropshub.com (Staging Public Domain)
-   - us-west-2.tvl.iropshub.com must delegate to t.us-west-2.tvl.iropshub.com (Testing Public Domain)
-   - us-west-2.tvl.iropshub.com must delegate to d.us-west-2.tvl.iropshub.com (Development Public Domain)
-   - us-west-2.tvl.iropshub.com must delegate to c.us-west-2.tvl.iropshub.com (Core Public Domain)
-   - us-west-2.tvl.iropshub.com must delegate to b.us-west-2.tvl.iropshub.com (Build Public Domain)
+   - dxcp.technology must delegate to us-west-2.dxcp.technology (Production Public Domain)
+   - us-west-2.dxcp.technology must delegate to s.us-west-2.dxcp.technology (Staging Public Domain)
+   - us-west-2.dxcp.technology must delegate to t.us-west-2.dxcp.technology (Testing Public Domain)
+   - us-west-2.dxcp.technology must delegate to d.us-west-2.dxcp.technology (Development Public Domain)
+   - us-west-2.dxcp.technology must delegate to c.us-west-2.dxcp.technology (Core Public Domain)
+   - us-west-2.dxcp.technology must delegate to b.us-west-2.dxcp.technology (Build Public Domain)
 
    The following sub-domain delegations must exist for the Unstable MultiEnvironment.
-   - tvl.iropshub.com must delegate to us-east-2.tvl.iropshub.com (Production Public Domain)
-   - us-east-2.tvl.iropshub.com must delegate to s.us-east-2.tvl.iropshub.com (Staging Public Domain)
-   - us-east-2.tvl.iropshub.com must delegate to t.us-east-2.tvl.iropshub.com (Testing Public Domain)
-   - us-east-2.tvl.iropshub.com must delegate to d.us-east-2.tvl.iropshub.com (Development Public Domain)
-   - us-east-2.tvl.iropshub.com must delegate to c.us-east-2.tvl.iropshub.com (Core Public Domain)
-   - us-east-2.tvl.iropshub.com must delegate to b.us-east-2.tvl.iropshub.com (Build Public Domain)
+   - dxcp.technology must delegate to us-east-2.dxcp.technology (Production Public Domain)
+   - us-east-2.dxcp.technology must delegate to s.us-east-2.dxcp.technology (Staging Public Domain)
+   - us-east-2.dxcp.technology must delegate to t.us-east-2.dxcp.technology (Testing Public Domain)
+   - us-east-2.dxcp.technology must delegate to d.us-east-2.dxcp.technology (Development Public Domain)
+   - us-east-2.dxcp.technology must delegate to c.us-east-2.dxcp.technology (Core Public Domain)
+   - us-east-2.dxcp.technology must delegate to b.us-east-2.dxcp.technology (Build Public Domain)
 
    The following sub-domain delegations must exist for the Training MultiEnvironment.
-   - tvl.iropshub.com must delegate to eu-west-1.tvl.iropshub.com (Production Public Domain)
-   - eu-west-1.tvl.iropshub.com must delegate to s.eu-west-1.tvl.iropshub.com (Staging Public Domain)
-   - eu-west-1.tvl.iropshub.com must delegate to t.eu-west-1.tvl.iropshub.com (Testing Public Domain)
-   - eu-west-1.tvl.iropshub.com must delegate to d.eu-west-1.tvl.iropshub.com (Development Public Domain)
-   - eu-west-1.tvl.iropshub.com must delegate to c.eu-west-1.tvl.iropshub.com (Core Public Domain)
-   - eu-west-1.tvl.iropshub.com must delegate to b.eu-west-1.tvl.iropshub.com (Build Public Domain)
+   - dxcp.technology must delegate to eu-west-1.dxcp.technology (Production Public Domain)
+   - eu-west-1.dxcp.technology must delegate to s.eu-west-1.dxcp.technology (Staging Public Domain)
+   - eu-west-1.dxcp.technology must delegate to t.eu-west-1.dxcp.technology (Testing Public Domain)
+   - eu-west-1.dxcp.technology must delegate to d.eu-west-1.dxcp.technology (Development Public Domain)
+   - eu-west-1.dxcp.technology must delegate to c.eu-west-1.dxcp.technology (Core Public Domain)
+   - eu-west-1.dxcp.technology must delegate to b.eu-west-1.dxcp.technology (Build Public Domain)
 
 4. Once the VPN Connections are created, the CustomerGateway ASA Firewalls must be configured to use
    them. This involves downloading the sample configuration for each connection, and modifying to to
@@ -189,16 +186,16 @@ but a list of them will be repeated here for additional reference.
    wait to perform this action!
 
    Here is the list of actions I perform on each OpenVPN Instance:
-   - Using RoyalTS, configured to login to vpn.us-west-2.tvl.iropshub.com (Production, use same process
+   - Using RoyalTS, configured to login to vpn.us-west-2.dxcp.technology (Production, use same process
      for other environments) as the openvpnas user using the irops_administrator_id_rsa private key,
      first run "sudo su -" to switch to root, then run "passwd openvpn" to change the default openvpn
      password. We are currently using a 1Password for Teams Account to store sensitive configuration
-     such as these passwords, in the Accounts Vault. Lookup the login for vpn.us-west-2.tvl.iropshub.com
+     such as these passwords, in the Accounts Vault. Lookup the login for vpn.us-west-2.dxcp.technology
      (openvpn), and copy that password and use this as the new openvpn Unix user password. OpenVPN
      uses PAM to obtain the openvpn user's password when logging into the website, so once this user's
      password is chagned at the OS level, it will also be used when logging into the OpenVPN configuration
      website. A different password is used for each OpenVPN Instance.
-   - Using RoyalTS, configured to login to the https://vpn.us-west-2.tvl.iropshub.com:943/admin URL,
+   - Using RoyalTS, configured to login to the https://vpn.us-west-2.dxcp.technology:943/admin URL,
      Confirm the new openvpn password works. This website should be restricted to only a few well-known
      CIDRs when the stack is created, so it's never open to the world during this initial configuration
      process. Only the normal VPN endpoint is globally visible.
@@ -218,12 +215,12 @@ but a list of them will be repeated here for additional reference.
        Administrative tasks, then logout
    - Configure my client to use the new OpenVPN Instance to access the VPC
      - If a new client is accessing OpenVPN for the first time, use a browser to hit
-       https://vpn.us-west-2.tvl.iropshub.com/, and this will offer to install the OpenVPN client
+       https://vpn.us-west-2.dxcp.technology/, and this will offer to install the OpenVPN client
        software. Because this is only done once, I don't have a clear memory of how this works, but
        I remember it being straightforward. I will only describe the more common process of adding
        a new OpenVPN connection to an existing installation of the client.
      - From the OpenVPN taskbar icon, select import->from server, and enter the name of the OpenVPN
-       server, such as vpn.us-west-2.tvl.iropshub.com. This will prompt you for a username and password,
+       server, such as vpn.us-west-2.dxcp.technology. This will prompt you for a username and password,
        and you should use your own username and password. Do not use the openvpn user. Because we need
        to use your own username and password here, this should have been confirmed to work in the
        prior set of OpenVPN GUI configuration steps. Until we go through any effort to setup a CA
@@ -270,7 +267,7 @@ as the remaining Application stacks are created.
 4. Prior to deleting the VPCs, we must remove all records from the associated Route53 Pubilc and/or
    Private HostedZones, leaving only the zone's minimum own NS and SOA RecordSets. If this is not done
    in advance, the VPC Stack deletion will fail. Look to delete any NS records used to delegate from
-   the tvl.iropshub.com parent to the production sub-domain, or from the production sub-domain to
+   the dxcp.technology parent to the production sub-domain, or from the production sub-domain to
    non-production sub-domains. See the instructions above on what sub-domain delegations to create, as
    what's listed there will need to be reversed.
 

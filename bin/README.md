@@ -16,10 +16,10 @@ us-east-1 Region, or we create them there because only a single copy of the Stac
 exist.
 
 ```bash
-mkdir ~/src/irops
-git clone https://github.com/irops/irops-prototype.git
-cd ~/src/irops/irops-prototype/bin
-./irops-create-global
+mkdir ~/src/dxc-technology
+git clone https://github.com/dxc-technology/dxc-prototype.git
+cd ~/src/dxc-technology/dxc-prototype/bin
+./dxcp-create-global
 ```
 
 ### Create the Stable MultiEnvironment
@@ -41,8 +41,8 @@ The Stable MultiEnvironment is the MultiEnvironment where live production and de
 occurs.
 
 ```bash
-cd ~/src/irops/irops-prototype/bin
-./irops-create-stable
+cd ~/src/dxc-technology/dxc-prototype/bin
+./dxcp-create-stable
 ```
 
 ### Create the Unstable MultiEnvironment
@@ -51,8 +51,8 @@ The Unstable MultiEnvironment is the MultiEnvironment where destructive and unst
 development and testing of the CloudFormation Templates and Build Pipelines occur.
 
 ```bash
-cd ~/src/irops/irops-prototype/bin
-./irops-create-unstable
+cd ~/src/dxc-technology/dxc-prototype/bin
+./dxcp-create-unstable
 ```
 
 ### Create the Training MultiEnvironment
@@ -62,6 +62,6 @@ create and delete entire MultiEnvironments occurs. It is used by new Solution Ar
 and System Administrators to understand how things work in practice.
 
 ```bash
-cd ~/src/irops/irops-prototype/bin
-./irops-create-training
+cd ~/src/dxc-technology/dxc-prototype/bin
+./dxcp-create-training
 ```

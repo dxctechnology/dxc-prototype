@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Here's a list of the commands which need to be run to delete the Training MultiEnvironment (eu-west-1 / Ireland)
+# Here's a list of the commands which need to be run to delete the Unstable MultiEnvironment (us-east-2 / Ohio)
 # - It's very likely some of these will fail due to manual changes, requiring
 #   this script to be run until a failure, stopped with manual steps to clear
 #   out what's blocking the deletion, then a restart, until done.
@@ -60,9 +60,21 @@
 #      7.2. Delete Staging-Octopus-Deploy Stack
 #      7.3. Delete Core-Octopus-Deploy Stack
 #
-#  8. Delete WindowsBastions Instances (Skip - Only in Unstable)
+#  8. Delete WindowsBastions Instances (Only in Unstable)
+#      8.1. Delete Production-WindowsBastions Stack
+#      8.2. Delete Staging-WindowsBastions Stack
+#      8.3. Delete Testing-WindowsBastions Stack
+#      8.4. Delete Development-WindowsBastions Stack
+#      8.5. Delete Core-WindowsBastions Stack
+#      8.6. Delete Build-WindowsBastions Stack
 #
-#  9. Delete LinuxBastions Instances (Skip - Only in Unstable)
+#  9. Delete LinuxBastions Instances (Only in Unstable)
+#      9.1. Delete Production-LinuxBastions Stack
+#      9.2. Delete Staging-LinuxBastions Stack
+#      9.3. Delete Testing-LinuxBastions Stack
+#      9.4. Delete Development-LinuxBastions Stack
+#      9.5. Delete Core-LinuxBastions Stack
+#      9.6. Delete Build-LinuxBastions Stack
 #
 # 10. Delete OpenVPNAS Instances
 #     10.1. Delete Production-OpenVPNAS Stack
@@ -88,21 +100,14 @@
 #
 # 13. Delete VPNConnections
 #     13.1. Delete Production-SantaBarbaraVPNConnection Stack
-#     13.2. Delete Production-CharlotteVPNConnection Stack
-#     13.3. Delete Staging-SantaBarbaraVPNConnection Stack
-#     13.4. Delete Staging-CharlotteVPNConnection Stack
-#     13.5. Delete Testing-SantaBarbaraVPNConnection Stack
-#     13.6. Delete Testing-CharlotteVPNConnection Stack
-#     13.7. Delete Development-SantaBarbaraVPNConnection Stack
-#     13.8. Delete Development-CharlotteVPNConnection Stack
-#     13.9. Delete Core-SantaBarbaraVPNConnection Stack
-#     13.10. Delete Core-CharlotteVPNConnection Stack
-#     13.11. Delete Build-SantaBarbaraVPNConnection Stack
-#     13.12. Delete Build-CharlotteVPNConnection Stack
+#     13.2. Delete Staging-SantaBarbaraVPNConnection Stack
+#     13.3. Delete Testing-SantaBarbaraVPNConnection Stack
+#     13.4. Delete Development-SantaBarbaraVPNConnection Stack
+#     13.5. Delete Core-SantaBarbaraVPNConnection Stack
+#     13.6. Delete Build-SantaBarbaraVPNConnection Stack
 #
 # 14. Delete CustomerGateways
 #     14.1. Delete SantaBarbaraCustomerGateway Stack
-#     14.2. Delete CharlotteCustomerGateway Stack
 #
 # 15. Delete NetworkACLs
 #     15.1. Delete Production-NetworkAcls Stack
@@ -150,7 +155,7 @@ run() {
 }
 
 #  1. Initalize Environment Variables
-#     - This will initialze the environment variables to the Training-Production Environment
+#     - This will initialze the environment variables to the Unstable-Production Environment
 #     - We will be explicit on certain options below, even when the value does not need to be set due to defaults
 
 bindir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -163,7 +168,7 @@ examplebindir=${bindir%/*}/example/bin
 identitybindir=${bindir%/*}/identity/bin
 utilitybindir=${bindir%/*}/utility/bin
 
-source $bindir/irops-define-training-production
+source $bindir/dxcp-define-unstable-production
 
 i="-i"
 f="-ffff"
@@ -271,10 +276,36 @@ run "$applicationbindir/application-delete-octopus-deploy-stack -E Staging $i $f
 run "$applicationbindir/application-delete-octopus-deploy-stack -E Core -m $i $f"
 
 
-#  8. Delete WindowsBastions Instances (Skip - Only in Unstable)
+#  8. Delete WindowsBastions Instances (Only in Unstable)
+#      8.1. Delete Production-WindowsBastions Stack
+#      8.2. Delete Staging-WindowsBastions Stack
+#      8.3. Delete Testing-WindowsBastions Stack
+#      8.4. Delete Development-WindowsBastions Stack
+#      8.5. Delete Core-WindowsBastions Stack
+#      8.6. Delete Build-WindowsBastions Stack
+
+run "$utilitybindir/utility-delete-windowsbastions-stack -E Production $i $f"
+run "$utilitybindir/utility-delete-windowsbastions-stack -E Staging $i $f"
+run "$utilitybindir/utility-delete-windowsbastions-stack -E Testing $i $f"
+run "$utilitybindir/utility-delete-windowsbastions-stack -E Development $i $f"
+run "$utilitybindir/utility-delete-windowsbastions-stack -E Core $i $f"
+run "$utilitybindir/utility-delete-windowsbastions-stack -E Build -m $i $f"
 
 
-#  9. Delete LinuxBastions Instances (Skip - Only in Unstable)
+#  9. Delete LinuxBastions Instances (Only in Unstable)
+#      9.1. Delete Production-LinuxBastions Stack
+#      9.2. Delete Staging-LinuxBastions Stack
+#      9.3. Delete Testing-LinuxBastions Stack
+#      9.4. Delete Development-LinuxBastions Stack
+#      9.5. Delete Core-LinuxBastions Stack
+#      9.6. Delete Build-LinuxBastions Stack
+
+run "$utilitybindir/utility-delete-linuxbastions-stack -E Production $i $f"
+run "$utilitybindir/utility-delete-linuxbastions-stack -E Staging $i $f"
+run "$utilitybindir/utility-delete-linuxbastions-stack -E Testing $i $f"
+run "$utilitybindir/utility-delete-linuxbastions-stack -E Development $i $f"
+run "$utilitybindir/utility-delete-linuxbastions-stack -E Core $i $f"
+run "$utilitybindir/utility-delete-linuxbastions-stack -E Build -m $i $f"
 
 
 # 10. Delete OpenVPNAS Instances
@@ -323,38 +354,24 @@ run "$corebindir/core-delete-vpcpeeringconnections-stack -m $i $f"
 
 # 13. Delete VPNConnections
 #     13.1. Delete Production-SantaBarbaraVPNConnection Stack
-#     13.2. Delete Production-CharlotteVPNConnection Stack
-#     13.3. Delete Staging-SantaBarbaraVPNConnection Stack
-#     13.4. Delete Staging-CharlotteVPNConnection Stack
-#     13.5. Delete Testing-SantaBarbaraVPNConnection Stack
-#     13.6. Delete Testing-CharlotteVPNConnection Stack
-#     13.7. Delete Development-SantaBarbaraVPNConnection Stack
-#     13.8. Delete Development-CharlotteVPNConnection Stack
-#     13.9. Delete Core-SantaBarbaraVPNConnection Stack
-#     13.10. Delete Core-CharlotteVPNConnection Stack
-#     13.11. Delete Build-SantaBarbaraVPNConnection Stack
-#     13.12. Delete Build-CharlotteVPNConnection Stack
+#     13.2. Delete Staging-SantaBarbaraVPNConnection Stack
+#     13.3. Delete Testing-SantaBarbaraVPNConnection Stack
+#     13.4. Delete Development-SantaBarbaraVPNConnection Stack
+#     13.5. Delete Core-SantaBarbaraVPNConnection Stack
+#     13.6. Delete Build-SantaBarbaraVPNConnection Stack
 
 run "$commonbindir/common-delete-vpnconnection-stack -E Production -G SantaBarbara $i $f"
-#run "$commonbindir/common-delete-vpnconnection-stack -E Production -G Charlotte $i $f"
 run "$commonbindir/common-delete-vpnconnection-stack -E Staging -G SantaBarbara $i $f"
-#run "$commonbindir/common-delete-vpnconnection-stack -E Staging -G Charlotte $i $f"
 run "$commonbindir/common-delete-vpnconnection-stack -E Testing -G SantaBarbara $i $f"
-#run "$commonbindir/common-delete-vpnconnection-stack -E Testing -G Charlotte $i $f"
 run "$commonbindir/common-delete-vpnconnection-stack -E Development -G SantaBarbara $i $f"
-#run "$commonbindir/common-delete-vpnconnection-stack -E Development -G Charlotte $i $f"
 run "$commonbindir/common-delete-vpnconnection-stack -E Core -G SantaBarbara $i $f"
-#run "$commonbindir/common-delete-vpnconnection-stack -E Core -G Charlotte $i $f"
 run "$commonbindir/common-delete-vpnconnection-stack -E Build -G SantaBarbara $i $f"
-#run "$commonbindir/common-delete-vpnconnection-stack -E Build -G Charlotte -m $i $f"
 
 
 # 14. Delete CustomerGateways
 #     14.1. Delete SantaBarbaraCustomerGateway Stack
-#     14.2. Delete CharlotteCustomerGateway Stack
 
 run "$commonbindir/common-delete-customergateway-stack -G SantaBarbara $i $f"
-#run "$commonbindir/common-delete-customergateway-stack -G Charlotte -m $i $f"
 
 
 # 15. Delete NetworkACLs
