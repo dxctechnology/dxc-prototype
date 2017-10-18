@@ -22,7 +22,7 @@ speed=100
 verbose=0
 monitor=0
 region=us-east-1 # This must currently run only in us-east-1
-account=${AWS_ACCOUNT_ALIAS:-irops}
+account=${AWS_ACCOUNT_ALIAS:-dxcp}
 user=${AWS_USER_NAME:-administrator}
 
 

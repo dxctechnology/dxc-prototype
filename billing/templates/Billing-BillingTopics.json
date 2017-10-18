@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "Core-BillingTopics Template. This creates Billing SNS Topics within the Core Account.",
+  "Description" : "Billing-BillingTopics Template. This creates Billing SNS Topics within the Core Account.",
 
   "Resources" : {
     "BillsTopic" : {
