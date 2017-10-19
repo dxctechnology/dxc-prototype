@@ -112,6 +112,20 @@ Case 3: EC2 Instances
 - Instance Limit: 40 t2.nano
 
 
+## Register Marketplace AMIs
+We're currently using the OpenVPN Access Server Marketplace AMI for secure remote access. Other Marketplace
+AMIs may eventually be used. We must register use of these AMIs and accept terms before we're allowed to use them.
+
+### OpenVPN Access Server
+Browse to: https://aws.amazon.com/marketplace/search/results?x=0&y=0&searchTerms=OpenVPN+Access+Server to see the
+list of all AMI variants. Then, for the following list, go into each, click Continue, Select the Manual Launch Tab,
+Then click Accept Software Terms 
+- OpenVPN Access Server
+- OpenVPN Access Server (10 Connected Devices)
+- OpenVPN Access Server (25 Connected Devices)
+- OpenVPN Access Server (50 Connected Devices)
+
+
 ## Secure Shell Workstation Setup
 
 The following steps can be run manually on a new account to prepare for both the initial bootstrap
