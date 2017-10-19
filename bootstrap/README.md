@@ -73,12 +73,44 @@ initial setup, specifically to create their SSH key.
 
 ## Optional Manual Account Setup
 
-The following additional steps can be run manually to create additional users on the 
-bootstrap bastion host.
+### Configure additional members of the BootstrapAdministrators Group
+
+The following additional steps can be run manually to create additional administrators within the 
+BootstrapAdministrators Group.
 
 - Create additional members of the BootstrapAdministrators Group, using the same process above
 - Except, use each person's normal ssh key (i.e. dxcp_mcrawford_id_rsa) when importing an SSH
   key into the corresponding bootstrap<user>'s (i.e. bootstrapmcrawford) User SSH keys
+
+## Raise Account Limits
+
+Certain limits on the Account must be raised before you can build the complete architecture. This
+list can change depending on modifications to the Instance Types and growth.
+
+Initially, we will only raise limits for the Unstable MultiEnvironment to confirm the architecture
+will build in the new Account. It's likely any re-use of this framework will modify the Applications
+and InstanceTypes used by them, so further limit adjustments in the Stable MultiEnvironment should
+be delayed until more is known about what needs to run there.
+
+### Region: us-east-2 (Ohio)
+The list below shows the limits raised to build the initial Unstable MultiEnvironment. These must
+be raised via multiple Support Cases.
+
+Case 1: Service VPC
+- VPCs per Region: 8
+- NAT Gateway per Availability Zone: 8
+- Virtual Private Gateways per Region: 8
+
+Case 2: Service Elastic IPs
+- New VPC Elastic IP Address Limit: 32
+
+Case 3: EC2 Instances
+- Instance Limit: 20 t2.large
+- Instance Limit: 20 t2.medium
+- Instance Limit: 40 t2.small
+- Instance Limit: 40 t2.micro
+- Instance Limit: 40 t2.nano
+
 
 ## Secure Shell Workstation Setup
 
