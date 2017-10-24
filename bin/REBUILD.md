@@ -187,7 +187,7 @@ but a list of them will be repeated here for additional reference.
 
    Here is the list of actions I perform on each OpenVPN Instance:
    - Using RoyalTS, configured to login to vpn.us-west-2.dxcp.technology (Production, use same process
-     for other environments) as the openvpnas user using the irops_administrator_id_rsa private key,
+     for other environments) as the openvpnas user using the dxcp_administrator_id_rsa private key,
      first run "sudo su -" to switch to root, then run "passwd openvpn" to change the default openvpn
      password. We are currently using a 1Password for Teams Account to store sensitive configuration
      such as these passwords, in the Accounts Vault. Lookup the login for vpn.us-west-2.dxcp.technology
