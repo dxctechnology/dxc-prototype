@@ -3,7 +3,7 @@
 # Here's a list of the commands which need to be run to create the Unstable MultiEnvironment (us-east-2 / Ohio)
 # - Unstable is a MultiEnvironment which consists of the Unstable set of Environments used for
 #   developing and running the CloudFormation Templates and Build infrastructure used in the
-#   live IROPS systems.
+#   live DXC Prototype systems.
 # - The Unstable MultiEnvironment is - by definition - UNSTABLE!
 #   It's purpose is to be changed and deleted often to test modifications to CloudFormation Templates
 #   driver scripts, and automated build pipelines.
@@ -74,72 +74,64 @@
 #     11.5. Create Staging-OpenVPNAS Stack
 #     11.6. Create Production-OpenVPNAS Stack
 #
-# 12. Create LinuxBastions Instances (Only in Unstable)
-#     12.1. Create Build-LinuxBastions Stack
-#     12.2. Create Core-LinuxBastions Stack
-#     12.3. Create Development-LinuxBastions Stack
-#     12.4. Create Testing-LinuxBastions Stack
-#     12.5. Create Staging-LinuxBastions Stack
-#     12.6. Create Production-LinuxBastions Stack
+# 12. Create LinuxBastions Instances (Skip - Only in Unstable with Bastions and Examples)
 #
-# 13. Create WindowsBastions Instances (Only in Unstable)
-#     13.1. Create Build-WindowsBastions Stack
-#     13.2. Create Core-WindowsBastions Stack
-#     13.3. Create Development-WindowsBastions Stack
-#     13.4. Create Testing-WindowsBastions Stack
-#     13.5. Create Staging-WindowsBastions Stack
-#     13.6. Create Production-WindowsBastions Stack
+# 13. Create WindowsBastions Instances (Skip - Only in Unstable with Bastions and Examples)
 #
-# 14. Create Octopus Instances
-#     14.1. Create Core-Octopus-Deploy Stack
-#     14.2. Create Staging-Octopus-Deploy Stack
-#     14.3. Create Production-Octopus-Deploy Stack
+# 14. Create LinuxWebServers Instances (Skip - Only in Unstable with Bastions and Examples)
 #
-# 15. Create WebSphereMQ Instances
-#     15.1. Create Core-WebSphereMQ Stack
-#     15.2. Create Development-WebSphereMQ Stack (Client, references Core)
-#     15.3. Create Testing-WebSphereMQ Stack (Client, references Core)
-#     15.4. Create Staging-WebSphereMQ Stack (Client, references Core)
-#     15.5. Create Production-WebSphereMQ Stack
+# 15. Create WindowsWebServer Instances (Skip - Only in Unstable with Bastions and Examples)
 #
-# 16. Create RabbitMQ Instances
-#     16.1. Create Development-RabbitMQ Stack
-#     16.2. Create Testing-RabbitMQ Stack
-#     16.3. Create Staging-RabbitMQ Stack
-#     16.4. Create Production-RabbitMQ Stack
+# 16. Create Octopus Instances
+#     16.1. Create Core-Octopus-Deploy Stack
+#     16.2. Create Staging-Octopus-Deploy Stack
+#     16.3. Create Production-Octopus-Deploy Stack
 #
-# 17. Create MongoDB Instances
-#     17.1. Create Development-MongoDB Stack
-#     17.2. Create Testing-MongoDB Stack
-#     17.3. Create Staging-MongoDB Stack
-#     17.4. Create Production-MongoDB Stack
+# 17. Create WebSphereMQ Instances
+#     17.1. Create Core-WebSphereMQ Stack
+#     17.2. Create Development-WebSphereMQ Stack (Client, references Core)
+#     17.3. Create Testing-WebSphereMQ Stack (Client, references Core)
+#     17.4. Create Staging-WebSphereMQ Stack (Client, references Core)
+#     17.5. Create Production-WebSphereMQ Stack
 #
-# 18. Create DataTransfer Instances
-#     18.1. Create Core-DataTransfer-SFTP Stack
-#     18.2. Create Staging-DataTransfer-SFTP Stack (Client, references Core)
-#     18.3. Create Production-DataTransfer-SFTP Stack
+# 18. Create RabbitMQ Instances
+#     18.1. Create Development-RabbitMQ Stack
+#     18.2. Create Testing-RabbitMQ Stack
+#     18.3. Create Staging-RabbitMQ Stack
+#     18.4. Create Production-RabbitMQ Stack
 #
-# 19. Create Engine Instances
-#     19.1. Create Development-Engine-Monitoring Stack
-#     19.2. Create Development-Engine-Publishing Stack
-#     19.3. Create Development-Engine-DataStaging Stack
-#     19.4. Create Development-Engine-Calculation Stack
-#     19.5. Create Development-Engine-Web Stack
-#     19.6. Create Testing-Engine-Monitoring Stack
-#     19.7. Create Testing-Engine-Publishing Stack
-#     19.8. Create Testing-Engine-DataStaging Stack
-#     19.9. Create Testing-Engine-Calculation Stack
-#     19.10. Create Testing-Engine-Web Stack
-#     19.11. Create Staging-Engine-Monitoring Stack
-#     19.12. Create Staging-Engine-Publishing Stack
-#     19.13. Create Staging-Engine-DataStaging Stack
-#     19.14. Create Staging-Engine-Calculation Stack
-#     19.15. Create Staging-Engine-Web Stack
-#     19.16. Create Production-Engine-Monitoring Stack
-#     19.17. Create Production-Engine-Publishing Stack
-#     19.18. Create Production-Engine-DataStaging Stack
-#     19.19. Create Production-Engine-Calculation Stack
-#     19.20. Create Production-Engine-Web Stack
+# 19. Create MongoDB Instances
+#     19.1. Create Development-MongoDB Stack
+#     19.2. Create Testing-MongoDB Stack
+#     19.3. Create Staging-MongoDB Stack
+#     19.4. Create Production-MongoDB Stack
+#
+# 20. Create DataTransfer Instances
+#     20.1. Create Core-DataTransfer-SFTP Stack
+#     20.2. Create Staging-DataTransfer-SFTP Stack (Client, references Core)
+#     20.3. Create Production-DataTransfer-SFTP Stack
+#
+# 21. Create Engine Instances
+#     21.1. Create Development-Engine-Monitoring Stack
+#     21.2. Create Development-Engine-Publishing Stack
+#     21.3. Create Development-Engine-DataStaging Stack
+#     21.4. Create Development-Engine-Calculation Stack
+#     21.5. Create Development-Engine-Web Stack
+#     21.6. Create Testing-Engine-Monitoring Stack
+#     21.7. Create Testing-Engine-Publishing Stack
+#     21.8. Create Testing-Engine-DataStaging Stack
+#     21.9. Create Testing-Engine-Calculation Stack
+#     21.10. Create Testing-Engine-Web Stack
+#     21.11. Create Staging-Engine-Monitoring Stack
+#     21.12. Create Staging-Engine-Publishing Stack
+#     21.13. Create Staging-Engine-DataStaging Stack
+#     21.14. Create Staging-Engine-Calculation Stack
+#     21.15. Create Staging-Engine-Web Stack
+#     21.16. Create Production-Engine-Monitoring Stack
+#     21.17. Create Production-Engine-Publishing Stack
+#     21.18. Create Production-Engine-DataStaging Stack
+#     21.19. Create Production-Engine-Calculation Stack
+#     21.20. Create Production-Engine-Web Stack
 #
 
 run() {
@@ -227,10 +219,10 @@ run "$corebindir/build-create-vpc-stack -E Build -N 172.21.124.0/23 -D b.us-east
 run "$corebindir/core-create-vpc-stack -E Core -N 172.21.120.0/22 -D c.us-east-2.dxcp.technology -d c.dxcp.technology -b dxcpc $i $f"
 source $bindir/dxcp-define-unstable-development
 run "$environmentbindir/environment-create-vpc-stack -E Development -N 172.21.88.0/21 -D d.us-east-2.dxcp.technology -d d.dxcp.technology -b dxcpd $i $f"
-source $bindir/dxcp-define-unstable-testing
-run "$environmentbindir/environment-create-vpc-stack -E Testing -N 172.21.80.0/21 -D t.us-east-2.dxcp.technology -d t.dxcp.technology -b dxcpt $i $f"
-source $bindir/dxcp-define-unstable-staging
-run "$environmentbindir/environment-create-vpc-stack -E Staging -N 172.21.72.0/21 -D s.us-east-2.dxcp.technology -d s.dxcp.technology -b dxcps $i $f"
+#source $bindir/dxcp-define-unstable-testing
+#run "$environmentbindir/environment-create-vpc-stack -E Testing -N 172.21.80.0/21 -D t.us-east-2.dxcp.technology -d t.dxcp.technology -b dxcpt $i $f"
+#source $bindir/dxcp-define-unstable-staging
+#run "$environmentbindir/environment-create-vpc-stack -E Staging -N 172.21.72.0/21 -D s.us-east-2.dxcp.technology -d s.dxcp.technology -b dxcps $i $f"
 source $bindir/dxcp-define-unstable-production
 run "$environmentbindir/environment-create-vpc-stack -E Production -N 172.21.64.0/21 -D us-east-2.dxcp.technology -d dxcp.technology -b dxcp -m $i $f"
 
@@ -253,10 +245,10 @@ run "$corebindir/build-create-networkacls-stack -E Build $i $f"
 run "$corebindir/core-create-networkacls-stack -E Core $i $f"
 source $bindir/dxcp-define-unstable-development
 run "$environmentbindir/environment-create-networkacls-stack -E Development $i $f"
-source $bindir/dxcp-define-unstable-testing
-run "$environmentbindir/environment-create-networkacls-stack -E Testing $i $f"
-source $bindir/dxcp-define-unstable-staging
-run "$environmentbindir/environment-create-networkacls-stack -E Staging $i $f"
+#source $bindir/dxcp-define-unstable-testing
+#run "$environmentbindir/environment-create-networkacls-stack -E Testing $i $f"
+#source $bindir/dxcp-define-unstable-staging
+#run "$environmentbindir/environment-create-networkacls-stack -E Staging $i $f"
 source $bindir/dxcp-define-unstable-production
 run "$environmentbindir/environment-create-networkacls-stack -E Production -m $i $f"
 
@@ -281,25 +273,27 @@ run "$commonbindir/common-create-vpnconnection-stack -E Build -G SantaBarbara -N
 run "$commonbindir/common-create-vpnconnection-stack -E Core -G SantaBarbara -N 10.0.0.0/16 $i $f"
 source $bindir/dxcp-define-unstable-development
 run "$commonbindir/common-create-vpnconnection-stack -E Development -G SantaBarbara -N 10.0.0.0/16 $i $f"
-source $bindir/dxcp-define-unstable-testing
-run "$commonbindir/common-create-vpnconnection-stack -E Testing -G SantaBarbara -N 10.0.0.0/16 $i $f"
-source $bindir/dxcp-define-unstable-staging
-run "$commonbindir/common-create-vpnconnection-stack -E Staging -G SantaBarbara -N 10.0.0.0/16 $i $f"
+#source $bindir/dxcp-define-unstable-testing
+#run "$commonbindir/common-create-vpnconnection-stack -E Testing -G SantaBarbara -N 10.0.0.0/16 $i $f"
+#source $bindir/dxcp-define-unstable-staging
+#run "$commonbindir/common-create-vpnconnection-stack -E Staging -G SantaBarbara -N 10.0.0.0/16 $i $f"
 source $bindir/dxcp-define-unstable-production
 run "$commonbindir/common-create-vpnconnection-stack -E Production -G SantaBarbara -N 10.0.0.0/16 -m $i $f"
 
 
 # 9. Create VPCPeeringConnections
 #     9.1. Create Core-VPCPeeringConnections Stack
-#     9.4. Create Testing-DevelopmentVPCPeeringConnection Stack
+#     9.2. Create Testing-DevelopmentVPCPeeringConnection Stack
 #     9.3. Create Staging-TestingVPCPeeringConnection Stack
-#     9.2. Create Production-StagingVPCPeeringConnection Stack
+#     9.4. Create Production-StagingVPCPeeringConnection Stack
+#     9.5. Create Production-DevelopmentVPCPeeringConnection Stack
 
 source $bindir/dxcp-define-unstable-production
 run "$corebindir/core-create-vpcpeeringconnections-stack -m $i $f"
-run "$environmentbindir/environment-create-vpcpeeringconnection-stack -E Testing -P Development $i $f"
-run "$environmentbindir/environment-create-vpcpeeringconnection-stack -E Staging -P Testing $i $f"
-run "$environmentbindir/environment-create-vpcpeeringconnection-stack -E Production -P Staging -m $i $f"
+#run "$environmentbindir/environment-create-vpcpeeringconnection-stack -E Testing -P Development $i $f"
+#run "$environmentbindir/environment-create-vpcpeeringconnection-stack -E Staging -P Testing $i $f"
+#run "$environmentbindir/environment-create-vpcpeeringconnection-stack -E Production -P Staging -m $i $f"
+run "$environmentbindir/environment-create-vpcpeeringconnection-stack -E Production -P Development -m $i $f"
 
 
 # 10. Create ActiveDirectory Instances
@@ -315,10 +309,10 @@ run "$utilitybindir/utility-create-activedirectory-stack -E Build -T small -Z 2 
 run "$utilitybindir/utility-create-activedirectory-stack -E Core -T small -Z 2 $i $f"
 source $bindir/dxcp-define-unstable-development
 run "$utilitybindir/utility-create-activedirectory-stack -E Development -T small -Z 2 $i $f"
-source $bindir/dxcp-define-unstable-testing
-run "$utilitybindir/utility-create-activedirectory-stack -E Testing -T small -Z 2 $i $f"
-source $bindir/dxcp-define-unstable-staging
-run "$utilitybindir/utility-create-activedirectory-stack -E Staging -T small -Z 2 $i $f"
+#source $bindir/dxcp-define-unstable-testing
+#run "$utilitybindir/utility-create-activedirectory-stack -E Testing -T small -Z 2 $i $f"
+#source $bindir/dxcp-define-unstable-staging
+#run "$utilitybindir/utility-create-activedirectory-stack -E Staging -T small -Z 2 $i $f"
 source $bindir/dxcp-define-unstable-production
 run "$utilitybindir/utility-create-activedirectory-stack -E Production -T small -Z 2 -m $i $f"
 
@@ -336,124 +330,94 @@ run "$utilitybindir/utility-create-openvpnas-stack -E Build -T micro $i $f"
 run "$utilitybindir/utility-create-openvpnas-stack -E Core -T micro $i $f"
 source $bindir/dxcp-define-unstable-development
 run "$utilitybindir/utility-create-openvpnas-stack -E Development -T micro $i $f"
-source $bindir/dxcp-define-unstable-testing
-run "$utilitybindir/utility-create-openvpnas-stack -E Testing -T micro $i $f"
-source $bindir/dxcp-define-unstable-staging
-run "$utilitybindir/utility-create-openvpnas-stack -E Staging -T micro $i $f"
+#source $bindir/dxcp-define-unstable-testing
+#run "$utilitybindir/utility-create-openvpnas-stack -E Testing -T micro $i $f"
+#source $bindir/dxcp-define-unstable-staging
+#run "$utilitybindir/utility-create-openvpnas-stack -E Staging -T micro $i $f"
 source $bindir/dxcp-define-unstable-production
 run "$utilitybindir/utility-create-openvpnas-stack -E Production -T micro -m $i $f"
 
 
-# 12. Create LinuxBastions Instances (Only in Unstable)
-#     12.1. Create Build-LinuxBastions Stack
-#     12.2. Create Core-LinuxBastions Stack
-#     12.3. Create Development-LinuxBastions Stack
-#     12.4. Create Testing-LinuxBastions Stack
-#     12.5. Create Staging-LinuxBastions Stack
-#     12.6. Create Production-LinuxBastions Stack
-
-source $bindir/dxcp-define-unstable-production
-run "$utilitybindir/utility-create-linuxbastions-stack -E Build -T standby -Z 1 $i $f"
-run "$utilitybindir/utility-create-linuxbastions-stack -E Core -T micro -Z 1 $i $f"
-source $bindir/dxcp-define-unstable-development
-run "$utilitybindir/utility-create-linuxbastions-stack -E Development -T micro -Z 1 $i $f"
-source $bindir/dxcp-define-unstable-testing
-run "$utilitybindir/utility-create-linuxbastions-stack -E Testing -T standby -Z 1 $i $f"
-source $bindir/dxcp-define-unstable-staging
-run "$utilitybindir/utility-create-linuxbastions-stack -E Staging -T standby -Z 1 $i $f"
-source $bindir/dxcp-define-unstable-production
-run "$utilitybindir/utility-create-linuxbastions-stack -E Production -T micro -Z 2 -m $i $f"
+# 12. Create LinuxBastions Instances (Skip - Only in Unstable with Bastions and Examples)
 
 
-# 13. Create WindowsBastions Instances (Only in Unstable)
-#     13.1. Create Build-WindowsBastions Stack
-#     13.2. Create Core-WindowsBastions Stack
-#     13.3. Create Development-WindowsBastions Stack
-#     13.4. Create Testing-WindowsBastions Stack
-#     13.5. Create Staging-WindowsBastions Stack
-#     13.6. Create Production-WindowsBastions Stack
-
-source $bindir/dxcp-define-unstable-production
-run "$utilitybindir/utility-create-windowsbastions-stack -E Build -T standby -Z 1 $i $f"
-run "$utilitybindir/utility-create-windowsbastions-stack -E Core -T small -Z 1 $i $f"
-source $bindir/dxcp-define-unstable-development
-run "$utilitybindir/utility-create-windowsbastions-stack -E Development -T small -Z 1 $i $f"
-source $bindir/dxcp-define-unstable-testing
-run "$utilitybindir/utility-create-windowsbastions-stack -E Testing -T standby -Z 1 $i $f"
-source $bindir/dxcp-define-unstable-staging
-run "$utilitybindir/utility-create-windowsbastions-stack -E Staging -T standby -Z 1 $i $f"
-source $bindir/dxcp-define-unstable-production
-run "$utilitybindir/utility-create-windowsbastions-stack -E Production -T small -Z 2 -m $i $f"
+# 13. Create WindowsBastions Instances (Skip - Only in Unstable with Bastions and Examples)
 
 
-# 14. Create Octopus Instances
-#     14.1. Create Core-Octopus-Deploy Stack
-#     14.2. Create Staging-Octopus-Deploy Stack
-#     14.3. Create Production-Octopus-Deploy Stack
+# 14. Create LinuxWebServers Instances (Skip - Only in Unstable with Bastions and Examples)
+
+
+# 15. Create WindowsWebServer Instances (Skip - Only in Unstable with Bastions and Examples)
+
+
+# 16. Create Octopus Instances
+#     16.1. Create Core-Octopus-Deploy Stack
+#     16.2. Create Staging-Octopus-Deploy Stack
+#     16.3. Create Production-Octopus-Deploy Stack
 
 source $bindir/dxcp-define-unstable-production
 run "$applicationbindir/application-create-octopus-deploy-stack -E Core -T small $i $f"
-source $bindir/dxcp-define-unstable-staging
-run "$applicationbindir/application-create-octopus-deploy-stack -E Staging -T small $i $f"
+#source $bindir/dxcp-define-unstable-staging
+#run "$applicationbindir/application-create-octopus-deploy-stack -E Staging -T small $i $f"
 source $bindir/dxcp-define-unstable-production
 run "$applicationbindir/application-create-octopus-deploy-stack -E Production -T small -m $i $f"
 
 
-# 15. Create WebSphereMQ Instances
-#     15.1. Create Core-WebSphereMQ Stack
-#     15.2. Create Development-WebSphereMQ Stack (Client, references Core)
-#     15.3. Create Testing-WebSphereMQ Stack (Client, references Core)
-#     15.4. Create Staging-WebSphereMQ Stack (Client, references Core)
-#     15.5. Create Production-WebSphereMQ Stack
+# 17. Create WebSphereMQ Instances
+#     17.1. Create Core-WebSphereMQ Stack
+#     17.2. Create Development-WebSphereMQ Stack (Client, references Core)
+#     17.3. Create Testing-WebSphereMQ Stack (Client, references Core)
+#     17.4. Create Staging-WebSphereMQ Stack (Client, references Core)
+#     17.5. Create Production-WebSphereMQ Stack
 
 source $bindir/dxcp-define-unstable-production
 run "$applicationbindir/application-create-webspheremq-stack -E Core -T small -m $i $f"
 source $bindir/dxcp-define-unstable-development
 run "$applicationbindir/application-create-webspheremq-stack -E Development -T small $i $f"
-source $bindir/dxcp-define-unstable-testing
-run "$applicationbindir/application-create-webspheremq-stack -E Testing -T small $i $f"
-source $bindir/dxcp-define-unstable-staging
-run "$applicationbindir/application-create-webspheremq-stack -E Staging -T small $i $f"
+#source $bindir/dxcp-define-unstable-testing
+#run "$applicationbindir/application-create-webspheremq-stack -E Testing -T small $i $f"
+#source $bindir/dxcp-define-unstable-staging
+#run "$applicationbindir/application-create-webspheremq-stack -E Staging -T small $i $f"
 source $bindir/dxcp-define-unstable-production
 run "$applicationbindir/application-create-webspheremq-stack -E Production -T small -m $i $f"
 
 
-# 16. Create RabbitMQ Instances
-#     16.1. Create Development-RabbitMQ Stack
-#     16.2. Create Testing-RabbitMQ Stack
-#     16.3. Create Staging-RabbitMQ Stack
-#     16.4. Create Production-RabbitMQ Stack
+# 18. Create RabbitMQ Instances
+#     18.1. Create Development-RabbitMQ Stack
+#     18.2. Create Testing-RabbitMQ Stack
+#     18.3. Create Staging-RabbitMQ Stack
+#     18.4. Create Production-RabbitMQ Stack
 
 source $bindir/dxcp-define-unstable-development
 run "$applicationbindir/application-create-rabbitmq-stack -E Development -T small -Z 2 $i $f"
-source $bindir/dxcp-define-unstable-testing
-run "$applicationbindir/application-create-rabbitmq-stack -E Testing -T small -Z 1 $i $f"
-source $bindir/dxcp-define-unstable-staging
-run "$applicationbindir/application-create-rabbitmq-stack -E Staging -T small -Z 2 $i $f"
+#source $bindir/dxcp-define-unstable-testing
+#run "$applicationbindir/application-create-rabbitmq-stack -E Testing -T small -Z 1 $i $f"
+#source $bindir/dxcp-define-unstable-staging
+#run "$applicationbindir/application-create-rabbitmq-stack -E Staging -T small -Z 2 $i $f"
 source $bindir/dxcp-define-unstable-production
 run "$applicationbindir/application-create-rabbitmq-stack -E Production -T small -Z 2 -m $i $f"
 
 
-# 17. Create MongoDB Instances
-#     17.1. Create Development-MongoDB Stack
-#     17.2. Create Testing-MongoDB Stack
-#     17.3. Create Staging-MongoDB Stack
-#     17.4. Create Production-MongoDB Stack
+# 19. Create MongoDB Instances
+#     19.1. Create Development-MongoDB Stack
+#     19.2. Create Testing-MongoDB Stack
+#     19.3. Create Staging-MongoDB Stack
+#     19.4. Create Production-MongoDB Stack
 
 source $bindir/dxcp-define-unstable-development
 run "$applicationbindir/application-create-mongodb-stack -E Development -T small -Z 2 $i $f"
-source $bindir/dxcp-define-unstable-testing
-run "$applicationbindir/application-create-mongodb-stack -E Testing -T small -Z 1 $i $f"
-source $bindir/dxcp-define-unstable-staging
-run "$applicationbindir/application-create-mongodb-stack -E Staging -T small -Z 2 $i $f"
+#source $bindir/dxcp-define-unstable-testing
+#run "$applicationbindir/application-create-mongodb-stack -E Testing -T small -Z 1 $i $f"
+#source $bindir/dxcp-define-unstable-staging
+#run "$applicationbindir/application-create-mongodb-stack -E Staging -T small -Z 2 $i $f"
 source $bindir/dxcp-define-unstable-production
 run "$applicationbindir/application-create-mongodb-stack -E Production -T small -Z 2 -m $i $f"
 
 
-# 18. Create DataTransfer Instances
-#     18.1. Create Core-DataTransfer-SFTP Stack
-#     18.2. Create Staging-DataTransfer-SFTP Stack (Client, references Core)
-#     18.3. Create Production-DataTransfer-SFTP Stack
+# 20. Create DataTransfer Instances
+#     20.1. Create Core-DataTransfer-SFTP Stack
+#     20.2. Create Staging-DataTransfer-SFTP Stack (Client, references Core)
+#     20.3. Create Production-DataTransfer-SFTP Stack
 
 # TODO: Implement DataTransfer and then uncomment this section
 #source $bindir/dxcp-define-unstable-production
@@ -464,27 +428,27 @@ run "$applicationbindir/application-create-mongodb-stack -E Production -T small 
 #run "$applicationbindir/application-create-datatransfer-sftp-stack -E Production -T small -Z 2 -m $i $f"
 
 
-# 19. Create Engine Instances
-#     19.1. Create Development-Engine-Monitoring Stack
-#     19.2. Create Development-Engine-Publishing Stack
-#     19.3. Create Development-Engine-DataStaging Stack
-#     19.4. Create Development-Engine-Calculation Stack
-#     19.5. Create Development-Engine-Web Stack
-#     19.6. Create Testing-Engine-Monitoring Stack
-#     19.7. Create Testing-Engine-Publishing Stack
-#     19.8. Create Testing-Engine-DataStaging Stack
-#     19.9. Create Testing-Engine-Calculation Stack
-#     19.10. Create Testing-Engine-Web Stack
-#     19.11. Create Staging-Engine-Monitoring Stack
-#     19.12. Create Staging-Engine-Publishing Stack
-#     19.13. Create Staging-Engine-DataStaging Stack
-#     19.14. Create Staging-Engine-Calculation Stack
-#     19.15. Create Staging-Engine-Web Stack
-#     19.16. Create Production-Engine-Monitoring Stack
-#     19.17. Create Production-Engine-Publishing Stack
-#     19.18. Create Production-Engine-DataStaging Stack
-#     19.19. Create Production-Engine-Calculation Stack
-#     19.20. Create Production-Engine-Web Stack
+# 21. Create Engine Instances
+#     21.1. Create Development-Engine-Monitoring Stack
+#     21.2. Create Development-Engine-Publishing Stack
+#     21.3. Create Development-Engine-DataStaging Stack
+#     21.4. Create Development-Engine-Calculation Stack
+#     21.5. Create Development-Engine-Web Stack
+#     21.6. Create Testing-Engine-Monitoring Stack
+#     21.7. Create Testing-Engine-Publishing Stack
+#     21.8. Create Testing-Engine-DataStaging Stack
+#     21.9. Create Testing-Engine-Calculation Stack
+#     21.10. Create Testing-Engine-Web Stack
+#     21.11. Create Staging-Engine-Monitoring Stack
+#     21.12. Create Staging-Engine-Publishing Stack
+#     21.13. Create Staging-Engine-DataStaging Stack
+#     21.14. Create Staging-Engine-Calculation Stack
+#     21.15. Create Staging-Engine-Web Stack
+#     21.16. Create Production-Engine-Monitoring Stack
+#     21.17. Create Production-Engine-Publishing Stack
+#     21.18. Create Production-Engine-DataStaging Stack
+#     21.19. Create Production-Engine-Calculation Stack
+#     21.20. Create Production-Engine-Web Stack
 
 source $bindir/dxcp-define-unstable-development
 run "$applicationbindir/application-create-engine-monitoring-stack -E Development -T small -m $i $f"
@@ -492,18 +456,18 @@ run "$applicationbindir/application-create-engine-publishing-stack -E Developmen
 run "$applicationbindir/application-create-engine-datastaging-stack -E Development -T small -Z 2 $i $f"
 run "$applicationbindir/application-create-engine-calculation-stack -E Development -T small -Z 1 $i $f"
 run "$applicationbindir/application-create-engine-web-stack -E Development -T small -Z 1 $i $f"
-source $bindir/dxcp-define-unstable-testing
-run "$applicationbindir/application-create-engine-monitoring-stack -E Testing -T small -m $i $f"
-run "$applicationbindir/application-create-engine-publishing-stack -E Testing -T small -Z 1 $i $f"
-run "$applicationbindir/application-create-engine-datastaging-stack -E Testing -T small -Z 1 $i $f"
-run "$applicationbindir/application-create-engine-calculation-stack -E Testing -T small -Z 1 $i $f"
-run "$applicationbindir/application-create-engine-web-stack -E Testing -T small -Z 2 $i $f"
-source $bindir/dxcp-define-unstable-staging
-run "$applicationbindir/application-create-engine-monitoring-stack -E Staging -T small -m $i $f"
-run "$applicationbindir/application-create-engine-publishing-stack -E Staging -T small -Z 2 $i $f"
-run "$applicationbindir/application-create-engine-datastaging-stack -E Staging -T small -Z 2 $i $f"
-run "$applicationbindir/application-create-engine-calculation-stack -E Staging -T small -Z 2 $i $f"
-run "$applicationbindir/application-create-engine-web-stack -E Staging -T small -Z 2 $i $f"
+#source $bindir/dxcp-define-unstable-testing
+#run "$applicationbindir/application-create-engine-monitoring-stack -E Testing -T small -m $i $f"
+#run "$applicationbindir/application-create-engine-publishing-stack -E Testing -T small -Z 1 $i $f"
+#run "$applicationbindir/application-create-engine-datastaging-stack -E Testing -T small -Z 1 $i $f"
+#run "$applicationbindir/application-create-engine-calculation-stack -E Testing -T small -Z 1 $i $f"
+#run "$applicationbindir/application-create-engine-web-stack -E Testing -T small -Z 2 $i $f"
+#source $bindir/dxcp-define-unstable-staging
+#run "$applicationbindir/application-create-engine-monitoring-stack -E Staging -T small -m $i $f"
+#run "$applicationbindir/application-create-engine-publishing-stack -E Staging -T small -Z 2 $i $f"
+#run "$applicationbindir/application-create-engine-datastaging-stack -E Staging -T small -Z 2 $i $f"
+#run "$applicationbindir/application-create-engine-calculation-stack -E Staging -T small -Z 2 $i $f"
+#run "$applicationbindir/application-create-engine-web-stack -E Staging -T small -Z 2 $i $f"
 source $bindir/dxcp-define-unstable-production
 run "$applicationbindir/application-create-engine-monitoring-stack -E Production -T small -m $i $f"
 run "$applicationbindir/application-create-engine-publishing-stack -E Production -T small -Z 2 $i $f"
