@@ -193,7 +193,7 @@
       "Type" : "String",
       "MinLength" : 2,
       "MaxLength" : 32,
-      "Default" : "Travel",
+      "Default" : "DXC",
       "AllowedPattern" : "^[A-Z][a-zA-Z0-9]*$",
       "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters."
     },
@@ -203,7 +203,7 @@
       "Type" : "String",
       "MinLength" : 2,
       "MaxLength" : 32,
-      "Default" : "IROPS",
+      "Default" : "Prototype",
       "AllowedPattern" : "^[A-Z][a-zA-Z0-9]*$",
       "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters."
     },
@@ -387,7 +387,7 @@
 
   "Mappings" : {
     "InstanceTypeMap" : {
-      "Queue" : { "small" : "t2.large", "medium" : "r4.xlarge", "large" : "r4.2xlarge", "xlarge" : "r4.4xlarge" }
+      "Queue" : { "small" : "t2.medium", "medium" : "r4.xlarge", "large" : "r4.2xlarge", "xlarge" : "r4.4xlarge" }
     }
   },
 
