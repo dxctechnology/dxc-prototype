@@ -228,39 +228,39 @@ else
     case $environment in
       Production)
         os_name="Windows Server 2012 R2"
-        os_date="20170510"
+        os_date="20171013"
         use_static_address=true
-        log_retention=30;;
+        log_retention=3653;;
       Staging)
         os_name="Windows Server 2012 R2"
-        os_date="20170510"
+        os_date="20171013"
         use_static_address=true
-        log_retention=7;;
+        log_retention=180;;
       Testing)
         os_name="Windows Server 2012 R2"
-        os_date="20170510"
+        os_date="20171013"
         use_static_address=true
-        log_retention=7;;
+        log_retention=180;;
       Development)
         os_name="Windows Server 2012 R2"
-        os_date="20170510"
+        os_date="20171013"
         use_static_address=true
-        log_retention=14;;
+        log_retention=365;;
       Core)
         os_name="Windows Server 2012 R2"
-        os_date="20170510"
+        os_date="20171013"
         use_static_address=true
-        log_retention=30;;
+        log_retention=3653;;
       Build)
         os_name="Windows Server 2012 R2"
-        os_date="20170510"
+        os_date="20171013"
         use_static_address=true
-        log_retention=7;;
+        log_retention=365;;
       Identity)
         os_name="Windows Server 2012 R2"
-        os_date="20170510"
+        os_date="20171013"
         use_static_address=true
-        log_retention=30;;
+        log_retention=3653;;
       *)
         echo "-E $environment invalid! Must be Production, Staging, Testing, Development, Core, Build or Identity"
         exit 21;;
