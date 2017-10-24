@@ -37,7 +37,7 @@ utility=${UTILITY_NAME:-LinuxBastion}
 home_snapshot=
 user_networks=${LINUXBASTIONS_USER_NETWORKS:-0.0.0.0/0,NONE,NONE,NONE,NONE,NONE,NONE,NONE}
 region=us-east-1 # This should run only in us-east-1
-account=${AWS_ACCOUNT_ALIAS:-irops}
+account=${AWS_ACCOUNT_ALIAS:-dxcp}
 user=bootstrapadministrator
 key=${AWS_KEY_NAME:-bootstrap}
 
