@@ -19,7 +19,7 @@ the Account.
   - Enable MFA on the Account
   - Configure the Password Policy for 20 characters, 1 upper, 1 lower, 1 number minimum
   - Customize the IAM users sign-in link with the account alias: dxcp
-  - All of this information should be saved in the 1Password Team account or a similar 
+  - All of this information should be saved in the 1Password Team account or a similar
     method to share credentials across key team members.
 - Logout as the Account (root)
 
@@ -75,7 +75,7 @@ initial setup, specifically to create their SSH key.
 
 ### Configure additional members of the BootstrapAdministrators Group
 
-The following additional steps can be run manually to create additional administrators within the 
+The following additional steps can be run manually to create additional administrators within the
 BootstrapAdministrators Group.
 
 - Create additional members of the BootstrapAdministrators Group, using the same process above
@@ -119,7 +119,7 @@ AMIs may eventually be used. We must register use of these AMIs and accept terms
 ### OpenVPN Access Server
 Browse to: https://aws.amazon.com/marketplace/search/results?x=0&y=0&searchTerms=OpenVPN+Access+Server to see the
 list of all AMI variants. Then, for the following list, go into each, click Continue, Select the Manual Launch Tab,
-Then click Accept Software Terms 
+Then click Accept Software Terms
 - OpenVPN Access Server
 - OpenVPN Access Server (10 Connected Devices)
 - OpenVPN Access Server (25 Connected Devices)
@@ -145,7 +145,7 @@ of the infrastructure. This server does not need to exist once the infrastructur
 
 There are two methods to do this.
 
-1.  Use a Linux Host or Virtual Machine, which has the dxc-prototype project downloaded, and the 
+1.  Use a Linux Host or Virtual Machine, which has the dxc-prototype project downloaded, and the
     bootstrapadministrator access keys and bootstrap ssh key installed in the appropriate locations.
     This is the easiest and most robust method, and should be used if possible.
 2.  Create the Bootstrap-LinuxBastion CloudFormation Stack manually, by uploading the Template and
@@ -153,9 +153,19 @@ There are two methods to do this.
     Linux workstation, but harder in that more steps have to be performed, and the risk of human
     error is considerably higher.
 
+Creation of the Bootstrap Bastion is optional. It's an option if your workstation uses Windows.
+If you are on a Mac or Linux Workstation, you can download and run the code direct from your
+Workstation.
+
+Once you have finished using the Bootstrap Bastion, you can delete the Stack which created it, or
+you can update the Stack, changing the EnvironmentType to "standby", which will reduce the
+AutoScaling Group which wraps it to 0, so nothing normally will run. This will allow you to again
+update the Stack in the future, changing the EnvironmentType back to "small" (or larger), to start
+using it again.
+
 ### Configure a DNS record to allow login to the Bootstrap Bastion
 
-There should be an initial Domain created within Route53, named dxcp.technology. We need to create a 
+There should be an initial Domain created within Route53, named dxcp.technology. We need to create a
 single new record with the Public IP Address of the Bootstrap Bastion, named bootstrap.dxcp.technology.
 
 ## Login to Bootstrap LinuxBastion as a member of the BootstrapAdministrators Group
