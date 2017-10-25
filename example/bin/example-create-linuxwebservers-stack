@@ -223,7 +223,7 @@ if [ -z $environment ]; then
 else
     case $environment in
       Production)
-        os_name="RHEL 7.3"
+        os_name="RHEL 7.4"
         log_retention=30
         normal_schedule=""    # 11:00 UTC = 3:00 AM PST = 6:00 AM EST, Mon-Fri
         reduced_schedule="";; # 4:00 UTC = 8:00 PM PST = 11:00 PM EST, Mon-Fri
