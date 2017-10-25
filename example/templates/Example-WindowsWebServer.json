@@ -996,10 +996,10 @@
   },
 
   "Outputs" : {
-    "SecurityGroup" : {
-      "Description" : "The SecurityGroup",
-      "Value" : { "Ref" : "SecurityGroup" },
-      "Export" : { "Name" : { "Fn::Sub" : "${AWS::StackName}-SecurityGroup" }}
+    "InstanceSecurityGroup" : {
+      "Description" : "The Instance SecurityGroup",
+      "Value" : { "Ref" : "InstanceSecurityGroup" },
+      "Export" : { "Name" : { "Fn::Sub" : "${AWS::StackName}-InstanceSecurityGroup" }}
     },
 
     "HostName" : {
