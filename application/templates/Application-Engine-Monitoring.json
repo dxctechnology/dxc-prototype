@@ -1083,15 +1083,14 @@
         "BlockDeviceMappings" : [{
           "DeviceName" : "/dev/sda1",
           "Ebs" : {
-            "VolumeSize" : "50"
+            "VolumeSize" : "32"
           }
         },
         {
           "DeviceName" : "/dev/xvdb",
           "Ebs" : {
-            "VolumeSize" : "50",
-            "VolumeType" : "gp2",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "8",
+            "VolumeType" : "gp2"
           }
         }],
         "Tags" : [

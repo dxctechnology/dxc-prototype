@@ -1084,9 +1084,8 @@
           "DeviceName" : { "Fn::If" : [ "ConfigureAMZN", "/dev/xvdb", "/dev/sdb" ]},
           "Ebs" : {
             "VolumeType" : "io1",
-            "VolumeSize" : "100",
-            "Iops" : "1000",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "16",
+            "Iops" : "1000"
           }
         }],
         "Tags" : [
@@ -1561,9 +1560,8 @@
           "DeviceName" : { "Fn::If" : [ "ConfigureAMZN", "/dev/xvdb", "/dev/sdb" ]},
           "Ebs" : {
             "VolumeType" : "io1",
-            "VolumeSize" : "100",
-            "Iops" : "1000",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "16",
+            "Iops" : "1000"
           }
         }],
         "Tags" : [

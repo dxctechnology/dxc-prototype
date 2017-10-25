@@ -1083,24 +1083,21 @@
           "DeviceName" : { "Fn::If" : [ "ConfigureAMZN", "/dev/xvdb", "/dev/sdb" ]},
           "Ebs" : {
             "VolumeType" : "gp2",
-            "VolumeSize" : "400",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "64"
           }
         },
         {
           "DeviceName" : { "Fn::If" : [ "ConfigureAMZN", "/dev/xvdc", "/dev/sdc" ]},
           "Ebs" : {
             "VolumeType" : "gp2",
-            "VolumeSize" : "100",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "16"
           }
         },
         {
           "DeviceName" : { "Fn::If" : [ "ConfigureAMZN", "/dev/xvdd", "/dev/sdd" ]},
           "Ebs" : {
             "VolumeType" : "gp2",
-            "VolumeSize" : "50",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "8"
           }
         }],
         "Tags" : [
@@ -1613,24 +1610,21 @@
           "DeviceName" : { "Fn::If" : [ "ConfigureAMZN", "/dev/xvdb", "/dev/sdb" ]},
           "Ebs" : {
             "VolumeType" : "gp2",
-            "VolumeSize" : "400",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "64"
           }
         },
         {
           "DeviceName" : { "Fn::If" : [ "ConfigureAMZN", "/dev/xvdc", "/dev/sdc" ]},
           "Ebs" : {
             "VolumeType" : "gp2",
-            "VolumeSize" : "100",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "16"
           }
         },
         {
           "DeviceName" : { "Fn::If" : [ "ConfigureAMZN", "/dev/xvdd", "/dev/sdd" ]},
           "Ebs" : {
             "VolumeType" : "gp2",
-            "VolumeSize" : "50",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "8"
           }
         }],
         "Tags" : [
@@ -2153,24 +2147,21 @@
           "DeviceName" : { "Fn::If" : [ "ConfigureAMZN", "/dev/xvdb", "/dev/sdb" ]},
           "Ebs" : {
             "VolumeType" : "gp2",
-            "VolumeSize" : "400",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "64"
           }
         },
         {
           "DeviceName" : { "Fn::If" : [ "ConfigureAMZN", "/dev/xvdc", "/dev/sdc" ]},
           "Ebs" : {
             "VolumeType" : "gp2",
-            "VolumeSize" : "100",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "16"
           }
         },
         {
           "DeviceName" : { "Fn::If" : [ "ConfigureAMZN", "/dev/xvdd", "/dev/sdd" ]},
           "Ebs" : {
             "VolumeType" : "gp2",
-            "VolumeSize" : "50",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "8"
           }
         }],
         "Tags" : [

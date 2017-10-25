@@ -1133,15 +1133,14 @@
         "BlockDeviceMappings" : [{
           "DeviceName" : "/dev/sda1",
           "Ebs" : {
-            "VolumeSize" : "50"
+            "VolumeSize" : "32"
           }
         },
         {
           "DeviceName" : "/dev/xvdb",
           "Ebs" : {
-            "VolumeSize" : "100",
-            "VolumeType" : "gp2",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "16",
+            "VolumeType" : "gp2"
           }
         }],
         "Tags" : [
@@ -1527,15 +1526,14 @@
         "BlockDeviceMappings" : [{
           "DeviceName" : "/dev/sda1",
           "Ebs" : {
-            "VolumeSize" : "50"
+            "VolumeSize" : "32"
           }
         },
         {
           "DeviceName" : "/dev/xvdb",
           "Ebs" : {
-            "VolumeSize" : "100",
-            "VolumeType" : "gp2",
-            "DeleteOnTermination" : "false"
+            "VolumeSize" : "16",
+            "VolumeType" : "gp2"
           }
         }],
         "Tags" : [
