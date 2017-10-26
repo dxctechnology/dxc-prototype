@@ -1085,7 +1085,7 @@
           "Ebs" : {
             "VolumeType" : "io1",
             "VolumeSize" : "16",
-            "Iops" : "1000"
+            "Iops" : "100"
           }
         }],
         "Tags" : [
@@ -1561,7 +1561,7 @@
           "Ebs" : {
             "VolumeType" : "io1",
             "VolumeSize" : "16",
-            "Iops" : "1000"
+            "Iops" : "100"
           }
         }],
         "Tags" : [
