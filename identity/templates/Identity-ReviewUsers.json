@@ -69,6 +69,18 @@
   },
 
   "Resources" : {
+    "JDoeUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "jdoe",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
     "KVachonUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
@@ -241,6 +253,42 @@
       "Type" : "AWS::IAM::User",
       "Properties" : {
         "UserName" : "nbentley",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "RNadarUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "rnadar",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "SMuthuveerasamyUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "smuthuveerasamy",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "GRajasekaranUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "grajasekaran",
         "Path" : "/",
         "Groups" : [
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},

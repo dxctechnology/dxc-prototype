@@ -151,7 +151,7 @@
       }
     },
 
-    "DMccueUser" : {
+    "DMcCueUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
         "UserName" : "dmccue",
@@ -179,6 +179,162 @@
       "Type" : "AWS::IAM::User",
       "Properties" : {
         "UserName" : "bslook",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "WFranklinUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "wfranklin",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "KEdwardsUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "kedwards",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "TBeckhamUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "tbeckham",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "GWightmanUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "gwightman",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "MBaigUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "mbaig",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "CLeighCurrillUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "cleighcurrill",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "KAylwardUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "kaylward",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "EMooreUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "emoore",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "MIngleUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "mingle",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "JHollandUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "jholland",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "PAnanthasubramanyaUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "pananthasubramanya",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "ARamrajUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "aramraj",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "JHaringUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "jharing",
         "Path" : "/",
         "Groups" : [
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
