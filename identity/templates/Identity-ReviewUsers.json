@@ -69,10 +69,22 @@
   },
 
   "Resources" : {
-    "JDoeUser" : {
+    "TAdministratorUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
-        "UserName" : "jdoe",
+        "UserName" : "tadministrator",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-AdministratorsGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionAdministratorsGroup" }}
+        ]
+      }
+    },
+
+    "TUserUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "tuser",
         "Path" : "/",
         "Groups" : [
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
