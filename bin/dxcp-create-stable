@@ -74,64 +74,76 @@
 #     11.5. Create Staging-OpenVPNAS Stack
 #     11.6. Create Production-OpenVPNAS Stack
 #
-# 12. Create LinuxBastions Instances (Skip - Only in Unstable with Bastions and Examples)
+# 12. Create LinuxBastions Instances (Only in Unstable with Bastions and Examples)
 #
-# 13. Create WindowsBastions Instances (Skip - Only in Unstable with Bastions and Examples)
+# 13. Create WindowsBastions Instances (Only in Unstable with Bastions and Examples)
 #
-# 14. Create LinuxWebServers Instances (Skip - Only in Unstable with Bastions and Examples)
+# 14. Create LinuxWebServer Instance (Only in Unstable with Bastions and Examples)
 #
-# 15. Create WindowsWebServer Instances (Skip - Only in Unstable with Bastions and Examples)
+# 15. Create LinuxWebServers Instances (Only in Unstable with Bastions and Examples)
 #
-# 16. Create Octopus Instances
-#     16.1. Create Core-Octopus-Deploy Stack
-#     16.2. Create Staging-Octopus-Deploy Stack
-#     16.3. Create Production-Octopus-Deploy Stack
+# 16. Create NestedLinuxWebServer Instance (Only in Unstable with Bastions and Examples)
 #
-# 17. Create WebSphereMQ Instances
-#     17.1. Create Core-WebSphereMQ Stack
-#     17.2. Create Development-WebSphereMQ Stack (Client, references Core)
-#     17.3. Create Testing-WebSphereMQ Stack (Client, references Core)
-#     17.4. Create Staging-WebSphereMQ Stack (Client, references Core)
-#     17.5. Create Production-WebSphereMQ Stack
+# 17. Create NestedLinuxWebServers Instances (Only in Unstable with Bastions and Examples)
 #
-# 18. Create RabbitMQ Instances
-#     18.1. Create Development-RabbitMQ Stack
-#     18.2. Create Testing-RabbitMQ Stack
-#     18.3. Create Staging-RabbitMQ Stack
-#     18.4. Create Production-RabbitMQ Stack
+# 18. Create WindowsWebServer Instance (Only in Unstable with Bastions and Examples)
 #
-# 19. Create MongoDB Instances
-#     19.1. Create Development-MongoDB Stack
-#     19.2. Create Testing-MongoDB Stack
-#     19.3. Create Staging-MongoDB Stack
-#     19.4. Create Production-MongoDB Stack
+# 19. Create WindowsWebServers Instances (Only in Unstable with Bastions and Examples)
 #
-# 20. Create DataTransfer Instances
-#     20.1. Create Core-DataTransfer-SFTP Stack
-#     20.2. Create Staging-DataTransfer-SFTP Stack (Client, references Core)
-#     20.3. Create Production-DataTransfer-SFTP Stack
+# 20. Create LinuxWordPress Instances (Only in Unstable with Bastions and Examples)
 #
-# 21. Create Engine Instances
-#     21.1. Create Development-Engine-Monitoring Stack
-#     21.2. Create Development-Engine-Publishing Stack
-#     21.3. Create Development-Engine-DataStaging Stack
-#     21.4. Create Development-Engine-Calculation Stack
-#     21.5. Create Development-Engine-Web Stack
-#     21.6. Create Testing-Engine-Monitoring Stack
-#     21.7. Create Testing-Engine-Publishing Stack
-#     21.8. Create Testing-Engine-DataStaging Stack
-#     21.9. Create Testing-Engine-Calculation Stack
-#     21.10. Create Testing-Engine-Web Stack
-#     21.11. Create Staging-Engine-Monitoring Stack
-#     21.12. Create Staging-Engine-Publishing Stack
-#     21.13. Create Staging-Engine-DataStaging Stack
-#     21.14. Create Staging-Engine-Calculation Stack
-#     21.15. Create Staging-Engine-Web Stack
-#     21.16. Create Production-Engine-Monitoring Stack
-#     21.17. Create Production-Engine-Publishing Stack
-#     21.18. Create Production-Engine-DataStaging Stack
-#     21.19. Create Production-Engine-Calculation Stack
-#     21.20. Create Production-Engine-Web Stack
+# 21. Create Magento Instances (Only in Unstable with Bastions and Examples)
+#
+# 22. Create Octopus Instances
+#     22.1. Create Core-Octopus-Deploy Stack
+#     22.2. Create Staging-Octopus-Deploy Stack
+#     22.3. Create Production-Octopus-Deploy Stack
+#
+# 23. Create WebSphereMQ Instances
+#     23.1. Create Core-WebSphereMQ Stack
+#     23.2. Create Development-WebSphereMQ Stack (Client, references Core)
+#     23.3. Create Testing-WebSphereMQ Stack (Client, references Core)
+#     23.4. Create Staging-WebSphereMQ Stack (Client, references Core)
+#     23.5. Create Production-WebSphereMQ Stack
+#
+# 24. Create RabbitMQ Instances
+#     24.1. Create Development-RabbitMQ Stack
+#     24.2. Create Testing-RabbitMQ Stack
+#     24.3. Create Staging-RabbitMQ Stack
+#     24.4. Create Production-RabbitMQ Stack
+#
+# 25. Create MongoDB Instances
+#     25.1. Create Development-MongoDB Stack
+#     25.2. Create Testing-MongoDB Stack
+#     25.3. Create Staging-MongoDB Stack
+#     25.4. Create Production-MongoDB Stack
+#
+# 26. Create DataTransfer Instances
+#     26.1. Create Core-DataTransfer-SFTP Stack
+#     26.2. Create Staging-DataTransfer-SFTP Stack (Client, references Core)
+#     26.3. Create Production-DataTransfer-SFTP Stack
+#
+# 27. Create Engine Instances
+#     27.1. Create Development-Engine-Monitoring Stack
+#     27.2. Create Development-Engine-Publishing Stack
+#     27.3. Create Development-Engine-DataStaging Stack
+#     27.4. Create Development-Engine-Calculation Stack
+#     27.5. Create Development-Engine-Web Stack
+#     27.6. Create Testing-Engine-Monitoring Stack
+#     27.7. Create Testing-Engine-Publishing Stack
+#     27.8. Create Testing-Engine-DataStaging Stack
+#     27.9. Create Testing-Engine-Calculation Stack
+#     27.10. Create Testing-Engine-Web Stack
+#     27.11. Create Staging-Engine-Monitoring Stack
+#     27.12. Create Staging-Engine-Publishing Stack
+#     27.13. Create Staging-Engine-DataStaging Stack
+#     27.14. Create Staging-Engine-Calculation Stack
+#     27.15. Create Staging-Engine-Web Stack
+#     27.16. Create Production-Engine-Monitoring Stack
+#     27.17. Create Production-Engine-Publishing Stack
+#     27.18. Create Production-Engine-DataStaging Stack
+#     27.19. Create Production-Engine-Calculation Stack
+#     27.20. Create Production-Engine-Web Stack
 #
 
 run() {
@@ -338,22 +350,41 @@ source $bindir/dxcp-define-stable-production
 run "$utilitybindir/utility-create-openvpnas-stack -E Production -T micro -m $i $f"
 
 
-# 12. Create LinuxBastions Instances (Skip - Only in Unstable with Bastions and Examples)
+# 12. Create LinuxBastions Instances (Only in Unstable with Bastions and Examples)
 
 
-# 13. Create WindowsBastions Instances (Skip - Only in Unstable with Bastions and Examples)
+# 13. Create WindowsBastions Instances (Only in Unstable with Bastions and Examples)
 
 
-# 14. Create LinuxWebServers Instances (Skip - Only in Unstable with Bastions and Examples)
+# 14. Create LinuxWebServer Instance (Only in Unstable with Bastions and Examples)
 
 
-# 15. Create WindowsWebServer Instances (Skip - Only in Unstable with Bastions and Examples)
+# 15. Create LinuxWebServers Instances (Only in Unstable with Bastions and Examples)
 
 
-# 16. Create Octopus Instances
-#     16.1. Create Core-Octopus-Deploy Stack
-#     16.2. Create Staging-Octopus-Deploy Stack
-#     16.3. Create Production-Octopus-Deploy Stack
+# 16. Create NestedLinuxWebServer Instance (Only in Unstable with Bastions and Examples)
+
+
+# 17. Create NestedLinuxWebServers Instances (Only in Unstable with Bastions and Examples)
+
+
+# 18. Create WindowsWebServer Instance (Only in Unstable with Bastions and Examples)
+
+
+# 19. Create WindowsWebServers Instances (Only in Unstable with Bastions and Examples)
+
+
+# 20. Create LinuxWordPress Instances (Only in Unstable with Bastions and Examples)
+
+
+# 21. Create Magento Instances (Only in Unstable with Bastions and Examples)
+
+
+
+# 22. Create Octopus Instances
+#     22.1. Create Core-Octopus-Deploy Stack
+#     22.2. Create Staging-Octopus-Deploy Stack
+#     22.3. Create Production-Octopus-Deploy Stack
 
 source $bindir/dxcp-define-stable-production
 run "$applicationbindir/application-create-octopus-deploy-stack -E Core -T large -m $i $f"
@@ -363,12 +394,12 @@ source $bindir/dxcp-define-stable-production
 run "$applicationbindir/application-create-octopus-deploy-stack -E Production -T Large -m $i $f"
 
 
-# 17. Create WebSphereMQ Instances
-#     17.1. Create Core-WebSphereMQ Stack
-#     17.2. Create Development-WebSphereMQ Stack (Client, references Core)
-#     17.3. Create Testing-WebSphereMQ Stack (Client, references Core)
-#     17.4. Create Staging-WebSphereMQ Stack (Client, references Core)
-#     17.5. Create Production-WebSphereMQ Stack
+# 23. Create WebSphereMQ Instances
+#     23.1. Create Core-WebSphereMQ Stack
+#     23.2. Create Development-WebSphereMQ Stack (Client, references Core)
+#     23.3. Create Testing-WebSphereMQ Stack (Client, references Core)
+#     23.4. Create Staging-WebSphereMQ Stack (Client, references Core)
+#     23.5. Create Production-WebSphereMQ Stack
 
 source $bindir/dxcp-define-stable-production
 run "$applicationbindir/application-create-webspheremq-stack -E Core -T large -m $i $f"
@@ -382,11 +413,11 @@ source $bindir/dxcp-define-stable-production
 run "$applicationbindir/application-create-webspheremq-stack -E Production -T large -m $i $f"
 
 
-# 18. Create RabbitMQ Instances
-#     18.1. Create Development-RabbitMQ Stack
-#     18.2. Create Testing-RabbitMQ Stack
-#     18.3. Create Staging-RabbitMQ Stack
-#     18.4. Create Production-RabbitMQ Stack
+# 24. Create RabbitMQ Instances
+#     24.1. Create Development-RabbitMQ Stack
+#     24.2. Create Testing-RabbitMQ Stack
+#     24.3. Create Staging-RabbitMQ Stack
+#     24.4. Create Production-RabbitMQ Stack
 
 source $bindir/dxcp-define-stable-development
 run "$applicationbindir/application-create-rabbitmq-stack -E Development -T large -Z 2 $i $f"
@@ -398,11 +429,11 @@ source $bindir/dxcp-define-stable-production
 run "$applicationbindir/application-create-rabbitmq-stack -E Production -T large -Z 2 -m $i $f"
 
 
-# 19. Create MongoDB Instances
-#     19.1. Create Development-MongoDB Stack
-#     19.2. Create Testing-MongoDB Stack
-#     19.3. Create Staging-MongoDB Stack
-#     19.4. Create Production-MongoDB Stack
+# 25. Create MongoDB Instances
+#     25.1. Create Development-MongoDB Stack
+#     25.2. Create Testing-MongoDB Stack
+#     25.3. Create Staging-MongoDB Stack
+#     25.4. Create Production-MongoDB Stack
 
 source $bindir/dxcp-define-stable-development
 run "$applicationbindir/application-create-mongodb-stack -E Development -T large -Z 2 $i $f"
@@ -414,10 +445,10 @@ source $bindir/dxcp-define-stable-production
 run "$applicationbindir/application-create-mongodb-stack -E Production -T large -Z 2 -m $i $f"
 
 
-# 20. Create DataTransfer Instances
-#     20.1. Create Core-DataTransfer-SFTP Stack
-#     20.2. Create Staging-DataTransfer-SFTP Stack (Client, references Core)
-#     20.3. Create Production-DataTransfer-SFTP Stack
+# 26. Create DataTransfer Instances
+#     26.1. Create Core-DataTransfer-SFTP Stack
+#     26.2. Create Staging-DataTransfer-SFTP Stack (Client, references Core)
+#     26.3. Create Production-DataTransfer-SFTP Stack
 
 # TODO: Implement DataTransfer and then uncomment this section
 #source $bindir/dxcp-define-stable-production
@@ -428,27 +459,27 @@ run "$applicationbindir/application-create-mongodb-stack -E Production -T large 
 #run "$applicationbindir/application-create-datatransfer-sftp-stack -E Production -T small -Z 2 -m $i $f"
 
 
-# 21. Create Engine Instances
-#     21.1. Create Development-Engine-Monitoring Stack
-#     21.2. Create Development-Engine-Publishing Stack
-#     21.3. Create Development-Engine-DataStaging Stack
-#     21.4. Create Development-Engine-Calculation Stack
-#     21.5. Create Development-Engine-Web Stack
-#     21.6. Create Testing-Engine-Monitoring Stack
-#     21.7. Create Testing-Engine-Publishing Stack
-#     21.8. Create Testing-Engine-DataStaging Stack
-#     21.9. Create Testing-Engine-Calculation Stack
-#     21.10. Create Testing-Engine-Web Stack
-#     21.11. Create Staging-Engine-Monitoring Stack
-#     21.12. Create Staging-Engine-Publishing Stack
-#     21.13. Create Staging-Engine-DataStaging Stack
-#     21.14. Create Staging-Engine-Calculation Stack
-#     21.15. Create Staging-Engine-Web Stack
-#     21.16. Create Production-Engine-Monitoring Stack
-#     21.17. Create Production-Engine-Publishing Stack
-#     21.18. Create Production-Engine-DataStaging Stack
-#     21.19. Create Production-Engine-Calculation Stack
-#     21.20. Create Production-Engine-Web Stack
+# 27. Create Engine Instances
+#     27.1. Create Development-Engine-Monitoring Stack
+#     27.2. Create Development-Engine-Publishing Stack
+#     27.3. Create Development-Engine-DataStaging Stack
+#     27.4. Create Development-Engine-Calculation Stack
+#     27.5. Create Development-Engine-Web Stack
+#     27.6. Create Testing-Engine-Monitoring Stack
+#     27.7. Create Testing-Engine-Publishing Stack
+#     27.8. Create Testing-Engine-DataStaging Stack
+#     27.9. Create Testing-Engine-Calculation Stack
+#     27.10. Create Testing-Engine-Web Stack
+#     27.11. Create Staging-Engine-Monitoring Stack
+#     27.12. Create Staging-Engine-Publishing Stack
+#     27.13. Create Staging-Engine-DataStaging Stack
+#     27.14. Create Staging-Engine-Calculation Stack
+#     27.15. Create Staging-Engine-Web Stack
+#     27.16. Create Production-Engine-Monitoring Stack
+#     27.17. Create Production-Engine-Publishing Stack
+#     27.18. Create Production-Engine-DataStaging Stack
+#     27.19. Create Production-Engine-Calculation Stack
+#     27.20. Create Production-Engine-Web Stack
 
 source $bindir/dxcp-define-stable-development
 run "$applicationbindir/application-create-engine-monitoring-stack -E Development -T large -m $i $f"

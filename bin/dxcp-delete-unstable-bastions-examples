@@ -1,9 +1,11 @@
 #!/bin/bash
 #
-# Here's a list of the commands which need to be run to delete the Stable MultiEnvironment (us-west-2 / Oregon)
+# Here's a list of the commands which need to be run to delete the Unstable MultiEnvironment (us-east-2 / Ohio)
 # - It's very likely some of these will fail due to manual changes, requiring
 #   this script to be run until a failure, stopped with manual steps to clear
 #   out what's blocking the deletion, then a restart, until done.
+# - This script also deletes the bastions and examples, not needed nor usually created in the
+#   Stable or Training MultiEnvironments
 #
 # We can break down the deletion of a region into this order:
 #
@@ -61,24 +63,68 @@
 #      7.3. Delete Core-Octopus-Deploy Stack
 #
 #  8. Delete Magento Instances (Only in Unstable with Bastions and Examples)
+#      8.1. Delete Production-Magento Stack
+#      8.2. Delete Staging-Magento Stack
+#      8.3. Delete Testing-Magento Stack
+#      8.4. Delete Development-Magento Stack
 #
 #  9. Delete LinuxWordPress Instances (Only in Unstable with Bastions and Examples)
+#      9.1. Delete Production-LinuxWordPress Stack
+#      9.2. Delete Staging-LinuxWordPress Stack
+#      9.3. Delete Testing-LinuxWordPress Stack
+#      9.4. Delete Development-LinuxWordPress Stack
 #
 # 10. Delete WindowsWebServers Instances (Only in Unstable with Bastions and Examples)
+#     10.1. Delete Production-WindowsWebServers Stack
+#     10.2. Delete Staging-WindowsWebServers Stack
+#     10.3. Delete Testing-WindowsWebServers Stack
+#     10.4. Delete Development-WindowsWebServers Stack
 #
 # 11. Delete WindowsWebServer Instance (Only in Unstable with Bastions and Examples)
+#     11.1. Delete Production-WindowsWebServer Stack
+#     11.2. Delete Staging-WindowsWebServer Stack
+#     11.3. Delete Testing-WindowsWebServer Stack
+#     11.4. Delete Development-WindowsWebServer Stack
 #
 # 12. Delete NestedLinuxWebServers Instances (Only in Unstable with Bastions and Examples)
+#     12.1. Delete Production-NestedLinuxWebServers Stack
+#     12.2. Delete Staging-NestedLinuxWebServers Stack
+#     12.3. Delete Testing-NestedLinuxWebServers Stack
+#     12.4. Delete Development-NestedLinuxWebServers Stack
 #
 # 13. Delete NestedLinuxWebServer Instance (Only in Unstable with Bastions and Examples)
+#     13.1. Delete Production-NestedLinuxWebServer Stack
+#     13.2. Delete Staging-NestedLinuxWebServer Stack
+#     13.3. Delete Testing-NestedLinuxWebServer Stack
+#     13.4. Delete Development-NestedLinuxWebServer Stack
 #
 # 14. Delete LinuxWebServers Instances (Only in Unstable with Bastions and Examples)
+#     14.1. Delete Production-LinuxWebServers Stack
+#     14.2. Delete Staging-LinuxWebServers Stack
+#     14.3. Delete Testing-LinuxWebServers Stack
+#     14.4. Delete Development-LinuxWebServers Stack
 #
 # 15. Delete LinuxWebServer Instance (Only in Unstable with Bastions and Examples)
+#     15.1. Delete Production-LinuxWebServer Stack
+#     15.2. Delete Staging-LinuxWebServer Stack
+#     15.3. Delete Testing-LinuxWebServer Stack
+#     15.4. Delete Development-LinuxWebServer Stack
 #
 # 16. Delete WindowsBastions Instances (Only in Unstable with Bastions and Examples)
+#     16.1. Delete Production-WindowsBastions Stack
+#     16.2. Delete Staging-WindowsBastions Stack
+#     16.3. Delete Testing-WindowsBastions Stack
+#     16.4. Delete Development-WindowsBastions Stack
+#     16.5. Delete Core-WindowsBastions Stack
+#     16.6. Delete Build-WindowsBastions Stack
 #
 # 17. Delete LinuxBastions Instances (Only in Unstable with Bastions and Examples)
+#     17.1. Delete Production-LinuxBastions Stack
+#     17.2. Delete Staging-LinuxBastions Stack
+#     17.3. Delete Testing-LinuxBastions Stack
+#     17.4. Delete Development-LinuxBastions Stack
+#     17.5. Delete Core-LinuxBastions Stack
+#     17.6. Delete Build-LinuxBastions Stack
 #
 # 18. Delete OpenVPNAS Instances
 #     18.1. Delete Production-OpenVPNAS Stack
@@ -159,7 +205,7 @@ run() {
 }
 
 #  1. Initalize Environment Variables
-#     - This will initialze the environment variables to the Stable-Production Environment
+#     - This will initialze the environment variables to the Unstable-Production Environment
 #     - We will be explicit on certain options below, even when the value does not need to be set due to defaults
 
 bindir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -172,7 +218,7 @@ examplebindir=${bindir%/*}/example/bin
 identitybindir=${bindir%/*}/identity/bin
 utilitybindir=${bindir%/*}/utility/bin
 
-source $bindir/dxcp-define-stable-production
+source $bindir/dxcp-define-unstable-production
 
 i="-i"
 f="-ffff"
@@ -282,33 +328,134 @@ run "$applicationbindir/application-delete-octopus-deploy-stack -E Core -m $i $f
 
 
 #  8. Delete Magento Instances (Only in Unstable with Bastions and Examples)
+#      8.1. Delete Production-Magento Stack
+#      8.2. Delete Staging-Magento Stack
+#      8.3. Delete Testing-Magento Stack
+#      8.4. Delete Development-Magento Stack
+
+# TODO: Implement Magento and then uncomment this section
+#run "$examplebindir/example-create-magento-stack -E Production -T small -V 2.2.0 -m $i $f"
+#run "$examplebindir/example-create-magento-stack -E Staging -T small -V 2.2.0 $i $f"
+#run "$examplebindir/example-create-magento-stack -E Testing -T small -V 2.2.0 $i $f"
+#run "$examplebindir/example-create-magento-stack -E Development -T small -V 2.2.0 $i $f"
 
 
 #  9. Delete LinuxWordPress Instances (Only in Unstable with Bastions and Examples)
+#      9.1. Delete Production-LinuxWordPress Stack
+#      9.2. Delete Staging-LinuxWordPress Stack
+#      9.3. Delete Testing-LinuxWordPress Stack
+#      9.4. Delete Development-LinuxWordPress Stack
+
+# TODO: Implement LinuxWordPress and then uncomment this section
+#run "$examplebindir/example-create-linuxwordpress-stack -E Production -T small -V 3.0.0 -m $i $f"
+#run "$examplebindir/example-create-linuxwordpress-stack -E Staging -T small -V 3.0.0 $i $f"
+#run "$examplebindir/example-create-linuxwordpress-stack -E Testing -T small -V 3.0.0 $i $f"
+#run "$examplebindir/example-create-linuxwordpress-stack -E Development -T small -V 3.0.0 $i $f"
 
 
 # 10. Delete WindowsWebServers Instances (Only in Unstable with Bastions and Examples)
+#     10.1. Delete Production-WindowsWebServers Stack
+#     10.2. Delete Staging-WindowsWebServers Stack
+#     10.3. Delete Testing-WindowsWebServers Stack
+#     10.4. Delete Development-WindowsWebServers Stack
+
+# TODO: Implement WindowsWebServers and then uncomment this section
+#run "$examplebindir/example-create-windowswebservers-stack -E Production -T small -V 3.0.0 -m $i $f"
+#run "$examplebindir/example-create-windowswebservers-stack -E Staging -T small -V 3.0.0 $i $f"
+#run "$examplebindir/example-create-windowswebservers-stack -E Testing -T small -V 3.0.0 $i $f"
+#run "$examplebindir/example-create-windowswebservers-stack -E Development -T small -V 3.0.0 $i $f"
 
 
 # 11. Delete WindowsWebServer Instance (Only in Unstable with Bastions and Examples)
+#     11.1. Delete Production-WindowsWebServer Stack
+#     11.2. Delete Staging-WindowsWebServer Stack
+#     11.3. Delete Testing-WindowsWebServer Stack
+#     11.4. Delete Development-WindowsWebServer Stack
+
+run "$examplebindir/example-create-windowswebserver-stack -E Production -T small -V 3.0.0 -m $i $f"
+run "$examplebindir/example-create-windowswebserver-stack -E Staging -T small -V 3.0.0 $i $f"
+run "$examplebindir/example-create-windowswebserver-stack -E Testing -T small -V 3.0.0 $i $f"
+run "$examplebindir/example-create-windowswebserver-stack -E Development -T small -V 3.0.0 $i $f"
 
 
 # 12. Delete NestedLinuxWebServers Instances (Only in Unstable with Bastions and Examples)
+#     12.1. Delete Production-NestedLinuxWebServers Stack
+#     12.2. Delete Staging-NestedLinuxWebServers Stack
+#     12.3. Delete Testing-NestedLinuxWebServers Stack
+#     12.4. Delete Development-NestedLinuxWebServers Stack
+
+run "$examplebindir/example-create-nestedlinuxwebservers-stack -E Production -T small -V 4.0.0 -m $i $f"
+run "$examplebindir/example-create-nestedlinuxwebservers-stack -E Staging -T small -V 3.0.0 $i $f"
+run "$examplebindir/example-create-nestedlinuxwebservers-stack -E Testing -T small -V 2.0.0 $i $f"
+run "$examplebindir/example-create-nestedlinuxwebservers-stack -E Development -T small -V 1.0.0 $i $f"
 
 
 # 13. Delete NestedLinuxWebServer Instance (Only in Unstable with Bastions and Examples)
+#     13.1. Delete Production-NestedLinuxWebServer Stack
+#     13.2. Delete Staging-NestedLinuxWebServer Stack
+#     13.3. Delete Testing-NestedLinuxWebServer Stack
+#     13.4. Delete Development-NestedLinuxWebServer Stack
+
+run "$examplebindir/example-create-nestedlinuxwebserver-stack -E Production -T small -V 4.0.0 -m $i $f"
+run "$examplebindir/example-create-nestedlinuxwebserver-stack -E Staging -T small -V 3.0.0 $i $f"
+run "$examplebindir/example-create-nestedlinuxwebserver-stack -E Testing -T small -V 2.0.0 $i $f"
+run "$examplebindir/example-create-nestedlinuxwebserver-stack -E Development -T small -V 1.0.0 $i $f"
 
 
 # 14. Delete LinuxWebServers Instances (Only in Unstable with Bastions and Examples)
+#     14.1. Delete Production-LinuxWebServers Stack
+#     14.2. Delete Staging-LinuxWebServers Stack
+#     14.3. Delete Testing-LinuxWebServers Stack
+#     14.4. Delete Development-LinuxWebServers Stack
+
+run "$examplebindir/example-create-linuxwebservers-stack -E Production -T small -V 4.0.0 -m $i $f"
+run "$examplebindir/example-create-linuxwebservers-stack -E Staging -T small -V 3.0.0 $i $f"
+run "$examplebindir/example-create-linuxwebservers-stack -E Testing -T small -V 2.0.0 $i $f"
+run "$examplebindir/example-create-linuxwebservers-stack -E Development -T small -V 1.0.0 $i $f"
 
 
 # 15. Delete LinuxWebServer Instance (Only in Unstable with Bastions and Examples)
+#     15.1. Delete Production-LinuxWebServer Stack
+#     15.2. Delete Staging-LinuxWebServer Stack
+#     15.3. Delete Testing-LinuxWebServer Stack
+#     15.4. Delete Development-LinuxWebServer Stack
+
+run "$examplebindir/example-create-linuxwebserver-stack -E Production -T small -V 4.0.0 -m $i $f"
+run "$examplebindir/example-create-linuxwebserver-stack -E Staging -T small -V 3.0.0 $i $f"
+run "$examplebindir/example-create-linuxwebserver-stack -E Testing -T small -V 2.0.0 $i $f"
+run "$examplebindir/example-create-linuxwebserver-stack -E Development -T small -V 1.0.0 $i $f"
 
 
 # 16. Delete WindowsBastions Instances (Only in Unstable with Bastions and Examples)
+#     16.1. Delete Production-WindowsBastions Stack
+#     16.2. Delete Staging-WindowsBastions Stack
+#     16.3. Delete Testing-WindowsBastions Stack
+#     16.4. Delete Development-WindowsBastions Stack
+#     16.5. Delete Core-WindowsBastions Stack
+#     16.6. Delete Build-WindowsBastions Stack
+
+run "$utilitybindir/utility-delete-windowsbastions-stack -E Production $i $f"
+run "$utilitybindir/utility-delete-windowsbastions-stack -E Staging $i $f"
+run "$utilitybindir/utility-delete-windowsbastions-stack -E Testing $i $f"
+run "$utilitybindir/utility-delete-windowsbastions-stack -E Development $i $f"
+run "$utilitybindir/utility-delete-windowsbastions-stack -E Core $i $f"
+run "$utilitybindir/utility-delete-windowsbastions-stack -E Build -m $i $f"
 
 
 # 17. Delete LinuxBastions Instances (Only in Unstable with Bastions and Examples)
+#     17.1. Delete Production-LinuxBastions Stack
+#     17.2. Delete Staging-LinuxBastions Stack
+#     17.3. Delete Testing-LinuxBastions Stack
+#     17.4. Delete Development-LinuxBastions Stack
+#     17.5. Delete Core-LinuxBastions Stack
+#     17.6. Delete Build-LinuxBastions Stack
+
+run "$utilitybindir/utility-delete-linuxbastions-stack -E Production $i $f"
+run "$utilitybindir/utility-delete-linuxbastions-stack -E Staging $i $f"
+run "$utilitybindir/utility-delete-linuxbastions-stack -E Testing $i $f"
+run "$utilitybindir/utility-delete-linuxbastions-stack -E Development $i $f"
+run "$utilitybindir/utility-delete-linuxbastions-stack -E Core $i $f"
+run "$utilitybindir/utility-delete-linuxbastions-stack -E Build -m $i $f"
 
 
 # 18. Delete OpenVPNAS Instances
