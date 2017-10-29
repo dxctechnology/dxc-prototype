@@ -133,7 +133,7 @@
       "Type" : "AWS::Lambda::Function",
       "Properties" : {
         "FunctionName" : "GetHostName",
-        "Description" : "A Lambda function which creates a HostName that conforms to IROPS Naming Conventions for use by Instances in a VPC, based on Company, Location, (optional) System, Application and (optional) Component.",
+        "Description" : "A Lambda function which creates a HostName that conforms to DXC Prototype Naming Conventions for use by Instances in a VPC, based on Company, Location, (optional) System, Application and (optional) Component.",
         "Role" : { "Fn::GetAtt" : [ "Role", "Arn" ]},
         "Runtime" : "nodejs4.3",
         "Timeout" : "30",
@@ -150,7 +150,7 @@
       "Type" : "AWS::Lambda::Function",
       "Properties" : {
         "FunctionName" : "GetDomainName",
-        "Description" : "A Lambda function which creates a DomainName which conforms to IROPS Naming Conventions for use by HostedZones in a VPC, based on Names or Codes associated with the Environment, Location, Company and Parent DomainName.",
+        "Description" : "A Lambda function which creates a DomainName which conforms to DXC Prototype Naming Conventions for use by HostedZones in a VPC, based on Names or Codes associated with the Environment, Location, Company and Parent DomainName.",
         "Role" : { "Fn::GetAtt" : [ "Role", "Arn" ]},
         "Runtime" : "nodejs4.3",
         "Timeout" : "30",

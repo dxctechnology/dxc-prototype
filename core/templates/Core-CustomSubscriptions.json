@@ -52,84 +52,12 @@
       }
     },
 
-    "AdministratorsTopicKMcCutchenEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-AdministratorsTopic" }},
-        "Protocol" : "email",
-        "Endpoint" : "kerry.mccutchen@dxc.com"
-      }
-    },
-
-    "AdministratorsTopicGVeazeyEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-AdministratorsTopic" }},
-        "Protocol" : "email",
-        "Endpoint" : "gregg.veazey@dxc.com"
-      }
-    },
-
-    "AdministratorsTopicMGowdaEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-AdministratorsTopic" }},
-        "Protocol" : "email",
-        "Endpoint" : "murali.gowda@dxc.com"
-      }
-    },
-
-    "AdministratorsTopicVPrabhakarEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-AdministratorsTopic" }},
-        "Protocol" : "email",
-        "Endpoint" : "vijay.prabhakar@dxc.com"
-      }
-    },
-
     "EventsTopicMCrawfordEmailSubscription" : {
       "Type" : "AWS::SNS::Subscription",
       "Properties" : {
         "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-EventsTopic" }},
         "Protocol" : "email",
         "Endpoint" : "mcrawford@dxc.com"
-      }
-    },
-
-    "EventsTopicKMcCutchenEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-EventsTopic" }},
-        "Protocol" : "email",
-        "Endpoint" : "kerry.mccutchen@dxc.com"
-      }
-    },
-
-    "EventsTopicGVeazeyEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-EventsTopic" }},
-        "Protocol" : "email",
-        "Endpoint" : "gregg.veazey@dxc.com"
-      }
-    },
-
-    "EventsTopicMGowdaEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-EventsTopic" }},
-        "Protocol" : "email",
-        "Endpoint" : "murali.gowda@dxc.com"
-      }
-    },
-
-    "EventsTopicVPrabhakarEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-EventsTopic" }},
-        "Protocol" : "email",
-        "Endpoint" : "vijay.prabhakar@dxc.com"
       }
     },
 
@@ -142,42 +70,6 @@
       }
     },
 
-    "EventsSMSTopicKMcCutchenSMSSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-EventsSMSTopic" }},
-        "Protocol" : { "Fn::If" : [ "UseSMS", "sms", "email" ]},
-        "Endpoint" : { "Fn::If" : [ "UseSMS", "+19542421633", "kerry.mccutchen@dxc.com" ]}
-      }
-    },
-
-    "EventsSMSTopicGVeazeySMSSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-EventsSMSTopic" }},
-        "Protocol" : { "Fn::If" : [ "UseSMS", "sms", "email" ]},
-        "Endpoint" : { "Fn::If" : [ "UseSMS", "+12143920541", "gregg.veazey@dxc.com" ]}
-      }
-    },
-
-    "EventsSMSTopicMGowdaEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-EventsSMSTopic" }},
-        "Protocol" : { "Fn::If" : [ "UseSMS", "sms", "email" ]},
-        "Endpoint" : { "Fn::If" : [ "UseSMS", "+14047743900", "murali.gowda@dxc.com" ]}
-      }
-    },
-
-    "EventsSMSTopicVPrabhakarEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-EventsSMSTopic" }},
-        "Protocol" : { "Fn::If" : [ "UseSMS", "sms", "email" ]},
-        "Endpoint" : { "Fn::If" : [ "UseSMS", "+16149400944", "vijay.prabhakar@dxc.com" ]}
-      }
-    },
-
     "AlarmsTopicMCrawfordEmailSubscription" : {
       "Type" : "AWS::SNS::Subscription",
       "Properties" : {
@@ -187,84 +79,12 @@
       }
     },
 
-    "AlarmsTopicKMcCutchenEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-AlarmsTopic" }},
-        "Protocol" : "email",
-        "Endpoint" : "kerry.mccutchen@dxc.com"
-      }
-    },
-
-    "AlarmsTopicGVeazeyEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-AlarmsTopic" }},
-        "Protocol" : "email",
-        "Endpoint" : "gregg.veazey@dxc.com"
-      }
-    },
-
-    "AlarmsTopicMGowdaEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-AlarmsTopic" }},
-        "Protocol" : "email",
-        "Endpoint" : "murali.gowda@dxc.com"
-      }
-    },
-
-    "AlarmsTopicVPrabhakarEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-AlarmsTopic" }},
-        "Protocol" : "email",
-        "Endpoint" : "vijay.prabhakar@dxc.com"
-      }
-    },
-
     "AlarmsSMSTopicMCrawfordSMSSubscription" : {
       "Type" : "AWS::SNS::Subscription",
       "Properties" : {
         "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-AlarmsSMSTopic" }},
         "Protocol" : { "Fn::If" : [ "UseSMS", "sms", "email" ]},
         "Endpoint" : { "Fn::If" : [ "UseSMS", "+14156525483", "mcrawford@dxc.com" ]}
-      }
-    },
-
-    "AlarmsSMSTopicKMcCutchenSMSSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-AlarmsSMSTopic" }},
-        "Protocol" : { "Fn::If" : [ "UseSMS", "sms", "email" ]},
-        "Endpoint" : { "Fn::If" : [ "UseSMS", "+19542421633", "kerry.mccutchen@dxc.com" ]}
-      }
-    },
-
-    "AlarmsSMSTopicGVeazeySMSSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-AlarmsSMSTopic" }},
-        "Protocol" : { "Fn::If" : [ "UseSMS", "sms", "email" ]},
-        "Endpoint" : { "Fn::If" : [ "UseSMS", "+12143920541", "gregg.veazey@dxc.com" ]}
-      }
-    },
-
-    "AlarmsSMSTopicMGowdaEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-AlarmsSMSTopic" }},
-        "Protocol" : { "Fn::If" : [ "UseSMS", "sms", "email" ]},
-        "Endpoint" : { "Fn::If" : [ "UseSMS", "+14047743900", "murali.gowda@dxc.com" ]}
-      }
-    },
-
-    "AlarmsSMSTopicVPrabhakarEmailSubscription" : {
-      "Type" : "AWS::SNS::Subscription",
-      "Properties" : {
-        "TopicArn" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardTopicsStackName}-AlarmsSMSTopic" }},
-        "Protocol" : { "Fn::If" : [ "UseSMS", "sms", "email" ]},
-        "Endpoint" : { "Fn::If" : [ "UseSMS", "+16149400944", "vijay.prabhakar@dxc.com" ]}
       }
     }
   }

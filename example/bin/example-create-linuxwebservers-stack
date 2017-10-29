@@ -23,17 +23,17 @@ verbose=0
 monitor=0
 dummy=0
 owner=${OWNER_EMAIL:-$USER@dxc.com}
-company=${COMPANY_NAME:-Travel}
-system=${SYSTEM_NAME:-IROPS}
+company=${COMPANY_NAME:-DXC}
+system=${SYSTEM_NAME:-Prototype}
 environment=${ENVIRONMENT_NAME:-Production}
 environment_type=${ENVIRONMENT_TYPE:-small}
 application=${APPLICATION_NAME:-LinuxWebServers}
-application_domain=${APPLICATION_DOMAIN:-lws}
+application_domain=${APPLICATION_DOMAIN:-mlws}
 application_version=${APPLICATION_VERSION:-2.0.0}
 user_networks=${USER_NETWORKS:-0.0.0.0/0,NONE,NONE,NONE,NONE,NONE,NONE,NONE}
 administrator_networks=${ADMINISTRATOR_NETWORKS:-NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE}
 region=${AWS_DEFAULT_REGION:-us-west-2}
-account=${AWS_ACCOUNT_ALIAS:-irops}
+account=${AWS_ACCOUNT_ALIAS:-dxcp}
 user=${AWS_USER_NAME:-administrator}
 key=${AWS_KEY_NAME:-example}
 
@@ -194,10 +194,10 @@ if [ -z $company ]; then
     exit 12
 else
     case $company in
-      Travel)
+      DXC)
         ;;
       *)
-        echo "-C $company invalid! Must be Travel"
+        echo "-C $company invalid! Must be DXC"
         exit 13;;
     esac
 fi
@@ -208,10 +208,10 @@ if [ -z $system ]; then
     exit 14
 else
     case $system in
-      IROPS)
+      Prototype)
         ;;
       *)
-        echo "-S $system invalid! Must be IROPS"
+        echo "-S $system invalid! Must be Prototype"
         exit 15;;
     esac
 fi
@@ -223,7 +223,7 @@ if [ -z $environment ]; then
 else
     case $environment in
       Production)
-        os_name="RHEL 7.3"
+        os_name="RHEL 7.4"
         log_retention=30
         normal_schedule=""    # 11:00 UTC = 3:00 AM PST = 6:00 AM EST, Mon-Fri
         reduced_schedule="";; # 4:00 UTC = 8:00 PM PST = 11:00 PM EST, Mon-Fri

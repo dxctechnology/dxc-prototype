@@ -104,8 +104,8 @@
       "Type" : "String",
       "MinLength" : 7,
       "MaxLength" : 64,
-      "Default" : "us-west-2.tvl.iropshub.com",
-      "AllowedPattern" : "^((?!-)[a-z0-9-]{1,63}(?<!-)\\.)+[a-z]{2,6}$",
+      "Default" : "us-west-2.dxcp.technology",
+      "AllowedPattern" : "^((?!-)[a-z0-9-]{1,63}(?<!-)\\.)+[a-z]{2,10}$",
       "ConstraintDescription" : "must be a valid domain name and contain only lower-case letters, numbers, dashes and periods."
     },
 
@@ -114,8 +114,8 @@
       "Type" : "String",
       "MinLength" : 7,
       "MaxLength" : 64,
-      "Default" : "iropscmp.travel.svcs.entsvcs.com",
-      "AllowedPattern" : "^((?!-)[a-z0-9-]{1,63}(?<!-)\\.)+[a-z]{2,6}$",
+      "Default" : "dxcp.technology",
+      "AllowedPattern" : "^((?!-)[a-z0-9-]{1,63}(?<!-)\\.)+[a-z]{2,10}$",
       "ConstraintDescription" : "must be a valid DNS domain name."
     },
 
@@ -124,7 +124,7 @@
       "Type" : "String",
       "MinLength" : 2,
       "MaxLength" : 15,
-      "Default" : "iropscmp",
+      "Default" : "dxcp",
       "AllowedPattern" : "(^$|^[a-zA-Z0-9]{2,15}$)",
       "ConstraintDescription" : "must be a valid NetBIOS domain name."
     },

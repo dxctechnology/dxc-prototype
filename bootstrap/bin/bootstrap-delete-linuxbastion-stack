@@ -3,7 +3,7 @@
 # This script deletes the Bootstrap LinuxBastion Stack in the Default VPC in the us-east-1 Region.
 #
 # This script is designed to be run first to bootstrap an Instance which can then create the rest
-# of the IROPS Infrastructure, prior to the point when other Bastion/Management Instances exist.
+# of the DXC Prototype Infrastructure, prior to the point when other Bastion/Management Instances exist.
 #
 # This Bootstrap Instance should be destroyed when no longer needed, as it will not exist within
 # the formal VPC infrastructure, and may present a security risk.
@@ -30,7 +30,7 @@ monitor=0
 environment=Bootstrap # This exists outside Environments
 utility=${UTILITY_NAME:-LinuxBastion}
 region=us-east-1 # This should run only in us-east-1
-account=${AWS_ACCOUNT_ALIAS:-irops}
+account=${AWS_ACCOUNT_ALIAS:-dxcp}
 user=bootstrapadministrator
 
 

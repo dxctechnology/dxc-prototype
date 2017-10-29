@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
 
-  "Description" : "Identity-ReviewUsers Template. This creates Review IAM Users within the Identity Account. Due to what appears to be a bug in the User Resource Groups Property which ignores changes during Stack Updates, we are currently listing all group memberships explicitly through separate UsertoGroupAddition Resources.",
+  "Description" : "Identity-ReviewUsers Template. This creates Review IAM Users within the Identity Account.",
 
   "Metadata" : {
     "AWS::CloudFormation::Interface" : {
@@ -69,10 +69,22 @@
   },
 
   "Resources" : {
-    "LWadeUser" : {
+    "TAdministratorUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
-        "UserName" : "lwade",
+        "UserName" : "tadministrator",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-AdministratorsGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionAdministratorsGroup" }}
+        ]
+      }
+    },
+
+    "TUserUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "tuser",
         "Path" : "/",
         "Groups" : [
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
@@ -81,10 +93,10 @@
       }
     },
 
-    "MHeleniusUser" : {
+    "KVachonUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
-        "UserName" : "mhelenius",
+        "UserName" : "kvachon",
         "Path" : "/",
         "Groups" : [
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
@@ -93,10 +105,10 @@
       }
     },
 
-    "NLiechtyUser" : {
+    "MVellayanUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
-        "UserName" : "nliechty",
+        "UserName" : "mvellayan",
         "Path" : "/",
         "Groups" : [
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
@@ -105,10 +117,10 @@
       }
     },
 
-    "DMcCueUser" : {
+    "DStaufferUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
-        "UserName" : "dmccue",
+        "UserName" : "dstauffer",
         "Path" : "/",
         "Groups" : [
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
@@ -117,10 +129,10 @@
       }
     },
 
-    "JMilleUser" : {
+    "JBolingUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
-        "UserName" : "jmille",
+        "UserName" : "jboling",
         "Path" : "/",
         "Groups" : [
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
@@ -129,10 +141,166 @@
       }
     },
 
-    "BThomasonUser" : {
+    "SPooleUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
-        "UserName" : "bthomason",
+        "UserName" : "spoole",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "TPateUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "tpate",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "RDeMenaUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "rdemena",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "AButmanUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "abutman",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "JWatsonUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "jwatson",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "RConnerUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "rconner",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "OJacquesUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "ojacques",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "JCouchotUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "jcouchot",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "JWilliamsUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "jwilliams",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "THendersonUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "thenderson",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "NBentleyUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "nbentley",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "RNadarUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "rnadar",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "SMuthuveerasamyUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "smuthuveerasamy",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "GRajasekaranUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "grajasekaran",
         "Path" : "/",
         "Groups" : [
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},

@@ -23,7 +23,7 @@ verbose=0
 monitor=0
 environment=${IDENTITY_NAME:-Identity}
 region=us-east-1 # This should run only in us-east-1
-account=${AWS_ACCOUNT_ALIAS:-irops}
+account=${AWS_ACCOUNT_ALIAS:-dxcp}
 user=${AWS_USER_NAME:-administrator}
 
 

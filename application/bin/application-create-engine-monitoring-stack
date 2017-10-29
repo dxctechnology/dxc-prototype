@@ -22,8 +22,8 @@ speed=100
 verbose=0
 monitor=0
 owner=${OWNER_EMAIL:-$USER@dxc.com}
-company=${COMPANY_NAME:-Travel}
-system=${SYSTEM_NAME:-IROPS}
+company=${COMPANY_NAME:-DXC}
+system=${SYSTEM_NAME:-Prototype}
 environment=${ENVIRONMENT_NAME:-Production}
 environment_type=${ENVIRONMENT_TYPE:-large}
 application=${APPLICATION_NAME:-Engine}
@@ -34,7 +34,7 @@ integration_networks=${ENGINE_INTEGRATION_NETWORKS:-NONE,NONE,NONE,NONE,NONE,NON
 domainadmin_user=${DOMAINADMIN_USER:-StackAdmin}
 domainadmin_password=${DOMAINADMIN_PASSWORD:-} # This should have no default value
 region=${AWS_DEFAULT_REGION:-us-west-2}
-account=${AWS_ACCOUNT_ALIAS:-irops}
+account=${AWS_ACCOUNT_ALIAS:-dxcp}
 user=${AWS_USER_NAME:-administrator}
 key=${AWS_KEY_NAME:-user}
 
@@ -199,10 +199,10 @@ if [ -z $company ]; then
     exit 12
 else
     case $company in
-      Travel)
+      DXC)
         ;;
       *)
-        echo "-C $company invalid! Must be Travel"
+        echo "-C $company invalid! Must be DXC"
         exit 13;;
     esac
 fi
@@ -213,10 +213,10 @@ if [ -z $system ]; then
     exit 14
 else
     case $system in
-      IROPS)
+      Prototype)
         ;;
       *)
-        echo "-S $system invalid! Must be IROPS"
+        echo "-S $system invalid! Must be Prototype"
         exit 15;;
     esac
 fi
@@ -230,28 +230,28 @@ else
       Production)
         octopus_deploy_stack_name=$environment-Octopus-Deploy
         os_name="Windows Server 2012 R2"
-        os_date="20170614"
+        os_date="20171013"
         use_static_address=false
         log_retention=30
         schedule="";;  # 11:00 - 4:00 UTC = 3:00 AM - 8:00 PM PST = 6:00 AM - 11:00 PM EST
       Staging)
         octopus_deploy_stack_name=$environment-Octopus-Deploy
         os_name="Windows Server 2012 R2"
-        os_date="20170614"
+        os_date="20171013"
         use_static_address=false
         log_retention=7
         schedule="";;  # 11:00 - 4:00 UTC = 3:00 AM - 8:00 PM PST = 6:00 AM - 11:00 PM EST
       Testing)
         octopus_deploy_stack_name=Core-Octopus-Deploy
         os_name="Windows Server 2012 R2"
-        os_date="20170614"
+        os_date="20171013"
         use_static_address=false
         log_retention=3
         schedule="13:00-2:00";; # 13:00 - 2:00 UTC = 5:00 AM - 6:00 PM PST = 8:00 AM - 9:00 PM EST
       Development)
         octopus_deploy_stack_name=Core-Octopus-Deploy
         os_name="Windows Server 2012 R2"
-        os_date="20170614"
+        os_date="20171013"
         use_static_address=false
         log_retention=3
         schedule="13:00-2:00";; # 13:00 - 2:00 UTC = 5:00 AM - 6:00 PM PST = 8:00 AM - 9:00 PM EST

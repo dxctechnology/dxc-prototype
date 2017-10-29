@@ -7,7 +7,7 @@ bindir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 confdir=${bindir%/*}/conf
 datfile=bastion-users.dat
 
-profile=${AWS_DEFAULT_PROFILE:-irops-bootstrapadministrator}
+profile=${AWS_DEFAULT_PROFILE:-dxcp-bootstrapadministrator}
 regions="us-west-2 us-east-2"
 
 public_ip=$(curl -s http://checkip.amazonaws.com)

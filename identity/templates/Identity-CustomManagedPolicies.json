@@ -55,12 +55,12 @@
               "s3:ListBucket"
             ],
             "Resource" : [
-              "arn:aws:s3:::products-us-east-1-irops",
-              "arn:aws:s3:::products-us-east-2-irops",
-              "arn:aws:s3:::products-us-west-2-irops",
-              "arn:aws:s3:::configurations-us-east-1-irops",
-              "arn:aws:s3:::configurations-us-east-2-irops",
-              "arn:aws:s3:::configurations-us-west-2-irops"
+              "arn:aws:s3:::products-us-east-1-dxcp",
+              "arn:aws:s3:::products-us-east-2-dxcp",
+              "arn:aws:s3:::products-us-west-2-dxcp",
+              "arn:aws:s3:::configurations-us-east-1-dxcp",
+              "arn:aws:s3:::configurations-us-east-2-dxcp",
+              "arn:aws:s3:::configurations-us-west-2-dxcp"
             ],
             "Condition" : {
               "StringEquals" : { "s3:prefix" : [ "" ], "s3:delimiter" : [ "/" ]}
@@ -73,12 +73,12 @@
               "s3:ListBucket"
             ],
             "Resource" : [
-              "arn:aws:s3:::products-us-east-1-irops",
-              "arn:aws:s3:::products-us-east-2-irops",
-              "arn:aws:s3:::products-us-west-2-irops",
-              "arn:aws:s3:::configurations-us-east-1-irops",
-              "arn:aws:s3:::configurations-us-east-2-irops",
-              "arn:aws:s3:::configurations-us-west-2-irops"
+              "arn:aws:s3:::products-us-east-1-dxcp",
+              "arn:aws:s3:::products-us-east-2-dxcp",
+              "arn:aws:s3:::products-us-west-2-dxcp",
+              "arn:aws:s3:::configurations-us-east-1-dxcp",
+              "arn:aws:s3:::configurations-us-east-2-dxcp",
+              "arn:aws:s3:::configurations-us-west-2-dxcp"
             ],
             "Condition" : {
               "StringLike" : { "s3:prefix" : [ "WebSphereMQ/*" ]}
@@ -95,12 +95,12 @@
               "s3:DeleteObjectVersion"
             ],
             "Resource" : [
-              "arn:aws:s3:::products-us-east-1-irops/WebSphereMQ/*",
-              "arn:aws:s3:::products-us-east-2-irops/WebSphereMQ/*",
-              "arn:aws:s3:::products-us-west-2-irops/WebSphereMQ/*",
-              "arn:aws:s3:::configurations-us-east-1-irops/WebSphereMQ/*",
-              "arn:aws:s3:::configurations-us-east-2-irops/WebSphereMQ/*",
-              "arn:aws:s3:::configurations-us-west-2-irops/WebSphereMQ/*"
+              "arn:aws:s3:::products-us-east-1-dxcp/WebSphereMQ/*",
+              "arn:aws:s3:::products-us-east-2-dxcp/WebSphereMQ/*",
+              "arn:aws:s3:::products-us-west-2-dxcp/WebSphereMQ/*",
+              "arn:aws:s3:::configurations-us-east-1-dxcp/WebSphereMQ/*",
+              "arn:aws:s3:::configurations-us-east-2-dxcp/WebSphereMQ/*",
+              "arn:aws:s3:::configurations-us-west-2-dxcp/WebSphereMQ/*"
             ]
           },
           {

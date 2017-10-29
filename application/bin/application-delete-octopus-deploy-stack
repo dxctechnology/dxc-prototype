@@ -25,7 +25,7 @@ environment=${ENVIRONMENT_NAME:-Production}
 application=${APPLICATION_NAME:-Octopus}
 component=${COMPONENT_NAME:-Deploy}
 region=${AWS_DEFAULT_REGION:-us-west-2}
-account=${AWS_ACCOUNT_ALIAS:-irops}
+account=${AWS_ACCOUNT_ALIAS:-dxcp}
 user=${AWS_USER_NAME:-administrator}
 
 
