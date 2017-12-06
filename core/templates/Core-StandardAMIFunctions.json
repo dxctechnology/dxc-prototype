@@ -384,6 +384,88 @@
           ]]}
         }
       }
+    },
+
+    "GetAmazonNATImageIdFunction" : {
+      "Type" : "AWS::Lambda::Function",
+      "Properties" : {
+        "FunctionName" : "GetAmazonNATImageId",
+        "Description" : "A Lambda function that looks up the latest Amazon NAT AMI ID for a given Region (HVM64 only).",
+        "Role" : { "Fn::GetAtt" : [ "Role", "Arn" ]},
+        "Runtime" : "nodejs4.3",
+        "Timeout" : "30",
+        "Handler" : "index.handler",
+        "Code" : {
+          "ZipFile" : { "Fn::Join" : [ "\n", [
+            "var osNameToFilter = {",
+            "  'Amazon NAT'           : 'amzn-ami-vpc-nat-hvm-????.??.?.',",
+            "  'Amazon NAT 2017.09.1' : 'amzn-ami-vpc-nat-hvm-2017.09.1.',",
+            "  'Amazon NAT 2017.03.1' : 'amzn-ami-vpc-nat-hvm-2017.03.1.',",
+            "  'Amazon NAT 2016.09.1' : 'amzn-ami-vpc-nat-hvm-2016.09.1.',",
+            "  'Amazon NAT 2016.03.1' : 'amzn-ami-vpc-nat-hvm-2016.03.1.'",
+            "};",
+            "",
+            "var response = require('cfn-response');",
+            "",
+            "exports.handler = function(event, context) {",
+            "  console.log('Request body:\\n' + JSON.stringify(event));",
+            "",
+            "  if (event.RequestType == 'Delete') {",
+            "    response.send(event, context, response.SUCCESS);",
+            "    return;",
+            "  }",
+            "",
+            "  var responseStatus = response.FAILED;",
+            "  var responseData = {};",
+            "  var osName;",
+            "  var osDate;",
+            "  var osNameFilter;",
+            "",
+            "  osName = (event.ResourceProperties.OSName) ? event.ResourceProperties.OSName : 'Amazon VPC NAT';",
+            "",
+            "  osNameFilter = osNameToFilter[osName];",
+            "  if (osNameFilter === undefined) {",
+            "    osNameFilter = 'amzn-ami-vpc-nat-hvm-????.??.?.';",
+            "  }",
+            "",
+            "  osDate = (event.ResourceProperties.OSDate) ? event.ResourceProperties.OSDate : '????????';",
+            "",
+            "  osNameFilter += osDate + '-x86_64-ebs';",
+            "  console.log('OS: ' + osName + '[' + osDate + '] -> ' + osNameFilter);",
+            "",
+            "  var aws = require('aws-sdk');",
+            "",
+            "  var ec2 = new aws.EC2({region: event.ResourceProperties.Region});",
+            "  var describeImagesParams = {",
+            "    Filters: [{ Name: 'name', Values: [osNameFilter]}],",
+            "    Owners: ['amazon']",
+            "  };",
+            "",
+            "  console.log('Calling DescribeImages...');",
+            "  ec2.describeImages(describeImagesParams, function(err, describeImagesResult) {",
+            "    if (err) {",
+            "      responseData = {Error: 'DescribeImages call failed'};",
+            "      console.error(responseData.Error + ':\\n', err);",
+            "    }",
+            "    else {",
+            "      var images = describeImagesResult.Images;",
+            "      console.log('DescribeImages returned ' + images.length + ' images');",
+            "      images.sort(function(x, y) { return y.Name.localeCompare(x.Name); });",
+            "      for (var i = 0; i < images.length; i++) {",
+            "        responseStatus = response.SUCCESS;",
+            "        responseData['ImageId'] = images[i].ImageId;",
+            "        responseData['Name'] = images[i].Name;",
+            "        console.log('Found: ' + images[i].Name + ', ' + images[i].ImageId);",
+            "        break;",
+            "      }",
+            "    }",
+            "",
+            "    response.send(event, context, responseStatus, responseData);",
+            "  });",
+            "};"
+          ]]}
+        }
+      }
     }
   },
 
@@ -410,6 +492,12 @@
       "Description" : "The GetUbuntuImageId Lambda Function ARN",
       "Value" :  { "Fn::GetAtt" : [ "GetUbuntuImageIdFunction", "Arn" ]},
       "Export" : { "Name" : { "Fn::Sub" : "${AWS::StackName}-GetUbuntuImageIdFunctionArn" }}
+    },
+
+    "GetAmazonNATImageIdFunctionArn" : {
+      "Description" : "The GetAmazonNATImageId Lambda Function ARN",
+      "Value" :  { "Fn::GetAtt" : [ "GetAmazonNATImageIdFunction", "Arn" ]},
+      "Export" : { "Name" : { "Fn::Sub" : "${AWS::StackName}-GetAmazonNATImageIdFunctionArn" }}
     }
   }
 }

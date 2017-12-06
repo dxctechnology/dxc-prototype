@@ -1,0 +1,90 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "Example-GetAmazonNATImageIdCustomResource Template. This demonstrates how to dynamically get the most recent Amazon NAT ImageId, given the Region.",
+
+  "Parameters" : {
+    "AmazonNATVersion" : {
+      "Description" : "Amazon NAT Version",
+      "Type" : "String",
+      "Default" : "Amazon NAT 2017.03.1",
+      "AllowedValues" : [
+        "Amazon NAT",
+        "Amazon NAT 2017.09.1",
+        "Amazon NAT 2017.03.1",
+        "Amazon NAT 2016.09.1",
+        "Amazon NAT 2016.03.1"
+      ],
+      "ConstraintDescription" : "Must be a valid Amazon NAT version."
+    },
+
+    "AmazonNATDate" : {
+      "Description" : "Optional Amazon NAT Date, specify to select a specific publication date for the Image",
+      "Type" : "String",
+      "Default" : "20170623",
+      "AllowedPattern" : "(^$|^20(1[6-9]|[2-9][0-9])(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$)",
+      "ConstraintDescription" : "Must be a valid date."
+    }
+  },
+
+  "Resources" : {
+    "GetLatestAmazonNATImageId" : {
+      "Type" : "Custom::GetAmazonNATImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetAmazonNATImageId" },
+        "Region" : { "Ref" : "AWS::Region" }
+      }
+    },
+
+    "GetLatestVersionedAmazonNATImageId" : {
+      "Type" : "Custom::GetAmazonNATImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetAmazonNATImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "OSName" : { "Ref" : "AmazonNATVersion" }
+      }
+    },
+
+    "GetSpecificVersionedAmazonNATImageId" : {
+      "Type" : "Custom::GetAmazonNATImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetAmazonNATImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "OSName" : { "Ref" : "AmazonNATVersion" },
+        "OSDate" : { "Ref" : "AmazonNATDate" }
+      }
+    }
+  },
+
+  "Outputs" : {
+    "LatestImageId" : {
+      "Description" : "The Latest ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestAmazonNATImageId", "ImageId" ]}
+    },
+
+    "LatestName" : {
+      "Description" : "The Latest Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestAmazonNATImageId", "Name" ]}
+    },
+
+    "LatestVersionedImageId" : {
+      "Description" : "The Latest Versioned ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestVersionedAmazonNATImageId", "ImageId" ]}
+    },
+
+    "LatestVersionedName" : {
+      "Description" : "The Latest Versioned Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestVersionedAmazonNATImageId", "Name" ]}
+    },
+
+    "SpecificVersionedImageId" : {
+      "Description" : "The Specific Versioned ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificVersionedAmazonNATImageId", "ImageId" ]}
+    },
+
+    "SpecificVersionedName" : {
+      "Description" : "The Specific Versioned Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificVersionedAmazonNATImageId", "Name" ]}
+    }
+  }
+}
