@@ -133,7 +133,8 @@
 #     25.1 Delete CustomIdentifierFunctions Stack
 #     25.2 Delete StandardScheduleFunctions Stack
 #     25.3 Delete StandardCIDRFunctions Stack
-#     25.4 Delete StandardAMIFunctions Stack
+#     25.4 Delete CustomAMIFunctions Stack
+#     25.5 Delete StandardAMIFunctions Stack
 #
 # 26. Delete S3 Buckets
 #     26.1 Delete StandardBuckets Stack
@@ -420,11 +421,13 @@ run "$corebindir/build-delete-vpc-stack -E Build -m $i $f"
 #     25.1 Delete CustomIdentifierFunctions Stack
 #     25.2 Delete StandardScheduleFunctions Stack
 #     25.3 Delete StandardCIDRFunctions Stack
-#     25.4 Delete StandardAMIFunctions Stack
+#     25.4 Delete CustomAMIFunctions Stack
+#     25.5 Delete StandardAMIFunctions Stack
 
 run "$corebindir/core-delete-customidentifierfunctions-stack $i $f"
 run "$corebindir/core-delete-standardschedulefunctions-stack $i $f"
 run "$corebindir/core-delete-standardcidrfunctions-stack $i $f"
+run "$corebindir/core-delete-customamifunctions-stack $i $f"
 run "$corebindir/core-delete-standardamifunctions-stack -m $i $f"
 
 

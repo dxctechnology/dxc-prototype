@@ -21,9 +21,10 @@
 #
 #  4. Create Lambda Functions
 #      4.1 Create StandardAMIFunctions Stack
-#      4.2 Create StandardCIDRFunctions Stack
-#      4.3 Create StandardScheduleFunctions Stack
-#      4.4 Create CustomIdentifierFunctions Stack
+#      4.2 Create CustomAMIFunctions Stack
+#      4.3 Create StandardCIDRFunctions Stack
+#      4.4 Create StandardScheduleFunctions Stack
+#      4.5 Create CustomIdentifierFunctions Stack
 #
 #  5. Create VPCs
 #      5.1. Create Build-VPC Stack
@@ -207,12 +208,14 @@ echo
 
 #  4. Create Lambda Functions
 #      4.1 Create StandardAMIFunctions Stack
-#      4.2 Create StandardCIDRFunctions Stack
-#      4.3 Create StandardScheduleFunctions Stack
-#      4.4 Create CustomIdentifierFunctions Stack
+#      4.2 Create CustomAMIFunctions Stack
+#      4.3 Create StandardCIDRFunctions Stack
+#      4.4 Create StandardScheduleFunctions Stack
+#      4.5 Create CustomIdentifierFunctions Stack
 
 source $bindir/dxcp-define-stable-production
 run "$corebindir/core-create-standardamifunctions-stack -E Core $i $f"
+run "$corebindir/core-create-customamifunctions-stack -E Core $i $f"
 run "$corebindir/core-create-standardcidrfunctions-stack -E Core $i $f"
 run "$corebindir/core-create-standardschedulefunctions-stack -E Core $i $f"
 run "$corebindir/core-create-customidentifierfunctions-stack -E Core -m $i $f"
