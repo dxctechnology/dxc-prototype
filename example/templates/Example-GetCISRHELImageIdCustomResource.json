@@ -1,0 +1,98 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "Example-GetCISRHELImageIdCustomResource Template. This demonstrates how to dynamically get the most recent Center for Internet Security RHEL ImageId, given the OS Variant, CIS Baseline, CIS Level and Region.",
+
+  "Parameters" : {
+    "RHELVersion" : {
+      "Description" : "RHEL Version",
+      "Type" : "String",
+      "Default" : "RHEL 6",
+      "AllowedValues" : [
+        "RHEL 7",
+        "RHEL 6"
+      ],
+      "ConstraintDescription" : "Must be a valid RHEL version."
+    },
+
+    "CISBenchmark" : {
+      "Description" : "Optional CIS Benchmark, specify to select a specific benchmark for the Image",
+      "Type" : "String",
+      "Default" : "2.0.1.1",
+      "AllowedPattern" : "(^$|^[0-9]\\.[0-9]\\.[0-9]\\.[0-9]$)",
+      "ConstraintDescription" : "Must be a valid benchmark of the form x.x.x.x."
+    },
+
+    "CISLevel" : {
+      "Description" : "Optional CIS Level, specify to select a specific level for the Image",
+      "Type" : "String",
+      "Default" : "1",
+      "AllowedValues" : [ "", "1", "2" ],
+      "ConstraintDescription" : "Must be blank, 1 or 2."
+    }
+  },
+
+  "Resources" : {
+    "GetLatestCISRHELImageId" : {
+      "Type" : "Custom::GetCISRHELImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISRHELImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    },
+
+    "GetLatestVersionedCISRHELImageId" : {
+      "Type" : "Custom::GetCISRHELImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISRHELImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "OSName" : { "Ref" : "RHELVersion" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    },
+
+    "GetSpecificVersionedCISRHELImageId" : {
+      "Type" : "Custom::GetCISRHELImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISRHELImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "OSName" : { "Ref" : "RHELVersion" },
+        "CISBenchmark" : { "Ref" : "CISBenchmark" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    }
+  },
+
+  "Outputs" : {
+    "LatestImageId" : {
+      "Description" : "The Latest ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestCISRHELImageId", "ImageId" ]}
+    },
+
+    "LatestName" : {
+      "Description" : "The Latest Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestCISRHELImageId", "Name" ]}
+    },
+
+    "LatestVersionedImageId" : {
+      "Description" : "The Latest Versioned ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestVersionedCISRHELImageId", "ImageId" ]}
+    },
+
+    "LatestVersionedName" : {
+      "Description" : "The Latest Versioned Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestVersionedCISRHELImageId", "Name" ]}
+    },
+
+    "SpecificVersionedImageId" : {
+      "Description" : "The Specific Versioned ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificVersionedCISRHELImageId", "ImageId" ]}
+    },
+
+    "SpecificVersionedName" : {
+      "Description" : "The Specific Versioned Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificVersionedCISRHELImageId", "Name" ]}
+    }
+  }
+}
