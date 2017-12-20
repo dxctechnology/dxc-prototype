@@ -7,15 +7,17 @@
     "AWS::CloudFormation::Interface" : {
       "ParameterGroups" : [
         {
-          "Label" : { "default" : "Account Information" },
+          "Label" : { "default" : "Bucket Configuration" },
           "Parameters" : [
-            "AccountAlias"
+            "AccountAlias",
+            "UseGlacier"
           ]
         }
       ],
 
       "ParameterLabels" : {
-        "AccountAlias" : { "default" : "Account Alias" }
+        "AccountAlias" : { "default" : "Account Alias" },
+        "UseGlacier" : { "default" : "Use Glacier" }
       }
     }
   },
@@ -28,11 +30,20 @@
       "Default" : "",
       "AllowedPattern" : "(^$|^[a-z][-a-z0-9]*$)",
       "ConstraintDescription" : "must begin with a lower case letter and contain lower case letters, numbers and dashes."
+    },
+
+    "UseGlacier" : {
+      "Description" : "Use Glacier for Archived Logs",
+      "Type" : "String",
+      "Default" : "true",
+      "AllowedValues" : [ "true", "false" ],
+      "ConstraintDescription" : "must be either true or false."
     }
   },
 
   "Conditions" : {
-    "AppendAccountId" : { "Fn::Equals" : [{ "Ref" : "AccountAlias" }, "" ]}
+    "AppendAccountId" : { "Fn::Equals" : [{ "Ref" : "AccountAlias" }, "" ]},
+    "ConfigureGlacier" : { "Fn::Equals" : [{ "Ref" : "UseGlacier" }, "true" ]}
   },
 
   "Resources" : {
@@ -40,8 +51,10 @@
       "Type" : "AWS::S3::Bucket",
       "Properties" : {
         "BucketName" : { "Fn::Join" : [ "-", [ "templates", { "Ref" : "AWS::Region"}, { "Fn::If" : [ "AppendAccountId", { "Ref" : "AWS::AccountId" }, { "Ref" : "AccountAlias" }]}]]},
-        "AccessControl" : "PublicRead",
-        "VersioningConfiguration" : { "Status" : "Enabled" },
+        "AccessControl" : "Private",
+        "VersioningConfiguration" : {
+          "Status" : "Enabled"
+        },
         "LifecycleConfiguration" : {
           "Rules" : [{
             "Id" : "ReduceStorageCostsThenDeletePriorVersions",
@@ -70,8 +83,10 @@
       "Type" : "AWS::S3::Bucket",
       "Properties" : {
         "BucketName" : { "Fn::Join" : [ "-", [ "functions", { "Ref" : "AWS::Region"}, { "Fn::If" : [ "AppendAccountId", { "Ref" : "AWS::AccountId" }, { "Ref" : "AccountAlias" }]}]]},
-        "AccessControl" : "PublicRead",
-        "VersioningConfiguration" : { "Status" : "Enabled" },
+        "AccessControl" : "Private",
+        "VersioningConfiguration" : {
+          "Status" : "Enabled"
+        },
         "LifecycleConfiguration" : {
           "Rules" : [{
             "Id" : "ReduceStorageCostsThenDeletePriorVersions",
@@ -100,8 +115,10 @@
       "Type" : "AWS::S3::Bucket",
       "Properties" : {
         "BucketName" : { "Fn::Join" : [ "-", [ "scripts", { "Ref" : "AWS::Region"}, { "Fn::If" : [ "AppendAccountId", { "Ref" : "AWS::AccountId" }, { "Ref" : "AccountAlias" }]}]]},
-        "AccessControl" : "PublicRead",
-        "VersioningConfiguration" : { "Status" : "Enabled" },
+        "AccessControl" : "Private",
+        "VersioningConfiguration" : {
+          "Status" : "Enabled"
+        },
         "LifecycleConfiguration" : {
           "Rules" : [{
             "Id" : "ReduceStorageCostsThenDeletePriorVersions",
@@ -130,8 +147,10 @@
       "Type" : "AWS::S3::Bucket",
       "Properties" : {
         "BucketName" : { "Fn::Join" : [ "-", [ "products", { "Ref" : "AWS::Region"}, { "Fn::If" : [ "AppendAccountId", { "Ref" : "AWS::AccountId" }, { "Ref" : "AccountAlias" }]}]]},
-        "AccessControl" : "PublicRead",
-        "VersioningConfiguration" : { "Status" : "Enabled" },
+        "AccessControl" : "Private",
+        "VersioningConfiguration" : {
+          "Status" : "Enabled"
+        },
         "LifecycleConfiguration" : {
           "Rules" : [{
             "Id" : "ReduceStorageCostsThenDeletePriorVersions",
@@ -160,8 +179,10 @@
       "Type" : "AWS::S3::Bucket",
       "Properties" : {
         "BucketName" : { "Fn::Join" : [ "-", [ "configurations", { "Ref" : "AWS::Region"}, { "Fn::If" : [ "AppendAccountId", { "Ref" : "AWS::AccountId" }, { "Ref" : "AccountAlias" }]}]]},
-        "AccessControl" : "PublicRead",
-        "VersioningConfiguration" : { "Status" : "Enabled" },
+        "AccessControl" : "Private",
+        "VersioningConfiguration" : {
+          "Status" : "Enabled"
+        },
         "LifecycleConfiguration" : {
           "Rules" : [{
             "Id" : "ReduceStorageCostsThenDeletePriorVersions",
@@ -190,8 +211,10 @@
       "Type" : "AWS::S3::Bucket",
       "Properties" : {
         "BucketName" : { "Fn::Join" : [ "-", [ "applications", { "Ref" : "AWS::Region"}, { "Fn::If" : [ "AppendAccountId", { "Ref" : "AWS::AccountId" }, { "Ref" : "AccountAlias" }]}]]},
-        "AccessControl" : "PublicRead",
-        "VersioningConfiguration" : { "Status" : "Enabled" },
+        "AccessControl" : "Private",
+        "VersioningConfiguration" : {
+          "Status" : "Enabled"
+        },
         "LifecycleConfiguration" : {
           "Rules" : [{
             "Id" : "ReduceStorageCostsThenDeletePriorVersions",
@@ -220,8 +243,10 @@
       "Type" : "AWS::S3::Bucket",
       "Properties" : {
         "BucketName" : { "Fn::Join" : [ "-", [ "examples", { "Ref" : "AWS::Region"}, { "Fn::If" : [ "AppendAccountId", { "Ref" : "AWS::AccountId" }, { "Ref" : "AccountAlias" }]}]]},
-        "AccessControl" : "PublicRead",
-        "VersioningConfiguration" : { "Status" : "Enabled" },
+        "AccessControl" : "Private",
+        "VersioningConfiguration" : {
+          "Status" : "Enabled"
+        },
         "LifecycleConfiguration" : {
           "Rules" : [{
             "Id" : "ReduceStorageCostsThenDeletePriorVersions",
@@ -250,8 +275,10 @@
       "Type" : "AWS::S3::Bucket",
       "Properties" : {
         "BucketName" : { "Fn::Join" : [ "-", [ "demos", { "Ref" : "AWS::Region"}, { "Fn::If" : [ "AppendAccountId", { "Ref" : "AWS::AccountId" }, { "Ref" : "AccountAlias" }]}]]},
-        "AccessControl" : "PublicRead",
-        "VersioningConfiguration" : { "Status" : "Enabled" },
+        "AccessControl" : "Private",
+        "VersioningConfiguration" : {
+          "Status" : "Enabled"
+        },
         "LifecycleConfiguration" : {
           "Rules" : [{
             "Id" : "ReduceStorageCostsThenDeletePriorVersions",
@@ -276,12 +303,46 @@
       "DeletionPolicy" : "Retain"
     },
 
+    "BackupsBucket" : {
+      "Type" : "AWS::S3::Bucket",
+      "Properties" : {
+        "BucketName" : { "Fn::Join" : [ "-", [ "backups", { "Ref" : "AWS::Region"}, { "Fn::If" : [ "AppendAccountId", { "Ref" : "AWS::AccountId" }, { "Ref" : "AccountAlias" }]}]]},
+        "AccessControl" : "Private",
+        "VersioningConfiguration" : {
+          "Status" : "Enabled"
+        },
+        "LifecycleConfiguration" : {
+          "Rules" : [{
+            "Id" : "ReduceStorageCostsThenDeletePriorVersions",
+            "Status" : "Enabled",
+            "Prefix" : "",
+            "Transitions" : [{
+              "StorageClass" : { "Fn::If" : [ "ConfigureGlacier", "GLACIER", "STANDARD_IA" ]},
+              "TransitionInDays" : 90
+            }],
+            "ExpirationInDays" : 365,
+            "NoncurrentVersionTransitions" : [{
+              "StorageClass" : { "Fn::If" : [ "ConfigureGlacier", "GLACIER", "STANDARD_IA" ]},
+              "TransitionInDays" : 30
+            }],
+            "NoncurrentVersionExpirationInDays" : 180
+          }]
+        },
+        "Tags" : [
+          { "Key" : "Name", "Value" : "Core-BackupsBucket" }
+        ]
+      },
+      "DeletionPolicy" : "Retain"
+    },
+
     "UsersBucket" : {
       "Type" : "AWS::S3::Bucket",
       "Properties" : {
         "BucketName" : { "Fn::Join" : [ "-", [ "users", { "Ref" : "AWS::Region"}, { "Fn::If" : [ "AppendAccountId", { "Ref" : "AWS::AccountId" }, { "Ref" : "AccountAlias" }]}]]},
-        "AccessControl" : "PublicRead",
-        "VersioningConfiguration" : { "Status" : "Enabled" },
+        "AccessControl" : "Private",
+        "VersioningConfiguration" : {
+          "Status" : "Enabled"
+        },
         "LifecycleConfiguration" : {
           "Rules" : [{
             "Id" : "ReduceStorageCostsThenDeletePriorVersions",
@@ -354,6 +415,12 @@
       "Description" : "The Demos Bucket Name",
       "Value" :  { "Ref" : "DemosBucket" },
       "Export" : { "Name" : { "Fn::Sub" : "${AWS::StackName}-DemosBucket" }}
+    },
+
+    "BackupsBucket" : {
+      "Description" : "The Backups Bucket Name",
+      "Value" :  { "Ref" : "BackupsBucket" },
+      "Export" : { "Name" : { "Fn::Sub" : "${AWS::StackName}-BackupsBucket" }}
     },
 
     "UsersBucket" : {
