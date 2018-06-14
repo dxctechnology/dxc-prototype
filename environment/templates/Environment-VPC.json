@@ -9,7 +9,28 @@
         {
           "Label" : { "default" : "Stack Dependencies" },
           "Parameters" : [
-            "StandardCIDRFunctionsStackName"
+            "StandardCIDRFunctionsStackName",
+            "StandardAMIFunctionsStackName"
+          ]
+        },
+        {
+          "Label" : { "default" : "Resource Dependencies" },
+          "Parameters" : [
+            "KeyName"
+          ]
+        },
+        {
+          "Label" : { "default" : "System Configuration" },
+          "Parameters" : [
+            "CompanyName",
+            "SystemName"
+          ]
+        },
+        {
+          "Label" : { "default" : "Environment Configuration" },
+          "Parameters" : [
+            "EnvironmentType",
+            "EnvironmentZones"
           ]
         },
         {
@@ -25,7 +46,7 @@
             "NetBIOSDomain",
             "UsePublicHostedZone",
             "UsePrivateHostedZone",
-            "UseMultiZoneNatGateways",
+            "UseNatGateway",
             "UseVPNGateway"
           ]
         }
@@ -33,6 +54,12 @@
 
       "ParameterLabels" : {
         "StandardCIDRFunctionsStackName" : { "default" : "StandardCIDRFunctions Stack Name" },
+        "StandardAMIFunctionsStackName" : { "default" : "StandardAMIFunctions Stack Name" },
+        "KeyName" : { "default" : "Key Name" },
+        "CompanyName" : { "default" : "Company Name" },
+        "SystemName" : { "default" : "System Name" },
+        "EnvironmentType" : { "default" : "Environment Type" },
+        "EnvironmentZones" : { "default" : "Environment Zones" },
         "Name" : { "default" : "Name" },
         "Network" : { "default" : "Network" },
         "AddressesPerSubnet" : { "default" : "Addresses Per Subnet" },
@@ -43,7 +70,7 @@
         "NetBIOSDomain" : { "default" : "NetBIOS Domain" },
         "UsePublicHostedZone" : { "default" : "Use a Public HostedZone" },
         "UsePrivateHostedZone" : { "default" : "Use a Private HostedZone" },
-        "UseMultiZoneNatGateways" : { "default" : "Use Multi-Zone NAT Gateways" },
+        "UseNatGateway" : { "default" : "Use NAT Gateway" },
         "UseVPNGateway" : { "default" : "Use a VPN Gateway" }
       }
     }
@@ -57,6 +84,61 @@
       "Default" : "StandardCIDRFunctions",
       "AllowedPattern" : "(^$|^[A-Z][-a-zA-Z0-9]*$)",
       "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters and dashes."
+    },
+
+    "StandardAMIFunctionsStackName" : {
+      "Description" : "Name of the CloudFormation Stack containing the Standard AMI Functions",
+      "Type" : "String",
+      "MinLength" : 8,
+      "MaxLength" : 64,
+      "Default" : "StandardAMIFunctions",
+      "AllowedPattern" : "^[A-Z][-a-zA-Z0-9]*$",
+      "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters and dashes."
+    },
+
+    "KeyName" : {
+      "Description" : "Name of an existing KeyPair to enable SSH access to the Instances",
+      "Type" : "AWS::EC2::KeyPair::KeyName",
+      "MaxLength" : 32,
+      "Default" : "administrator",
+      "AllowedPattern" : "(^$|^[_a-zA-Z0-9]*$)",
+      "ConstraintDescription" : "must be the name of an existing EC2 KeyPair."
+    },
+
+    "CompanyName" : {
+      "Description" : "Name of the Company associated with the Stack",
+      "Type" : "String",
+      "MinLength" : 2,
+      "MaxLength" : 32,
+      "Default" : "DXC",
+      "AllowedPattern" : "^[A-Z][a-zA-Z0-9]*$",
+      "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters."
+    },
+
+    "SystemName" : {
+      "Description" : "Name of the System associated with the Stack",
+      "Type" : "String",
+      "MinLength" : 2,
+      "MaxLength" : 32,
+      "Default" : "Prototype",
+      "AllowedPattern" : "^[A-Z][a-zA-Z0-9]*$",
+      "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters."
+    },
+
+    "EnvironmentType" : {
+      "Description" : "Type of the Environment to build. Used to select size-related options in Mappings",
+      "Type" : "String",
+      "Default" : "micro",
+      "AllowedValues" : [ "nano", "micro", "small", "medium", "large", "xlarge" ],
+      "ConstraintDescription" : "must be nano, micro, small, medium, large or xlarge."
+    },
+
+    "EnvironmentZones" : {
+      "Description" : "Number of Availability Zones with independent NAT Gateways/Instances",
+      "Type" : "String",
+      "Default" : "1",
+      "AllowedValues" : [ "1", "2" ],
+      "ConstraintDescription" : "must be 1 or 2."
     },
 
     "Name" : {
@@ -145,8 +227,8 @@
       "ConstraintDescription" : "must be either true or false."
     },
 
-    "UseMultiZoneNatGateways" : {
-      "Description" : "Create NAT Gateways in multiple Availability Zones",
+    "UseNatGateway" : {
+      "Description" : "Use a NAT Gateway instead of a NAT Instance",
       "Type" : "String",
       "Default" : "true",
       "AllowedValues" : [ "true", "false" ],
@@ -162,17 +244,37 @@
     }
   },
 
+  "Mappings" : {
+    "InstanceTypeMap" : {
+      "NAT" : { "nano" : "t2.nano", "micro" : "t2.micro", "small" : "t2.small", "medium" : "t2.medium", "large" : "m4.large", "large" : "m4.xlarge" }
+    }
+  },
+
   "Conditions" : {
+    "ConfigureKey" : { "Fn::Not" : [{ "Fn::Equals" : [{ "Ref" : "KeyName" }, "" ]}]},
+    "ConfigureMultiZone" : { "Fn::Not" : [{ "Fn::Equals" : [{ "Ref" : "EnvironmentZones" }, "1" ]}]},
     "ConfigurePublicDomain" : { "Fn::Not" : [{ "Fn::Equals" : [{ "Ref" : "PublicDomain" }, "" ]}]},
     "ConfigurePrivateDomain" : { "Fn::Not" : [{ "Fn::Equals" : [{ "Ref" : "PrivateDomain" }, "" ]}]},
     "ConfigureNetBIOSDomain" : { "Fn::Not" : [{ "Fn::Equals" : [{ "Ref" : "NetBIOSDomain" }, "" ]}]},
     "ConfigurePublicHostedZone" : { "Fn::Equals" : [{ "Ref" : "UsePublicHostedZone" }, "true" ]},
     "ConfigurePrivateHostedZone" : { "Fn::Equals" : [{ "Ref" : "UsePrivateHostedZone" }, "true" ]},
-    "ConfigureMultiZoneNatGateways" : { "Fn::Equals" : [{ "Ref" : "UseMultiZoneNatGateways" }, "true" ]},
+    "ConfigureNatGateway" : { "Fn::Equals" : [{ "Ref" : "UseNatGateway" }, "true" ]},
+    "ConfigureNatGateway&MultiZone" : { "Fn::And" : [{ "Condition" : "ConfigureNatGateway" }, { "Condition" : "ConfigureMultiZone" }]},
+    "ConfigureNatInstance" : { "Fn::Equals" : [{ "Ref" : "UseNatGateway" }, "false" ]},
+    "ConfigureNatInstance&MultiZone" : { "Fn::And" : [{ "Condition" : "ConfigureNatInstance" }, { "Condition" : "ConfigureMultiZone" }]},
     "ConfigureVPNGateway" : { "Fn::Equals" : [{ "Ref" : "UseVPNGateway" }, "true" ]}
   },
 
   "Resources" : {
+    "GetAmazonNATImageId" : {
+      "Type" : "Custom::GetAmazonNATImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardAMIFunctionsStackName}-GetAmazonNATImageIdFunctionArn" }},
+        "Region" : { "Ref" : "AWS::Region" }
+      },
+      "Condition": "ConfigureNatInstance"
+    },
+
     "SubnetCalculator" : {
       "Type" : "Custom::SubnetCalculator",
       "Properties" : {
@@ -754,38 +856,111 @@
       }
     },
 
-    "NatGatewayAEIP" : {
-      "Type" : "AWS::EC2::EIP",
-      "Properties" : {
-        "Domain" : "vpc"
-      },
-      "DependsOn" : "InternetGatewayAttachment"
-    },
-
-    "NatGatewayBEIP" : {
+    "NatAEIP" : {
       "Type" : "AWS::EC2::EIP",
       "Properties" : {
         "Domain" : "vpc"
       },
       "DependsOn" : "InternetGatewayAttachment",
-      "Condition" : "ConfigureMultiZoneNatGateways"
+      "Condition" : "ConfigureNatGateway"
+    },
+
+    "NatBEIP" : {
+      "Type" : "AWS::EC2::EIP",
+      "Properties" : {
+        "Domain" : "vpc"
+      },
+      "DependsOn" : "InternetGatewayAttachment",
+      "Condition" : "ConfigureNatGateway&MultiZone"
     },
 
     "NatGatewayA" : {
       "Type" : "AWS::EC2::NatGateway",
       "Properties" : {
-        "AllocationId" : { "Fn::GetAtt" : [ "NatGatewayAEIP", "AllocationId" ]},
-        "SubnetId" : { "Ref" : "PublicSubnetA" }
-      }
+        "AllocationId" : { "Fn::GetAtt" : [ "NatAEIP", "AllocationId" ]},
+        "SubnetId" : { "Ref" : "PublicSubnetA" },
+        "Tags" : [
+          { "Key" : "Name", "Value" : { "Fn::Join" : [ "-", [ { "Ref" : "Name" }, "NAT", "GatewayA" ]]}}
+        ]
+      },
+      "Condition" : "ConfigureNatGateway"
     },
 
     "NatGatewayB" : {
       "Type" : "AWS::EC2::NatGateway",
       "Properties" : {
-        "AllocationId" : { "Fn::GetAtt" : [ "NatGatewayBEIP", "AllocationId" ]},
-        "SubnetId" : { "Ref" : "PublicSubnetB" }
+        "AllocationId" : { "Fn::GetAtt" : [ "NatBEIP", "AllocationId" ]},
+        "SubnetId" : { "Ref" : "PublicSubnetB" },
+        "Tags" : [
+          { "Key" : "Name", "Value" : { "Fn::Join" : [ "-", [ { "Ref" : "Name" }, "NAT", "GatewayB" ]]}}
+        ]
       },
-      "Condition" : "ConfigureMultiZoneNatGateways"
+      "Condition" : "ConfigureNatGateway&MultiZone"
+    },
+
+    "InstanceSecurityGroup" : {
+      "Type" : "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription" : { "Fn::Join" : [ "-", [ { "Ref" : "Name" }, "NAT", "InstanceSecurityGroup" ]]},
+        "VpcId" : { "Ref" : "VPC" },
+        "SecurityGroupIngress" : [
+          { "IpProtocol" : "-1", "FromPort" : "1", "ToPort" : "65535", "CidrIp" : {  "Ref" : "Network" }}
+        ],
+        "Tags" : [
+          { "Key" : "Name", "Value" : { "Fn::Join" : [ "-", [ { "Ref" : "Name" }, "NAT", "InstanceSecurityGroup" ]]}}
+        ]
+      },
+      "Condition": "ConfigureNatInstance"
+    },
+
+    "NatInstanceA" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "ImageId" : { "Fn::GetAtt" : [ "GetAmazonNATImageId", "ImageId" ]},
+        "InstanceType" : { "Fn::FindInMap" : [ "InstanceTypeMap", "NAT", { "Ref" : "EnvironmentType" }]},
+        "KeyName" : { "Fn::If" : [ "ConfigureKey", { "Ref" : "KeyName" }, { "Ref" : "AWS::NoValue" }]},
+        "NetworkInterfaces" : [{
+          "Description"              : { "Fn::Join" : [ "-", [ { "Ref" : "Name" }, "NAT", "NetworkInterfaceA", "eth0" ]]},
+          "DeviceIndex"              : "0",
+          "SubnetId"                 : { "Ref" : "PublicSubnetA" },
+          "GroupSet"                 : [
+            { "Ref" : "InstanceSecurityGroup" }
+          ],
+          "AssociatePublicIpAddress" : "true",
+          "DeleteOnTermination": "true"
+        }],
+        "SourceDestCheck": "false",
+        "Tags" : [
+          { "Key" : "Name", "Value" : { "Fn::Join" : [ "-", [ { "Ref" : "Name" }, "NAT", "InstanceA" ]]}}
+        ]
+      },
+      "DependsOn": "InternetGatewayAttachment",
+      "Condition": "ConfigureNatInstance"
+    },
+
+    "NatInstanceB" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "ImageId" : { "Fn::GetAtt" : [ "GetAmazonNATImageId", "ImageId" ]},
+        "InstanceType" : { "Fn::FindInMap" : [ "InstanceTypeMap", "NAT", { "Ref" : "EnvironmentType" }]},
+        "KeyName" : { "Fn::If" : [ "ConfigureKey", { "Ref" : "KeyName" }, { "Ref" : "AWS::NoValue" }]},
+        "NetworkInterfaces" : [{
+          "Description"              : { "Fn::Join" : [ "-", [ { "Ref" : "Name" }, "NAT", "NetworkInterfaceB", "eth0" ]]},
+          "DeviceIndex"              : "0",
+          "SubnetId"                 : { "Ref" : "PublicSubnetB" },
+          "GroupSet"                 : [
+            { "Ref" : "InstanceSecurityGroup" }
+          ],
+          "AssociatePublicIpAddress" : "true",
+          "DeleteOnTermination": "true"
+        }],
+        "SourceDestCheck": "false",
+        "Tags" : [
+          { "Key" : "Name", "Value" : { "Fn::Join" : [ "-", [ { "Ref" : "Name" }, "NAT", "InstanceB" ]]}}
+        ]
+      },
+      "DependsOn": "InternetGatewayAttachment",
+      "Condition": "ConfigureNatInstance&MultiZone"
     },
 
     "PrivateRouteTableA" : {
@@ -803,7 +978,8 @@
       "Properties" : {
         "RouteTableId" : { "Ref" : "PrivateRouteTableA" },
         "DestinationCidrBlock" : "0.0.0.0/0",
-        "NatGatewayId" : { "Ref" : "NatGatewayA" }
+        "NatGatewayId" : { "Fn::If" : [ "ConfigureNatGateway", { "Ref" : "NatGatewayA" }, { "Ref" : "AWS::NoValue" }]},
+        "InstanceId" : { "Fn::If" : [ "ConfigureNatInstance", { "Ref" : "NatInstanceA" }, { "Ref" : "AWS::NoValue" }]}
       }
     },
 
@@ -918,7 +1094,8 @@
       "Properties" : {
         "RouteTableId" : { "Ref" : "PrivateRouteTableB" },
         "DestinationCidrBlock" : "0.0.0.0/0",
-        "NatGatewayId" : { "Fn::If" : [ "ConfigureMultiZoneNatGateways", { "Ref" : "NatGatewayB" }, { "Ref" : "NatGatewayA" }]}
+        "NatGatewayId" : { "Fn::If" : [ "ConfigureNatGateway", { "Fn::If" : [ "ConfigureMultiZone", { "Ref" : "NatGatewayB" }, { "Ref" : "NatGatewayA" }]}, { "Ref" : "AWS::NoValue" }]},
+        "InstanceId" : { "Fn::If" : [ "ConfigureNatInstance", { "Fn::If" : [ "ConfigureMultiZone", { "Ref" : "NatInstanceB" }, { "Ref" : "NatInstanceA" }]}, { "Ref" : "AWS::NoValue" }]}
       }
     },
 
