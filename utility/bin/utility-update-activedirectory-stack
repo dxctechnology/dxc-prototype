@@ -273,10 +273,10 @@ if [ -z $environment_type ]; then
     exit 22
 else
     case $environment_type in
-      micro|small|medium|large|xlarge)
+      nano|micro|small|medium|large|xlarge)
         ;;
       *)
-        echo "-T $environment_type invalid! Must be micro, small, medium, large or xlarge"
+        echo "-T $environment_type invalid! Must be nano, micro, small, medium, large or xlarge"
         exit 23;;
     esac
 fi

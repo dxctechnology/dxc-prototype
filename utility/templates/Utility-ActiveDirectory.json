@@ -45,7 +45,8 @@
             "SharedScriptFolder",
             "ScriptFolder",
             "SharedConfigurationFolder",
-            "ConfigurationFolder"
+            "ConfigurationFolder",
+            "BackupFolder"
           ]
         },
         {
@@ -85,6 +86,7 @@
         "ScriptFolder" : { "default" : "Script Folder" },
         "SharedConfigurationFolder" : { "default" : "Shared Configuration Folder" },
         "ConfigurationFolder" : { "default" : "Configuration Folder" },
+        "BackupFolder" : { "default" : "Backup Folder" },
         "UtilityName" : { "default" : "Utility Name" },
         "RestoreModePassword" : { "default" : "Restore Mode Password" },
         "UseStaticAddress" : { "default" : "Use Static Address" },
@@ -255,6 +257,16 @@
       "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters."
     },
 
+    "BackupFolder" : {
+      "Description" : "Folder within the S3 Backups bucket containing Backups used by this Template",
+      "Type" : "String",
+      "MinLength" : 2,
+      "MaxLength" : 32,
+      "Default" : "ActiveDirectory",
+      "AllowedPattern" : "^[A-Z][a-zA-Z0-9]*$",
+      "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters."
+    },
+
     "UtilityName" : {
       "Description" : "Name of the Utility associated with the Stack",
       "Type" : "String",
@@ -345,7 +357,17 @@
     },
 
     "InstanceTypeMap" : {
-      "DomainController" : { "small" : "t2.medium", "medium" : "t2.large", "large" : "m4.large", "xlarge" : "m4.xlarge" }
+      "DomainController" : { "nano" : "t2.small", "small" : "t2.medium", "medium" : "t2.large", "large" : "m4.large", "xlarge" : "m4.xlarge" }
+    },
+
+    "VolumeSizeMap" : {
+      "DomainControllerRoot"   : { "nano" : "24", "small" : "32", "medium" : "48", "large" : "64", "xlarge" : "96" },
+      "DomainControllerBackup" : { "nano" :  "8", "small" : "16", "medium" : "32", "large" : "48", "xlarge" : "64" }
+    },
+
+    "VolumeTypeMap" : {
+      "DomainControllerRoot"   : { "nano" : "standard", "small" : "standard", "medium" : "gp2", "large" : "gp2", "xlarge" : "gp2" },
+      "DomainControllerBackup" : { "nano" : "standard", "small" : "standard", "medium" : "standard", "large" : "standard", "xlarge" : "gp2" }
     }
   },
 
@@ -413,6 +435,7 @@
               "s3:GetObject"
             ],
             "Resource" : [
+              { "Fn::Join" : [ "", [ "arn:aws:s3:::",  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/Modules/*" ]]},
               { "Fn::Join" : [ "", [ "arn:aws:s3:::",  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "SharedScriptFolder" }, "/*" ]]},
               { "Fn::Join" : [ "", [ "arn:aws:s3:::",  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "ScriptFolder" }, "/*" ]]}
             ]
@@ -436,6 +459,37 @@
             "Resource" : [
               { "Fn::Join" : [ "", [ "arn:aws:s3:::",  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ConfigurationsBucket" }}, "/", { "Ref" : "SharedConfigurationFolder" }, "/*" ]]},
               { "Fn::Join" : [ "", [ "arn:aws:s3:::",  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ConfigurationsBucket" }}, "/", { "Ref" : "ConfigurationFolder" }, "/*" ]]}
+            ]
+          }]
+        },
+        "Roles" : [{ "Ref" : "Role" }]
+      }
+    },
+
+    "BackupInS3Policy" : {
+      "Type" : "AWS::IAM::Policy",
+      "Properties" : {
+        "PolicyName" : "BackupInS3Policy",
+        "PolicyDocument" : {
+          "Version" : "2012-10-17",
+          "Statement" : [{
+            "Effect" : "Allow",
+            "Action" : [
+              "s3:ListBucket"
+            ],
+            "Resource" : [
+              { "Fn::Join" : [ "", [ "arn:aws:s3:::",  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-BackupsBucket" }}, "/", { "Ref" : "BackupFolder" } ]]}
+            ]
+          },
+          {
+            "Effect" : "Allow",
+            "Action" : [
+              "s3:PutObject",
+              "s3:GetObject",
+              "s3:DeleteObject"
+            ],
+            "Resource" : [
+              { "Fn::Join" : [ "", [ "arn:aws:s3:::",  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-BackupsBucket" }}, "/", { "Ref" : "BackupFolder" }, "/*" ]]}
             ]
           }]
         },
@@ -525,7 +579,7 @@
           { "IpProtocol" : "udp",  "FromPort" : "49152", "ToPort" : "65535", "SourceSecurityGroupId" : { "Ref" : "DomainMemberSecurityGroup" }}
         ],
         "Tags" : [
-          { "Key" : "Name", "Value" : { "Fn::Join" : [ "-", [ { "Ref" : "AWS::StackName" }, "DomainControllerSecurityGroup" ]]}}
+          { "Key" : "Name", "Value" : { "Fn::Join" : [ "-", [ { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPCName" }}, { "Ref" : "UtilityName" }, "DomainControllerSecurityGroup" ]]}}
         ]
       }
     },
@@ -733,8 +787,15 @@
               "InstallADDS",
               "InstallADDSForest",
               "ConfigureEnterpriseAdmin",
+              "ConfigureADGroups",
+              "ConfigureADUsers",
               "ConfigureADSites",
+              "ConfigureADSubnets",
               "InstallADCS",
+              "ConfigurePowerShellProfile",
+              "ConfigureWindowsTaskBar",
+              "InstallWindowsBackup",
+              "ConfigureWindowsBackup",
               "SignalCFN"
             ]
           },
@@ -1042,20 +1103,127 @@
               }
             }
           },
-          "ConfigureADSites" : {
+          "ConfigureADGroups" : {
             "files" : {
-              "c:\\cfn\\scripts\\Configure-SitesAndSubnets.ps1" : {
+              "c:\\cfn\\scripts\\Configure-ADGroups.ps1" : {
                 "source" : { "Fn::Join" : [ "", [
                   "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
-                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "ScriptFolder" }, "/Configure-SitesAndSubnets.ps1"
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "ScriptFolder" }, "/Configure-ADGroups.ps1"
+                ]]},
+                "authentication" : "S3Credentials"
+              },
+              "c:\\cfn\\conf\\StandardGroups.csv" : {
+                "source" : { "Fn::Join" : [ "", [
+                  "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ConfigurationsBucket" }}, "/", { "Ref" : "ConfigurationFolder" }, "/StandardGroups.csv"
+                ]]},
+                "authentication" : "S3Credentials"
+              },
+              "c:\\cfn\\conf\\CustomGroups.csv" : {
+                "source" : { "Fn::Join" : [ "", [
+                  "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ConfigurationsBucket" }}, "/", { "Ref" : "ConfigurationFolder" }, "/CustomGroups.csv"
                 ]]},
                 "authentication" : "S3Credentials"
               }
             },
             "commands" : {
-              "01-configure-sitesandsubnets" : {
+              "01-configure-standard-adgroups" : {
                 "command" : { "Fn::Join" : [ "", [
-                  "powershell.exe -ExecutionPolicy RemoteSigned -Command c:\\cfn\\scripts\\Configure-SitesAndSubnets.ps1",
+                  "powershell.exe -ExecutionPolicy RemoteSigned -Command \"c:\\cfn\\scripts\\Configure-ADGroups.ps1",
+                  " -GroupsPath c:\\cfn\\conf\\StandardGroups.csv"
+                  ]]},
+                "waitAfterCompletion" : "0"
+              },
+              "02-configure-custom-adgroups" : {
+                "command" : { "Fn::Join" : [ "", [
+                  "powershell.exe -ExecutionPolicy RemoteSigned -Command \"c:\\cfn\\scripts\\Configure-ADGroups.ps1",
+                  " -GroupsPath c:\\cfn\\conf\\CustomGroups.csv"
+                  ]]},
+                "waitAfterCompletion" : "0"
+              }
+            }
+          },
+          "ConfigureADUsers" : {
+            "files" : {
+              "c:\\cfn\\scripts\\Configure-ADUsers.ps1" : {
+                "source" : { "Fn::Join" : [ "", [
+                  "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "ScriptFolder" }, "/Configure-ADUsers.ps1"
+                ]]},
+                "authentication" : "S3Credentials"
+              },
+              "c:\\cfn\\conf\\StandardUsers.csv" : {
+                "source" : { "Fn::Join" : [ "", [
+                  "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ConfigurationsBucket" }}, "/", { "Ref" : "ConfigurationFolder" }, "/StandardUsers.csv"
+                ]]},
+                "authentication" : "S3Credentials"
+              },
+              "c:\\cfn\\conf\\CustomUsers.csv" : {
+                "source" : { "Fn::Join" : [ "", [
+                  "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ConfigurationsBucket" }}, "/", { "Ref" : "ConfigurationFolder" }, "/CustomUsers.csv"
+                ]]},
+                "authentication" : "S3Credentials"
+              }
+            },
+            "commands" : {
+              "01-configure-standard-adusers" : {
+                "command" : { "Fn::Join" : [ "", [
+                  "powershell.exe -ExecutionPolicy RemoteSigned -Command \"c:\\cfn\\scripts\\Configure-ADUsers.ps1",
+                  " -UsersPath c:\\cfn\\conf\\StandardUsers.csv",
+                  " -Password ", { "Ref" : "DomainAdminPassword" }
+                  ]]},
+                "waitAfterCompletion" : "0"
+              },
+              "02-configure-custom-adusers" : {
+                "command" : { "Fn::Join" : [ "", [
+                  "powershell.exe -ExecutionPolicy RemoteSigned -Command \"c:\\cfn\\scripts\\Configure-ADUsers.ps1",
+                  " -UsersPath c:\\cfn\\conf\\CustomUsers.csv",
+                  " -Password ", { "Ref" : "DomainAdminPassword" }
+                  ]]},
+                "waitAfterCompletion" : "0"
+              }
+            }
+          },
+          "ConfigureADSites" : {
+            "files" : {
+              "c:\\cfn\\scripts\\Configure-ADSites.ps1" : {
+                "source" : { "Fn::Join" : [ "", [
+                  "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "ScriptFolder" }, "/Configure-ADSites.ps1"
+                ]]},
+                "authentication" : "S3Credentials"
+              }
+            },
+            "commands" : {
+              "01-configure-adsites" : {
+                "command" : { "Fn::Join" : [ "", [
+                  "powershell.exe -ExecutionPolicy RemoteSigned -Command c:\\cfn\\scripts\\Configure-ADSites.ps1",
+                  " -VpcId ", { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPC" }},
+                  " -ZoneA ", { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-ZoneA" }},
+                  " -ZoneB ", { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-ZoneB" }},
+                  { "Fn::If" : [ "ConfigureMultiZone" , " -MultiZone", { "Ref" : "AWS::NoValue" }]}
+                  ]]},
+                "waitAfterCompletion" : "0"
+              }
+            }
+          },
+          "ConfigureADSubnets" : {
+            "files" : {
+              "c:\\cfn\\scripts\\Configure-ADSubnets.ps1" : {
+                "source" : { "Fn::Join" : [ "", [
+                  "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "ScriptFolder" }, "/Configure-ADSubnets.ps1"
+                ]]},
+                "authentication" : "S3Credentials"
+              }
+            },
+            "commands" : {
+              "01-configure-adsubnets" : {
+                "command" : { "Fn::Join" : [ "", [
+                  "powershell.exe -ExecutionPolicy RemoteSigned -Command c:\\cfn\\scripts\\Configure-ADSubnets.ps1",
                   " -VpcId ", { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPC" }},
                   " -ZoneA ", { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-ZoneA" }},
                   " -ZoneB ", { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-ZoneB" }},
@@ -1077,7 +1245,7 @@
               "c:\\cfn\\modules\\xAdcsDeployment_0.1.0.0.zip" : {
                 "source" : { "Fn::Join" : [ "", [
                   "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
-                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "ScriptFolder" }, "/xAdcsDeployment_0.1.0.0.zip"
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/Modules/xAdcsDeployment_0.1.0.0.zip"
                 ]]},
                 "authentication" : "S3Credentials"
               },
@@ -1092,7 +1260,7 @@
             "commands" : {
               "01-install-adcsdeployment-module" : {
                 "command" : { "Fn::Join" : [ "", [
-                  "powershell.exe -command c:\\cfn\\scripts\\Unzip-Archive.ps1",
+                  "powershell.exe -Command c:\\cfn\\scripts\\Unzip-Archive.ps1",
                   " -Source c:\\cfn\\modules\\xAdcsDeployment_0.1.0.0.zip",
                   " -Destination 'C:\\Program Files\\WindowsPowerShell\\Modules'"
                 ]]},
@@ -1105,6 +1273,72 @@
                   " -Password '", { "Ref" : "DomainAdminPassword" }, "'",
                   " -DomainDNSName ", { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPCPrivateDomain" }}
                 ]]},
+                "waitAfterCompletion" : "0"
+              }
+            }
+          },
+          "ConfigurePowerShellProfile" : {
+            "files" : {
+              "c:\\cfn\\scripts\\Configure-UserPowerShellProfile.ps1" : {
+                "source" : { "Fn::Join" : [ "", [
+                  "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "SharedScriptFolder" }, "/Configure-UserPowerShellProfile.ps1"
+                ]]},
+                "authentication" : "S3Credentials"
+              }
+            },
+            "commands" : {
+              "01-configure-userpowershellprofile" : {
+                "command" : { "Fn::Join" : [ "", [
+                  "powershell.exe -ExecutionPolicy RemoteSigned -Command c:\\cfn\\scripts\\Configure-UserPowerShellProfile.ps1",
+                  " -UserName ", { "Ref" : "DomainAdminUser" },
+                  ]]},
+                "waitAfterCompletion" : "0"
+              }
+            }
+          },
+          "ConfigureWindowsTaskBar" : {
+            "files" : {
+              "c:\\cfn\\scripts\\Configure-WindowsTaskBar.ps1" : {
+                "source" : { "Fn::Join" : [ "", [
+                  "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "SharedScriptFolder" }, "/Configure-WindowsTaskBar.ps1"
+                ]]},
+                "authentication" : "S3Credentials"
+              }
+            },
+            "commands" : {
+              "01-configure-windowstaskbar" : {
+                "command" : { "Fn::Join" : [ "", [
+                  "powershell.exe -ExecutionPolicy RemoteSigned -Command c:\\cfn\\scripts\\Configure-WindowsTaskBar.ps1"
+                  ]]},
+                "waitAfterCompletion" : "0"
+              }
+            }
+          },
+          "InstallWindowsBackup" : {
+            "commands" : {
+              "01-install-windows-backup" : {
+                "command" : "powershell.exe -Command \"Install-WindowsFeature -Name Windows-Server-Backup -IncludeAllSubfeature -IncludeManagementTools\"",
+                "waitAfterCompletion" : "0"
+              }
+            }
+          },
+          "ConfigureWindowsBackup" : {
+            "files" : {
+              "c:\\cfn\\scripts\\Configure-WindowsBackup.ps1" : {
+                "source" : { "Fn::Join" : [ "", [
+                  "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "ScriptFolder" }, "/Configure-WindowsBackup.ps1"
+                ]]},
+                "authentication" : "S3Credentials"
+              }
+            },
+            "commands" : {
+              "01-configure-windowsbackup" : {
+                "command" : { "Fn::Join" : [ "", [
+                  "powershell.exe -Command c:\\cfn\\scripts\\Configure-WindowsBackup.ps1"
+                  ]]},
                 "waitAfterCompletion" : "0"
               }
             }
@@ -1132,8 +1366,15 @@
         "BlockDeviceMappings" : [{
           "DeviceName" : "/dev/sda1",
           "Ebs" : {
-            "VolumeSize" : "100",
-            "VolumeType" : "gp2"
+            "VolumeSize" : { "Fn::FindInMap" : [ "VolumeSizeMap", "DomainControllerRoot", { "Ref" : "EnvironmentType" }]},
+            "VolumeType" : { "Fn::FindInMap" : [ "VolumeTypeMap", "DomainControllerRoot", { "Ref" : "EnvironmentType" }]}
+          }
+        },
+        {
+          "DeviceName" : "/dev/xvdb",
+          "Ebs" : {
+            "VolumeSize" : { "Fn::FindInMap" : [ "VolumeSizeMap", "DomainControllerBackup", { "Ref" : "EnvironmentType" }]},
+            "VolumeType" : { "Fn::FindInMap" : [ "VolumeTypeMap", "DomainControllerBackup", { "Ref" : "EnvironmentType" }]}
           }
         }],
         "Tags" : [
@@ -1195,6 +1436,10 @@
               "InstallADDSDomainController",
               "InstallADCS",
               "UpdateDNSServers",
+              "ConfigurePowerShellProfile",
+              "ConfigureWindowsTaskBar",
+              "InstallWindowsBackup",
+              "ConfigureWindowsBackup",
               "SignalCFN"
             ]
           },
@@ -1496,7 +1741,7 @@
               "c:\\cfn\\modules\\xAdcsDeployment_0.1.0.0.zip" : {
                 "source" : { "Fn::Join" : [ "", [
                   "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
-                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "ScriptFolder" }, "/xAdcsDeployment_0.1.0.0.zip"
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/Modules/xAdcsDeployment_0.1.0.0.zip"
                 ]]},
                 "authentication" : "S3Credentials"
               },
@@ -1552,6 +1797,72 @@
               }
             }
           },
+          "ConfigurePowerShellProfile" : {
+            "files" : {
+              "c:\\cfn\\scripts\\Configure-UserPowerShellProfile.ps1" : {
+                "source" : { "Fn::Join" : [ "", [
+                  "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "SharedScriptFolder" }, "/Configure-UserPowerShellProfile.ps1"
+                ]]},
+                "authentication" : "S3Credentials"
+              }
+            },
+            "commands" : {
+              "01-configure-userpowershellprofile" : {
+                "command" : { "Fn::Join" : [ "", [
+                  "powershell.exe -ExecutionPolicy RemoteSigned -Command c:\\cfn\\scripts\\Configure-UserPowerShellProfile.ps1",
+                  " -UserName ", { "Ref" : "DomainAdminUser" },
+                  ]]},
+                "waitAfterCompletion" : "0"
+              }
+            }
+          },
+          "ConfigureWindowsTaskBar" : {
+            "files" : {
+              "c:\\cfn\\scripts\\Configure-WindowsTaskBar.ps1" : {
+                "source" : { "Fn::Join" : [ "", [
+                  "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "SharedScriptFolder" }, "/Configure-WindowsTaskBar.ps1"
+                ]]},
+                "authentication" : "S3Credentials"
+              }
+            },
+            "commands" : {
+              "01-configure-windowstaskbar" : {
+                "command" : { "Fn::Join" : [ "", [
+                  "powershell.exe -ExecutionPolicy RemoteSigned -Command c:\\cfn\\scripts\\Configure-WindowsTaskBar.ps1"
+                  ]]},
+                "waitAfterCompletion" : "0"
+              }
+            }
+          },
+          "InstallWindowsBackup" : {
+            "commands" : {
+              "01-install-windows-backup" : {
+                "command" : "powershell.exe -Command \"Install-WindowsFeature -Name Windows-Server-Backup -IncludeAllSubfeature -IncludeManagementTools\"",
+                "waitAfterCompletion" : "0"
+              }
+            }
+          },
+          "ConfigureWindowsBackup" : {
+            "files" : {
+              "c:\\cfn\\scripts\\Configure-WindowsBackup.ps1" : {
+                "source" : { "Fn::Join" : [ "", [
+                  "https://", { "Fn::If" : [ "ConfigureGlobalS3", "s3", { "Fn::Sub" : "s3-${AWS::Region}" }]}, ".amazonaws.com/",
+                  { "Fn::ImportValue" : { "Fn::Sub" : "${StandardBucketsStackName}-ScriptsBucket" }}, "/", { "Ref" : "ScriptFolder" }, "/Configure-WindowsBackup.ps1"
+                ]]},
+                "authentication" : "S3Credentials"
+              }
+            },
+            "commands" : {
+              "01-configure-windowsbackup" : {
+                "command" : { "Fn::Join" : [ "", [
+                  "powershell.exe -ExecutionPolicy RemoteSigned -Command c:\\cfn\\scripts\\Configure-WindowsBackup.ps1"
+                  ]]},
+                "waitAfterCompletion" : "0"
+              }
+            }
+          },
           "SignalCFN" : {
             "commands" : {
               "01-signal-success" : {
@@ -1575,8 +1886,15 @@
         "BlockDeviceMappings" : [{
           "DeviceName" : "/dev/sda1",
           "Ebs" : {
-            "VolumeSize" : "100",
-            "VolumeType" : "gp2"
+            "VolumeSize" : { "Fn::FindInMap" : [ "VolumeSizeMap", "DomainControllerRoot", { "Ref" : "EnvironmentType" }]},
+            "VolumeType" : { "Fn::FindInMap" : [ "VolumeTypeMap", "DomainControllerRoot", { "Ref" : "EnvironmentType" }]}
+          }
+        },
+        {
+          "DeviceName" : "/dev/xvdb",
+          "Ebs" : {
+            "VolumeSize" : { "Fn::FindInMap" : [ "VolumeSizeMap", "DomainControllerBackup", { "Ref" : "EnvironmentType" }]},
+            "VolumeType" : { "Fn::FindInMap" : [ "VolumeTypeMap", "DomainControllerBackup", { "Ref" : "EnvironmentType" }]}
           }
         }],
         "Tags" : [
