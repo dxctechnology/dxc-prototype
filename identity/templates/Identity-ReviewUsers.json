@@ -391,13 +391,24 @@
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
         ]
       }
-
     },
 
     "MTaranekUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
         "UserName" : "mtaranek",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
+    "ASchickUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "aschick",
         "Path" : "/",
         "Groups" : [
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
