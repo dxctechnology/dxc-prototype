@@ -79,6 +79,31 @@
       "DeletionPolicy" : "Retain"
     },
 
+    "TemplatesBucketPolicy" : {
+      "Type" : "AWS::S3::BucketPolicy",
+      "Properties" : {
+        "Bucket" : { "Ref" : "TemplatesBucket" },
+        "PolicyDocument" : {
+          "Version" : "2012-10-17",
+          "Statement" : [{
+            "Sid" : "AllowCloudFormationACLCheck",
+            "Effect" : "Allow",
+            "Principal" : { "Service" : "cloudformation.amazonaws.com" },
+            "Action" : "s3:GetBucketAcl",
+            "Resource" : { "Fn::Sub" : "arn:aws:s3:::${TemplatesBucket}" }
+          },
+          {
+            "Sid" : "AllowCloudFormationRead",
+            "Effect" : "Allow",
+            "Principal" : { "Service" : "cloudformation.amazonaws.com" },
+            "Action" : "s3:GetObject" ,
+            "Resource" : { "Fn::Sub" : "arn:aws:s3:::${TemplatesBucket}/*" }
+          }]
+        }
+      },
+      "DependsOn" : "TemplatesBucket"
+    },
+
     "FunctionsBucket" : {
       "Type" : "AWS::S3::Bucket",
       "Properties" : {
