@@ -25,6 +25,8 @@ owner=${OWNER_EMAIL:-$USER@dxc.com}
 company=${COMPANY_NAME:-DXC}
 system=${SYSTEM_NAME:-Prototype}
 environment=${BUILD_NAME:-Build}
+environment_type=${ENVIRONMENT_TYPE:-nano}
+environment_zones=${ENVIRONMENT_ZONES:-1}
 environment_network=${BUILD_NETWORK:-172.21.60.0/23}
 environment_public_domain=${BUILD_PUBLIC_DOMAIN:-b.us-west-2.dxcp.technology}
 environment_private_domain=${BUILD_PRIVATE_DOMAIN:-b.dxcp.technology}
@@ -32,6 +34,7 @@ environment_netbios_domain=${BUILD_NETBIOS_DOMAIN:-dxcpb}
 region=${AWS_DEFAULT_REGION:-us-west-2}
 account=${AWS_ACCOUNT_ALIAS:-dxcp}
 user=${AWS_USER_NAME:-administrator}
+key=${AWS_KEY_NAME:-administrator}
 
 
 #  2. Define functions
@@ -39,9 +42,9 @@ user=${AWS_USER_NAME:-administrator}
 usage () {
     echo "Usage: ${BASH_SOURCE##*/} [[-i] | [-s | -f]] [-v] [-m]"
     echo "                  [-O owner] [-C company] [-S system]"
-    echo "                  [-E environment] [-N network]"
+    echo "                  [-E environment] [-T type] [-Z zones] [-N network]"
     echo "                  [-D domain] [-d domain] [-b domain]"
-    echo "                  [-r region] [-a account] [-u user]"
+    echo "                  [-r region] [-a account] [-u user] [-k key]"
     echo "  -i              interactive"
     echo "  -s              slower: increase pauses by 25%"
     echo "  -f              faster: reduce pauses by 25%"
@@ -51,6 +54,8 @@ usage () {
     echo "  -C company      Company Name (default: $company)"
     echo "  -S system       System Name (default: $system)"
     echo "  -E environment  Environment Name (default: $environment)"
+    echo "  -T type         Environment Type (default: $environment_type)"
+    echo "  -Z zones        Environment Zones (default: $environment_zones)"
     echo "  -N network      Environment Network (default: $environment_network)"
     echo "  -D domain       Environment Public Domain (default: $environment_public_domain)"
     echo "  -d domain       Environment Private Domain (default: $environment_private_domain)"
@@ -58,6 +63,7 @@ usage () {
     echo "  -r region       Region (default: $region)"
     echo "  -a account      Account (default: $account)"
     echo "  -u user         User (default: $user)"
+    echo "  -k key          Key (default: $key)"
 }
 
 run() {
@@ -140,7 +146,7 @@ next() {
 
 #  3. Parse command line options
 
-while getopts isfvmO:C:S:E:N:D:d:b:r:a:u:? arg; do
+while getopts isfvmO:C:S:E:T:Z:N:D:d:b:r:a:u:k:? arg; do
     case $arg in
     i)  interactive=1;;
     s)  ((speed < speed_max)) && ((speed=speed+25));;
@@ -151,6 +157,8 @@ while getopts isfvmO:C:S:E:N:D:d:b:r:a:u:? arg; do
     C)  company="$OPTARG";;
     S)  system="$OPTARG";;
     E)  environment="$OPTARG";;
+    T)  environment_type="$OPTARG";;
+    Z)  environment_zones="$OPTARG";;
     N)  environment_network="$OPTARG";;
     D)  environment_public_domain="$OPTARG";;
     d)  environment_private_domain="$OPTARG";;
@@ -158,6 +166,7 @@ while getopts isfvmO:C:S:E:N:D:d:b:r:a:u:? arg; do
     r)  region="$OPTARG";;
     a)  account="$OPTARG";;
     u)  user="$OPTARG";;
+    k)  key="$OPTARG";;
     ?)  usage
         exit 1;;
     esac
@@ -215,7 +224,6 @@ else
         availability_zones_per_vpc=2
         use_public_hostedzone=true
         use_private_hostedzone=false
-        use_multi_zone_nat_gateways=false
         use_vpn_gateway=true;;
       *)
         echo "-E $environment invalid! Must be Build"
@@ -223,28 +231,60 @@ else
     esac
 fi
 
+if [ -z $environment_type ]; then
+    echo "-T type missing!"
+    echo "Could not automatically determine environment type, and it was not specified as a parameter"
+    exit 22
+else
+    case $environment_type in
+      nano|micro|small|medium)
+        use_nat_gateway=false
+        ;;
+      large|xlarge)
+        use_nat_gateway=true
+        ;;
+      *)
+        echo "-T $environment_type invalid! Must be nano, micro, small, medium, large or xlarge"
+        exit 23;;
+    esac
+fi
+
+if [ -z $environment_zones ]; then
+    echo "-Z zones missing!"
+    echo "Could not automatically determine environment zones, and it was not specified as a parameter"
+    exit 24
+else
+    case $environment_zones in
+      1|2)
+        ;;
+      *)
+        echo "-Z $environment_zones invalid! Must be 1 or 2"
+        exit 25;;
+    esac
+fi
+
 if [ -z $environment_network ]; then
     echo "-N network missing!"
     echo "Could not automatically determine environment network, and it was not specified as a parameter"
-    exit 22
+    exit 26
 fi
 
 if [ -z $environment_public_domain ]; then
     echo "-D domain missing!"
     echo "Could not automatically determine public domain, and it was not specified as a parameter"
-    exit 24
+    exit 120
 fi
 
 if [ -z $environment_private_domain ]; then
     echo "-d domain missing!"
     echo "Could not automatically determine private domain, and it was not specified as a parameter"
-    exit 26
+    exit 122
 fi
 
 if [ -z $environment_netbios_domain ]; then
     echo "-b domain missing!"
     echo "Could not automatically determine NetBIOS domain, and it was not specified as a parameter"
-    exit 28
+    exit 124
 fi
 
 if [ -z $region ]; then
@@ -275,6 +315,12 @@ if [ -z $user ]; then
     exit 54
 fi
 
+if [ -z $key ]; then
+    echo "-k key missing!"
+    echo "Could not automatically determine key, and it was not specified as a parameter"
+    exit 56
+fi
+
 profile=$account-$user
 
 if ! grep -s -q "\[profile $profile]" ~/.aws/config; then
@@ -283,8 +329,30 @@ if ! grep -s -q "\[profile $profile]" ~/.aws/config; then
     exit 58
 fi
 
+echo -n "Confirming Stack pre-requisites "
+
+if ! aws cloudformation describe-stacks --stack-name StandardAMIFunctions \
+                                        --profile $profile --region $region --output text &> /dev/null; then
+    echo
+    echo "Stack dependency missing - StandardAMIFunctions Stack does not exist!"
+    exit 62
+else
+    echo -n "."
+fi
+
+if ! aws cloudformation describe-stacks --stack-name StandardCIDRFunctions \
+                                        --profile $profile --region $region --output text &> /dev/null; then
+    echo
+    echo "Stack dependency missing - StandardCIDRFunctions Stack does not exist!"
+    exit 63
+else
+    echo -n "."
+fi
+echo " Done"
+sleep 1
+
 templates_bucket=${AWS_TEMPLATES_BUCKET:-templates-$region-$account}
-template_folder=core
+template_folder=build
 
 if ! aws s3api head-bucket --bucket $templates_bucket --profile $profile --region $region 2> /dev/null; then
     unset templates_bucket
@@ -379,7 +447,14 @@ read -r -d '' statement << EOS
 aws cloudformation create-stack --stack-name $environment-VPC \\
                                 $template_parameter \\
                                 $stack_policy_parameter \\
-                                --parameters ParameterKey=Name,ParameterValue=$environment \\
+                                --parameters ParameterKey=StandardCIDRFunctionsStackName,ParameterValue=StandardCIDRFunctions \\
+                                             ParameterKey=StandardAMIFunctionsStackName,ParameterValue=StandardAMIFunctions \\
+                                             ParameterKey=KeyName,ParameterValue=$key \\
+                                             ParameterKey=CompanyName,ParameterValue=$company \\
+                                             ParameterKey=SystemName,ParameterValue=$system \\
+                                             ParameterKey=EnvironmentType,ParameterValue=$environment_type \\
+                                             ParameterKey=EnvironmentZones,ParameterValue=$environment_zones \\
+                                             ParameterKey=Name,ParameterValue=$environment \\
                                              ParameterKey=Network,ParameterValue=$environment_network \\
                                              ParameterKey=AddressesPerSubnet,ParameterValue=$addresses_per_subnet \\
                                              ParameterKey=SubnetsPerAvailabilityZone,ParameterValue=$subnets_per_availability_zone \\
@@ -389,7 +464,7 @@ aws cloudformation create-stack --stack-name $environment-VPC \\
                                              ParameterKey=NetBIOSDomain,ParameterValue=$environment_netbios_domain \\
                                              ParameterKey=UsePublicHostedZone,ParameterValue=$use_public_hostedzone \\
                                              ParameterKey=UsePrivateHostedZone,ParameterValue=$use_private_hostedzone \\
-                                             ParameterKey=UseMultiZoneNatGateways,ParameterValue=$use_multi_zone_nat_gateways \\
+                                             ParameterKey=UseNatGateway,ParameterValue=$use_nat_gateway \\
                                              ParameterKey=UseVPNGateway,ParameterValue=$use_vpn_gateway \\
                                 --tags Key=Owner,Value=$owner \\
                                        Key=Company,Value=$company \\
