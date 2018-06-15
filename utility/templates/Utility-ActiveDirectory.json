@@ -212,7 +212,7 @@
     "OSDate" : {
       "Description" : "Optional Operating System Date, specify to select a specific publication date for the Image",
       "Type" : "String",
-      "Default" : "20170510",
+      "Default" : "20180509",
       "AllowedPattern" : "(^$|^20(1[7-9]|[2-9][0-9])(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$)",
       "ConstraintDescription" : "Must be a valid date in YYYYMMDD format."
     },
@@ -333,27 +333,24 @@
 
   "Mappings" : {
     "ImageIdMap" : {
-      "AMI"            : { "20170412" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.04.12",
-                           "20170510" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.05.10",
-                           "20170614" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.06.14",
-                           "20170713" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.07.13",
-                           "20170811" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.08.11",
-                           "20170913" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.09.13",
-                           "20171013" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2017.10.13" },
-      "us-east-1"      : { "20170412" : "ami-e659c7f0", "20170510" : "ami-271b6d31", "20170614" : "ami-e196b0f7", "20170713" : "ami-d79d92c1", "20170811" : "ami-c6e9d9bd", "20170913" : "ami-23d93c59", "20171013" : "ami-f6529b8c" },
-      "us-east-2"      : { "20170412" : "ami-b5785fd0", "20170510" : "ami-7fc4e31a", "20170614" : "ami-a4b395c1", "20170713" : "ami-ceaa8bab", "20170811" : "ami-5d99b938", "20170913" : "ami-f9e1c39c", "20171013" : "ami-80765ae5" },
-      "us-west-1"      : { "20170412" : "ami-ccf2d6ac", "20170510" : "ami-59a78139", "20170614" : "ami-b4614cd4", "20170713" : "ami-b31c32d3", "20170811" : "ami-c52d07a5", "20170913" : "ami-794a7c19", "20171013" : "ami-955c6ef5" },
-      "us-west-2"      : { "20170412" : "ami-2ad04f4a", "20170510" : "ami-3189ec51", "20170614" : "ami-8d0c07f4", "20170713" : "ami-3dcbd744", "20170811" : "ami-3c4ba944", "20170913" : "ami-9d9360e5", "20171013" : "ami-f318de8b" },
-      "ca-central-1"   : { "20170412" : "ami-53c37f37", "20170510" : "ami-687ec20c", "20170614" : "ami-00e95664", "20170713" : "ami-1b4bf47f", "20170811" : "ami-20b50b44", "20170913" : "ami-eccc7588", "20171013" : "ami-8bff47ef" },
-      "eu-west-1"      : { "20170412" : "ami-58a1a73e", "20170510" : "ami-96d4daf0", "20170614" : "ami-1e5d4378", "20170713" : "ami-7cb35e05", "20170811" : "ami-6dd02214", "20170913" : "ami-4a18db33", "20171013" : "ami-1ecc1e67" },
-      "eu-central-1"   : { "20170412" : "ami-8f6fb2e0", "20170510" : "ami-f9528c96", "20170614" : "ami-ad3e9ac2", "20170713" : "ami-f618bb99", "20170811" : "ami-8306afec", "20170913" : "ami-9500b7fa", "20171013" : "ami-e8843b87" },
-      "eu-west-2"      : { "20170412" : "ami-22feea46", "20170510" : "ami-07455263", "20170614" : "ami-ad5d4bc9", "20170713" : "ami-74819710", "20170811" : "ami-fc8e9f98", "20170913" : "ami-ab1e0dcf", "20171013" : "ami-4cbba928" },
-      "ap-southeast-1" : { "20170412" : "ami-a843fbcb", "20170510" : "ami-9e3bbefd", "20170614" : "ami-9ab230f9", "20170713" : "ami-435acd20", "20170811" : "ami-c87c19ab", "20170913" : "ami-440b7e27", "20171013" : "ami-0e13686d" },
-      "ap-southeast-2" : { "20170412" : "ami-72525a11", "20170510" : "ami-c4262ca7", "20170614" : "ami-f3203190", "20170713" : "ami-ab928fc8", "20170811" : "ami-46f1e925", "20170913" : "ami-ed33d48f", "20171013" : "ami-2013f142" },
-      "ap-northeast-2" : { "20170412" : "ami-06528068", "20170510" : "ami-50e13c3e", "20170614" : "ami-d38659bd", "20170713" : "ami-6514ca0b", "20170811" : "ami-098a5267", "20170913" : "ami-1c07dc72", "20171013" : "ami-82fe5bec" },
-      "ap-northeast-1" : { "20170412" : "ami-51c8e036", "20170510" : "ami-539aa834", "20170614" : "ami-354d4552", "20170713" : "ami-f5716b92", "20170811" : "ami-c229dfa4", "20170913" : "ami-ca5b99ac", "20171013" : "ami-4d34eb2b" },
-      "ap-south-1"     : { "20170412" : "ami-3d0e7c52", "20170510" : "ami-67047908", "20170614" : "ami-65b6c90a", "20170713" : "ami-e7afd688", "20170811" : "ami-82fe84ed", "20170913" : "ami-a4f3b4cb", "20171013" : "ami-27286b48" },
-      "sa-east-1"      : { "20170412" : "ami-64afc208", "20170510" : "ami-af6708c3", "20170614" : "ami-4f3f5423", "20170713" : "ami-a42c58c8", "20170811" : "ami-f0b4c59c", "20170913" : "ami-e9344985", "20171013" : "ami-5d512f31" }
+      "AMI"            : { "20180324" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.03.24",
+                           "20180411" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.04.11",
+                           "20180509" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.05.09" },
+      "us-east-1"      : { "20180324" : "ami-eb1ecd96", "20180411" : "ami-bf934bc0", "20180509" : "ami-2a9a1655" },
+      "us-east-2"      : { "20180324" : "ami-2f16274a", "20180411" : "ami-0a84b46f", "20180509" : "ami-ee112c8b" },
+      "us-west-1"      : { "20180324" : "ami-4e07112e", "20180411" : "ami-d0d0c3b0", "20180509" : "ami-63253b03" },
+      "us-west-2"      : { "20180324" : "ami-651f811d", "20180411" : "ami-10375468", "20180509" : "ami-bbd6a7c3" },
+      "ca-central-1"   : { "20180324" : "ami-56fd7b32", "20180411" : "ami-f234b296", "20180509" : "ami-4a97172e" },
+      "eu-west-1"      : { "20180324" : "ami-e9104190", "20180411" : "ami-768dd70f", "20180509" : "ami-4390a43a" },
+      "eu-central-1"   : { "20180324" : "ami-0bdc8fe0", "20180411" : "ami-ab520a40", "20180509" : "ami-3c0f22d7" },
+      "eu-west-2"      : { "20180324" : "ami-19688e7e", "20180411" : "ami-25d13142", "20180509" : "ami-e940a28e" },
+      "eu-west-3"      : { "20180324" : "ami-802492fd", "20180411" : "ami-bbfb4ac6", "20180509" : "ami-0c803171" },
+      "ap-southeast-1" : { "20180324" : "ami-169fc06a", "20180411" : "ami-49a78135", "20180509" : "ami-14a89d68" },
+      "ap-southeast-2" : { "20180324" : "ami-e68f4384", "20180411" : "ami-a762abc5", "20180509" : "ami-c971a6ab" },
+      "ap-northeast-2" : { "20180324" : "ami-dde34cb3", "20180411" : "ami-67da7409", "20180509" : "ami-4a1eb724" },
+      "ap-northeast-1" : { "20180324" : "ami-3badff5d", "20180411" : "ami-84dccef8", "20180509" : "ami-9be803e4" },
+      "ap-south-1"     : { "20180324" : "ami-d8b9e2b7", "20180411" : "ami-47b69228", "20180509" : "ami-2289aa4d" },
+      "sa-east-1"      : { "20180324" : "ami-6ed38702", "20180411" : "ami-2162334d", "20180509" : "ami-b9df82d5" }
     },
 
     "InstanceTypeMap" : {
