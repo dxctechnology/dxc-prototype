@@ -319,7 +319,7 @@ run "$environmentbindir/environment-create-networkacls-stack -E Production -m $i
 #      7.1. Create SantaBarbaraCustomerGateway Stack
 
 source $bindir/dxcp-define-unstable-production
-run "$commonbindir/common-create-customergateway-stack -E Core -G SantaBarbara -A 72.215.187.179 -m $i $f"
+run "$commonbindir/common-create-customergateway-stack -E Core -G SantaBarbara -A 98.185.226.44 -m $i $f"
 
 
 #  8. Create VPNConnections
