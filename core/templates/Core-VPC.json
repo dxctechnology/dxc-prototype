@@ -315,35 +315,6 @@
        }
     },
 
-    "S3Endpoint" : {
-      "Type" : "AWS::EC2::VPCEndpoint",
-      "Properties" : {
-        "VpcId" : { "Ref" : "VPC" },
-        "ServiceName" : { "Fn::Sub": "com.amazonaws.${AWS::Region}.s3" },
-        "RouteTableIds" : [
-          { "Ref" : "PublicRouteTable" },
-          { "Ref" : "PrivateRouteTableA" },
-          { "Ref" : "PrivateRouteTableB" }
-        ],
-        "PolicyDocument" : {
-          "Version" : "2012-10-17",
-          "Statement" : [{
-            "Sid" : "AmazonLinuxRepositoryAccess",
-            "Effect" : "Allow",
-            "Principal" : { "AWS" : "*" },
-            "Action" : [
-              "s3:GetObject"
-            ],
-            "Resource" : [
-              "arn:aws:s3:::packages.*.amazonaws.com/*",
-              "arn:aws:s3:::repo.*.amazonaws.com/*"
-            ]
-          }]
-        }
-      },
-      "DependsOn" : "PublicRouteTable",
-    },
-
     "PublicHostedZone" : {
       "Type" : "AWS::Route53::HostedZone",
       "Properties" : {
