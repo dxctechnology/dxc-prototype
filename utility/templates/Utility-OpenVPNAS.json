@@ -12,7 +12,7 @@
             "ActiveDirectoryStackName",
             "VPCStackName",
             "CustomIdentifierFunctionsStackName",
-            "StandardAMIFunctionsStackName",
+            "CustomAMIFunctionsStackName",
             "StandardBucketsStackName",
             "StandardTopicsStackName"
           ]
@@ -57,7 +57,7 @@
         "ActiveDirectoryStackName" : { "default" : "Active Directory Stack Name" },
         "VPCStackName" : { "default" : "VPC Stack Name" },
         "CustomIdentifierFunctionsStackName" : { "default" : "CustomIdentifierFunctions Stack Name" },
-        "StandardAMIFunctionsStackName" : { "default" : "StandardAMIFunctions Stack Name" },
+        "CustomAMIFunctionsStackName" : { "default" : "CustomAMIFunctions Stack Name" },
         "StandardBucketsStackName" : { "default" : "StandardBuckets Stack Name" },
         "StandardTopicsStackName" : { "default" : "StandardTopics Stack Name" },
         "KeyName" : { "default" : "Key Name" },
@@ -103,12 +103,12 @@
       "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters and dashes."
     },
 
-    "StandardAMIFunctionsStackName" : {
+    "CustomAMIFunctionsStackName" : {
       "Description" : "Name of the CloudFormation Stack containing the Standard AMI Functions",
       "Type" : "String",
       "MinLength" : 8,
       "MaxLength" : 64,
-      "Default" : "StandardAMIFunctions",
+      "Default" : "CustomAMIFunctions",
       "AllowedPattern" : "^[A-Z][-a-zA-Z0-9]*$",
       "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters and dashes."
     },
@@ -396,7 +396,7 @@
     "DomainControllerSecurityGroupIngress3389" : {
       "Type" : "AWS::EC2::SecurityGroupIngress",
       "Properties" : {
-        "GroupId" : { "Fn::ImportValue" : { "Fn::Sub" : "${ActiveDirectoryStackName}-DomainControllerSecurityGroup" }}, "IpProtocol" : "tcp", "FromPort" :  "3389", "ToPort" :  "3389", "SourceSecurityGroupId": { "Ref": "InstanceSecurityGroup" }
+        "GroupId" : { "Fn::ImportValue" : { "Fn::Sub" : "${ActiveDirectoryStackName}-DomainControllerSecurityGroup" }}, "IpProtocol" : "tcp", "FromPort" :  "3389", "ToPort" :  "3389", "SourceSecurityGroupId" : { "Ref" : "InstanceSecurityGroup" }
       },
       "Condition" : "ConfigureActiveDirectoryIntegration"
     },
@@ -406,7 +406,7 @@
       "Properties" : {
         "ServiceToken" : { "Fn::ImportValue" : { "Fn::Sub" : "${CustomIdentifierFunctionsStackName}-GetHostNameFunctionArn" }},
         "CompanyName" : { "Ref" : "CompanyName" },
-        "LocationName" : { "Ref": "AWS::Region" },
+        "LocationName" : { "Ref" : "AWS::Region" },
         "EnvironmentName" : { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPCName" }},
         "ApplicationName" : { "Ref" : "UtilityName" }
       }
