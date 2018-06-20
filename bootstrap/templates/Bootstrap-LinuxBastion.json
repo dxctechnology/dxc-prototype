@@ -165,7 +165,7 @@
     "OnSchedule" : {
       "Description" : "On Schedule in constrained Cron format (UTC)",
       "Type" : "String",
-      "Default" : "0 11 * * 1-5",
+      "Default" : "0 6 * * 1-5",
       "AllowedPattern" : "(^$|^0 ([5-9]|1[0-6]) \\* \\* 1-5$)",
       "ConstraintDescription" : "must follow constrained cron syntax: \"0 H * * 1-5\", where H = 5-16."
     },
@@ -173,7 +173,7 @@
     "OffSchedule" : {
       "Description" : "Off Schedule in constrained Cron format (UTC)",
       "Type" : "String",
-      "Default" : "0 4 * * *",
+      "Default" : "0 2 * * *",
       "AllowedPattern" : "(^$|^0 [0-7] \\* \\* \\*$)",
       "ConstraintDescription" : "must follow constrained cron syntax: \"0 H * * *\", where H = 0-7."
     },
@@ -188,21 +188,22 @@
 
   "Mappings" : {
     "ImageIdMap" : {
-      "AMI"            : { "AMZN" : "Amazon Linux 2016.09.1"},
-      "us-east-1"      : { "AMZN" : "ami-0b33d91d" },
-      "us-east-2"      : { "AMZN" : "ami-c55673a0" },
-      "us-west-1"      : { "AMZN" : "ami-165a0876" },
-      "us-west-2"      : { "AMZN" : "ami-f173cc91" },
-      "ca-central-1"   : { "AMZN" : "ami-ebed508f" },
-      "eu-west-1"      : { "AMZN" : "ami-70edb016" },
-      "eu-central-1"   : { "AMZN" : "ami-af0fc0c0" },
-      "eu-west-2"      : { "AMZN" : "ami-f1949e95" },
-      "ap-southeast-1" : { "AMZN" : "ami-dc9339bf" },
-      "ap-southeast-2" : { "AMZN" : "ami-1c47407f" },
-      "ap-northeast-2" : { "AMZN" : "ami-dac312b4" },
-      "ap-northeast-1" : { "AMZN" : "ami-56d4ad31" },
-      "ap-south-1"     : { "AMZN" : "ami-f9daac96" },
-      "sa-east-1"      : { "AMZN" : "ami-80086dec" }
+      "AMI"            : { "AMZN" : "Amazon Linux 2018.03.0.20180508-x86_64-gp2"},
+      "us-east-1"      : { "AMZN" : "ami-14c5486b" },
+      "us-east-2"      : { "AMZN" : "ami-922914f7" },
+      "us-west-1"      : { "AMZN" : "ami-25110f45" },
+      "us-west-2"      : { "AMZN" : "ami-e251209a" },
+      "ca-central-1"   : { "AMZN" : "ami-338a0a57" },
+      "eu-west-1"      : { "AMZN" : "ami-ca0135b3" },
+      "eu-central-1"   : { "AMZN" : "ami-9a91b371" },
+      "eu-west-2"      : { "AMZN" : "ami-a36f8dc4" },
+      "eu-west-3"      : { "AMZN" : "ami-969c2deb" },
+      "ap-southeast-1" : { "AMZN" : "ami-de90a5a2" },
+      "ap-southeast-2" : { "AMZN" : "ami-423bec20" },
+      "ap-northeast-2" : { "AMZN" : "ami-c10fa6af" },
+      "ap-northeast-1" : { "AMZN" : "ami-92df37ed" },
+      "ap-south-1"     : { "AMZN" : "ami-76d6f519" },
+      "sa-east-1"      : { "AMZN" : "ami-3885d854" }
     },
 
     "InstanceTypeMap" : {

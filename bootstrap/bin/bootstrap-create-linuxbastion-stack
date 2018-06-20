@@ -42,11 +42,11 @@ key=${AWS_KEY_NAME:-bootstrap}
 
 use_static_public_address=true
 use_static_home_volume=true
-log_retention=7
+log_retention=180
 log_alarm_email=mcrawford@dxc.com
 use_local_users=true
-on_schedule="0 11 * * 1-5" # 11:00 UTC = 3:00 AM PST = 6:00 AM EST, Mon-Fri
-off_schedule="0 4 * * *" # 4:00 UTC = 8:00 PM PST = 11:00 PM EST, Mon-Fri
+on_schedule="0 6 * * 1-5" # 6:00 UTC = 10:00 PM PDT = 1:00 AM PDT, Mon-Fri
+off_schedule="0 2 * * *" # 2:00 UTC = 6:00 PM PDT = 9:00 PM EDT, Mon-Fri
 
 
 #  2. Define functions
