@@ -7,8 +7,9 @@
     "UbuntuVersion" : {
       "Description" : "Ubuntu Version",
       "Type" : "String",
-      "Default" : "Ubuntu Server 14.04 LTS",
+      "Default" : "Ubuntu Server 16.04 LTS",
       "AllowedValues" : [
+        "Ubuntu Server 18.04 LTS",
         "Ubuntu Server 16.04 LTS",
         "Ubuntu Server 14.04 LTS",
         "Ubuntu Server 12.04 LTS"
@@ -19,7 +20,7 @@
     "UbuntuDate" : {
       "Description" : "Optional Ubuntu Date, specify to select a specific publication date for the Image",
       "Type" : "String",
-      "Default" : "20160406",
+      "Default" : "20171208",
       "AllowedPattern" : "(^$|^20(1[6-9]|[2-9][0-9])(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$)",
       "ConstraintDescription" : "Must be a valid date."
     }

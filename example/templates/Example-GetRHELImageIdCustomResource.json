@@ -10,6 +10,7 @@
       "Default" : "RHEL 7.3",
       "AllowedValues" : [
         "RHEL 7",
+        "RHEL 7.5",
         "RHEL 7.4",
         "RHEL 7.3",
         "RHEL 7.2",

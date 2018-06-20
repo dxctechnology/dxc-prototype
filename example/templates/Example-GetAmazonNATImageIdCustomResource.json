@@ -7,13 +7,14 @@
     "AmazonNATVersion" : {
       "Description" : "Amazon NAT Version",
       "Type" : "String",
-      "Default" : "Amazon NAT 2017.03.1",
+      "Default" : "Amazon NAT 2017.09.1",
       "AllowedValues" : [
         "Amazon NAT",
+        "Amazon NAT 2018.03.0",
         "Amazon NAT 2017.09.1",
+        "Amazon NAT 2017.09.0",
         "Amazon NAT 2017.03.1",
-        "Amazon NAT 2016.09.1",
-        "Amazon NAT 2016.03.1"
+        "Amazon NAT 2017.03.0"
       ],
       "ConstraintDescription" : "Must be a valid Amazon NAT version."
     },
@@ -21,7 +22,7 @@
     "AmazonNATDate" : {
       "Description" : "Optional Amazon NAT Date, specify to select a specific publication date for the Image",
       "Type" : "String",
-      "Default" : "20170623",
+      "Default" : "20180115",
       "AllowedPattern" : "(^$|^20(1[6-9]|[2-9][0-9])(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$)",
       "ConstraintDescription" : "Must be a valid date."
     }

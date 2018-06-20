@@ -60,6 +60,10 @@
           "ZipFile" : { "Fn::Join" : [ "\n", [
             "var osNameToFilter = {",
             "  'Amazon Linux'           : 'amzn-ami-hvm-????.??.?.',",
+            "  'Amazon Linux 2018.03.0' : 'amzn-ami-hvm-2018.03.0.',",
+            "  'Amazon Linux 2017.09.1' : 'amzn-ami-hvm-2017.09.1.',",
+            "  'Amazon Linux 2017.09.0' : 'amzn-ami-hvm-2017.09.0.',",
+            "  'Amazon Linux 2017.03.1' : 'amzn-ami-hvm-2017.03.1.',",
             "  'Amazon Linux 2017.03.0' : 'amzn-ami-hvm-2017.03.0.',",
             "  'Amazon Linux 2016.09.1' : 'amzn-ami-hvm-2016.09.1.',",
             "  'Amazon Linux 2016.09.0' : 'amzn-ami-hvm-2016.09.0.'",
@@ -231,6 +235,7 @@
           "ZipFile" :  { "Fn::Join" : [ "\n", [
             "var osNameToFilter = {",
             "  'RHEL 7'    : 'RHEL-7.*_HVM_GA-',",
+            "  'RHEL 7.5'  : 'RHEL-7.5_HVM_GA-',",
             "  'RHEL 7.4'  : 'RHEL-7.4_HVM_GA-',",
             "  'RHEL 7.3'  : 'RHEL-7.3_HVM_GA-',",
             "  'RHEL 7.2'  : 'RHEL-7.2_HVM-',",
@@ -318,6 +323,7 @@
         "Code" : {
           "ZipFile" :  { "Fn::Join" : [ "\n", [
             "var osNameToFilter = {",
+            "  'Ubuntu Server 18.04 LTS' : 'ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-',",
             "  'Ubuntu Server 16.04 LTS' : 'ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-',",
             "  'Ubuntu Server 14.04 LTS' : 'ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-',",
             "  'Ubuntu Server 12.04 LTS' : 'ubuntu/images/hvm-ssd/ubuntu-precise-12.04-amd64-server-'",
@@ -339,7 +345,7 @@
             "  var osDate;",
             "  var osNameFilter;",
             "",
-            "  osName = (event.ResourceProperties.OSName) ? event.ResourceProperties.OSName : 'Ubuntu Server 16.04 LTS';",
+            "  osName = (event.ResourceProperties.OSName) ? event.ResourceProperties.OSName : 'Ubuntu Server 18.04 LTS';",
             "",
             "  osNameFilter = osNameToFilter[osName];",
             "  if (osNameFilter === undefined) {",
@@ -399,10 +405,11 @@
           "ZipFile" : { "Fn::Join" : [ "\n", [
             "var osNameToFilter = {",
             "  'Amazon NAT'           : 'amzn-ami-vpc-nat-hvm-????.??.?.',",
+            "  'Amazon NAT 2018.03.0' : 'amzn-ami-vpc-nat-hvm-2018.03.0.',",
             "  'Amazon NAT 2017.09.1' : 'amzn-ami-vpc-nat-hvm-2017.09.1.',",
+            "  'Amazon NAT 2017.09.0' : 'amzn-ami-vpc-nat-hvm-2017.09.0.',",
             "  'Amazon NAT 2017.03.1' : 'amzn-ami-vpc-nat-hvm-2017.03.1.',",
-            "  'Amazon NAT 2016.09.1' : 'amzn-ami-vpc-nat-hvm-2016.09.1.',",
-            "  'Amazon NAT 2016.03.1' : 'amzn-ami-vpc-nat-hvm-2016.03.1.'",
+            "  'Amazon NAT 2017.03.0' : 'amzn-ami-vpc-nat-hvm-2017.03.0.'",
             "};",
             "",
             "var response = require('cfn-response');",
