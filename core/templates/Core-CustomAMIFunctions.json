@@ -445,10 +445,11 @@
         "Code" : {
           "ZipFile" : { "Fn::Join" : [ "\n", [
             "var licenseToUUID = {",
-            "  'OpenVPNAS2'  : 'fe8020db-5343-4c43-9e65-5ed4a825c931',",
-            "  'OpenVPNAS10' : '8fbe3379-63b6-43e8-87bd-0e93fd7be8f3',",
-            "  'OpenVPNAS25' : '23223b90-d61f-472a-b732-f2b98e6fa3fb',",
-            "  'OpenVPNAS50' : 'bbff26cd-b407-44a2-a7ef-70b8971391f1'",
+            "  'OpenVPNAS2'   : 'fe8020db-5343-4c43-9e65-5ed4a825c931',",
+            "  'OpenVPNAS10'  : '8fbe3379-63b6-43e8-87bd-0e93fd7be8f3',",
+            "  'OpenVPNAS25'  : '23223b90-d61f-472a-b732-f2b98e6fa3fb',",
+            "  'OpenVPNAS50'  : 'bbff26cd-b407-44a2-a7ef-70b8971391f1'",
+            "  'OpenVPNAS100' : '7091ef09-bad5-4f1d-9596-0ddf93d97793'",
             "};",
             "",
             "var response = require('cfn-response');",

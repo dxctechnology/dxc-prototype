@@ -8,14 +8,14 @@
       "Description" : "OpenVPN Access Server License. Used to select the OpenVPN Access Server AMI, which limits the number of Users",
       "Type" : "String",
       "Default" : "OpenVPNAS10",
-      "AllowedValues" : [ "OpenVPNAS2", "OpenVPNAS10", "OpenVPNAS25", "OpenVPNAS50" ],
-      "ConstraintDescription" : "must be OpenVPNAS2, OpenVPNAS10, OpenVPNAS25 or OpenVPNAS50."
+      "AllowedValues" : [ "OpenVPNAS2", "OpenVPNAS10", "OpenVPNAS25", "OpenVPNAS50", "OpenVPNAS100" ],
+      "ConstraintDescription" : "must be OpenVPNAS2, OpenVPNAS10, OpenVPNAS25, OpenVPNAS50 or OpenVPNAS100."
     },
 
     "Version" : {
       "Description" : "OpenVPN Access Server Version. Used to select a prior OpenVPN Access Server version if non-blank",
       "Type" : "String",
-      "Default" : "2.1.4",
+      "Default" : "2.1.9",
       "AllowedPattern" : "(^$|^[2-9]\\.[0-9]\\.[0-9]$)",
       "ConstraintDescription" : "must be a version of the form x.y.z."
     }
