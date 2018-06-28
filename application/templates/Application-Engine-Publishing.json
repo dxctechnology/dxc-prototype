@@ -530,24 +530,23 @@
 
   "Mappings" : {
     "ImageIdMap" : {
-      "AMI"            : { "20180324" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.03.24",
-                           "20180411" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.04.11",
-                           "20180509" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.05.09" },
-      "us-east-1"      : { "20180324" : "ami-eb1ecd96", "20180411" : "ami-bf934bc0", "20180509" : "ami-2a9a1655" },
-      "us-east-2"      : { "20180324" : "ami-2f16274a", "20180411" : "ami-0a84b46f", "20180509" : "ami-ee112c8b" },
-      "us-west-1"      : { "20180324" : "ami-4e07112e", "20180411" : "ami-d0d0c3b0", "20180509" : "ami-63253b03" },
-      "us-west-2"      : { "20180324" : "ami-651f811d", "20180411" : "ami-10375468", "20180509" : "ami-bbd6a7c3" },
-      "ca-central-1"   : { "20180324" : "ami-56fd7b32", "20180411" : "ami-f234b296", "20180509" : "ami-4a97172e" },
-      "eu-west-1"      : { "20180324" : "ami-e9104190", "20180411" : "ami-768dd70f", "20180509" : "ami-4390a43a" },
-      "eu-central-1"   : { "20180324" : "ami-0bdc8fe0", "20180411" : "ami-ab520a40", "20180509" : "ami-3c0f22d7" },
-      "eu-west-2"      : { "20180324" : "ami-19688e7e", "20180411" : "ami-25d13142", "20180509" : "ami-e940a28e" },
-      "eu-west-3"      : { "20180324" : "ami-802492fd", "20180411" : "ami-bbfb4ac6", "20180509" : "ami-0c803171" },
-      "ap-southeast-1" : { "20180324" : "ami-169fc06a", "20180411" : "ami-49a78135", "20180509" : "ami-14a89d68" },
-      "ap-southeast-2" : { "20180324" : "ami-e68f4384", "20180411" : "ami-a762abc5", "20180509" : "ami-c971a6ab" },
-      "ap-northeast-2" : { "20180324" : "ami-dde34cb3", "20180411" : "ami-67da7409", "20180509" : "ami-4a1eb724" },
-      "ap-northeast-1" : { "20180324" : "ami-3badff5d", "20180411" : "ami-84dccef8", "20180509" : "ami-9be803e4" },
-      "ap-south-1"     : { "20180324" : "ami-d8b9e2b7", "20180411" : "ami-47b69228", "20180509" : "ami-2289aa4d" },
-      "sa-east-1"      : { "20180324" : "ami-6ed38702", "20180411" : "ami-2162334d", "20180509" : "ami-b9df82d5" }
+      "AMI"            : { "20180509" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.05.09",
+                           "20180613" : "Windows_Server-2012-R2_RTM-English-64Bit-Base-2018.06.13" },
+      "us-east-1"      : { "20180509" : "ami-2a9a1655", "20180613" : "ami-b8f3b5c7" },
+      "us-east-2"      : { "20180509" : "ami-ee112c8b", "20180613" : "ami-da003ebf" },
+      "us-west-1"      : { "20180509" : "ami-63253b03", "20180613" : "ami-832acee0" },
+      "us-west-2"      : { "20180509" : "ami-bbd6a7c3", "20180613" : "ami-aeffbcd6" },
+      "ca-central-1"   : { "20180509" : "ami-4a97172e", "20180613" : "ami-800685e4" },
+      "eu-west-1"      : { "20180509" : "ami-4390a43a", "20180613" : "ami-3e7a7647" },
+      "eu-central-1"   : { "20180509" : "ami-3c0f22d7", "20180613" : "ami-e8093a03" },
+      "eu-west-2"      : { "20180509" : "ami-e940a28e", "20180613" : "ami-629a7405" },
+      "eu-west-3"      : { "20180509" : "ami-0c803171", "20180613" : "ami-c911a0b4" },
+      "ap-southeast-1" : { "20180509" : "ami-14a89d68", "20180613" : "ami-de2a2da2" },
+      "ap-southeast-2" : { "20180509" : "ami-c971a6ab", "20180613" : "ami-75f32c17" },
+      "ap-northeast-2" : { "20180509" : "ami-4a1eb724", "20180613" : "ami-2968c247" },
+      "ap-northeast-1" : { "20180509" : "ami-9be803e4", "20180613" : "ami-4e0cc331" },
+      "ap-south-1"     : { "20180509" : "ami-2289aa4d", "20180613" : "ami-e795bd88" },
+      "sa-east-1"      : { "20180509" : "ami-b9df82d5", "20180613" : "ami-5c6e3530" }
     },
 
     "InstanceTypeMap" : {
