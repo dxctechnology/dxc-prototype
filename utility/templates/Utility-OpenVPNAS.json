@@ -41,6 +41,7 @@
           "Parameters" : [
             "UtilityName",
             "UtilityDomain",
+            "UtilityVersion",
             "UtilityLicense"
           ]
         },
@@ -66,6 +67,7 @@
         "EnvironmentType" : { "default" : "Environment Type" },
         "UtilityName" : { "default" : "Utility Name" },
         "UtilityDomain" : { "default" : "Utility Domain" },
+        "UtilityVersion" : { "default" : "Utility Version" },
         "UtilityLicense" : { "default" : "Utility License" },
         "UserNetworks" : { "default" : "User Networks" },
         "AdministratorNetworks" : { "default" : "Administrator Networks" },
@@ -189,12 +191,20 @@
       "ConstraintDescription" : "must begin with a lower case letter and contain only lower case letters, numbers and dashes."
     },
 
+    "UtilityVersion" : {
+      "Description" : "OpenVPN Access Server Version. Used to select a specific OpenVPN Access Server version if non-blank",
+      "Type" : "String",
+      "Default" : "",
+      "AllowedPattern" : "(^$|^[2-9]\\.[0-9]\\.[0-9]$)",
+      "ConstraintDescription" : "must be a version of the form x.y.z."
+    },
+
     "UtilityLicense" : {
       "Description" : "OpenVPN Access Server License. Used to select the OpenVPN Access Server AMI, which limits the number of Users",
       "Type" : "String",
       "Default" : "OpenVPNAS2",
-      "AllowedValues" : [ "OpenVPNAS2", "OpenVPNAS10", "OpenVPNAS25", "OpenVPNAS50" ],
-      "ConstraintDescription" : "must be OpenVPNAS2, OpenVPNAS10, OpenVPNAS25 or OpenVPNAS50."
+      "AllowedValues" : [ "OpenVPNAS2", "OpenVPNAS10", "OpenVPNAS25", "OpenVPNAS50", "OpenVPNAS100" ],
+      "ConstraintDescription" : "must be OpenVPNAS2, OpenVPNAS10, OpenVPNAS25, OpenVPNAS50 or OpenVPNAS100."
     },
 
     "UserNetworks" : {
@@ -213,29 +223,6 @@
   },
 
   "Mappings" : {
-    "ImageIdMap" : {
-      "AMI"            : { "OpenVPNAS2"   : "OpenVPN 2.5.0 Appliance (2 users)",
-                           "OpenVPNAS10"  : "OpenVPN 2.5.0 Appliance (10 users)",
-                           "OpenVPNAS25"  : "OpenVPN 2.5.0 Appliance (25 users)",
-                           "OpenVPNAS50"  : "OpenVPN 2.5.0 Appliance (50 users)",
-                           "OpenVPNAS100" : "OpenVPN 2.5.0 Appliance (100 users)" },
-      "us-east-1"      : { "OpenVPNAS2"   : "ami-1b9c4966", "OpenVPNAS10" : "ami-f575bf88", "OpenVPNAS25" : "ami-397eb444", "OpenVPNAS50" : "ami-169e4b6b", "OpenVPNAS100" : "ami-1474be69" },
-      "us-east-2"      : { "OpenVPNAS2"   : "ami-c9e8f725", "OpenVPNAS10" : "ami-cce8f720", "OpenVPNAS25" : "ami-3866575d", "OpenVPNAS50" : "ami-52685937", "OpenVPNAS100" : "ami-5b69583e" },
-      "us-west-1"      : { "OpenVPNAS2"   : "ami-7b2e391b", "OpenVPNAS10" : "ami-442f3824", "OpenVPNAS25" : "ami-76213616", "OpenVPNAS50" : "ami-73203713", "OpenVPNAS100" : "ami-d12f38b1" },
-      "us-west-2"      : { "OpenVPNAS2"   : "ami-ffd74b87", "OpenVPNAS10" : "ami-5fd34f27", "OpenVPNAS25" : "ami-bad14dc2", "OpenVPNAS50" : "ami-9ed549e6", "OpenVPNAS100" : "ami-98d04ce0" },
-      "ca-central-1"   : { "OpenVPNAS2"   : "ami-d4d650b0", "OpenVPNAS10" : "ami-74d65010", "OpenVPNAS25" : "ami-a9d553cd", "OpenVPNAS50" : "ami-5dd25439", "OpenVPNAS100" : "ami-ced751aa" },
-      "eu-central-1"   : { "OpenVPNAS2"   : "ami-1c3767f7", "OpenVPNAS10" : "ami-9c376777", "OpenVPNAS25" : "ami-7e376795", "OpenVPNAS50" : "ami-203565cb", "OpenVPNAS100" : "ami-0f3565e4" },
-      "eu-west-1"      : { "OpenVPNAS2"   : "ami-ebdc8992", "OpenVPNAS10" : "ami-3ed28747", "OpenVPNAS25" : "ami-7fd38606", "OpenVPNAS50" : "ami-c7df8abe", "OpenVPNAS100" : "ami-b4d386cd" },
-      "eu-west-2"      : { "OpenVPNAS2"   : "ami-cfc92fa8", "OpenVPNAS10" : "ami-e9c82e8e", "OpenVPNAS25" : "ami-4ccb2d2b", "OpenVPNAS50" : "ami-56c82e31", "OpenVPNAS100" : "ami-fac92f9d" },
-      "eu-west-3"      : { "OpenVPNAS2"   : "ami-b63583cb", "OpenVPNAS10" : "ami-db3781a6", "OpenVPNAS25" : "ami-8c3781f1", "OpenVPNAS50" : "ami-fa358387", "OpenVPNAS100" : "ami-49348234" },
-      "ap-southeast-1" : { "OpenVPNAS2"   : "ami-10277a6c", "OpenVPNAS10" : "ami-1724796b", "OpenVPNAS25" : "ami-d32479af", "OpenVPNAS50" : "ami-2e247952", "OpenVPNAS100" : "ami-bf2a77c3" },
-      "ap-southeast-2" : { "OpenVPNAS2"   : "ami-7777b515", "OpenVPNAS10" : "ami-dc77b5be", "OpenVPNAS25" : "ami-7174b613", "OpenVPNAS50" : "ami-3077b552", "OpenVPNAS100" : "ami-b670b2d4" },
-      "ap-northeast-2" : { "OpenVPNAS2"   : "ami-f52b879b", "OpenVPNAS10" : "ami-c52985ab", "OpenVPNAS25" : "ami-0a248864", "OpenVPNAS50" : "ami-16248878", "OpenVPNAS100" : "ami-ea2b8784" },
-      "ap-northeast-1" : { "OpenVPNAS2"   : "ami-bf5203d9", "OpenVPNAS10" : "ami-db5504bd", "OpenVPNAS25" : "ami-845203e2", "OpenVPNAS50" : "ami-63510005", "OpenVPNAS100" : "ami-17520371" },
-      "ap-south-1"     : { "OpenVPNAS2"   : "ami-c4f8a0ab", "OpenVPNAS10" : "ami-abc49cc4", "OpenVPNAS25" : "ami-e2c79f8d", "OpenVPNAS50" : "ami-e6c69e89", "OpenVPNAS100" : "ami-f4c69e9b" },
-      "sa-east-1"      : { "OpenVPNAS2"   : "ami-e036628c", "OpenVPNAS10" : "ami-68356104", "OpenVPNAS25" : "ami-300a5e5c", "OpenVPNAS50" : "ami-2135614d", "OpenVPNAS100" : "ami-0c356160" }
-    },
-
     "InstanceTypeMap" : {
       "OpenVPNAS" : { "micro" : "t2.micro", "small" : "t2.small", "medium" : "t2.medium", "large" : "c4.large", "xlarge" : "c4.xlarge" }
     }
@@ -412,10 +399,20 @@
       }
     },
 
+    "GetOpenVPNASImageId" : {
+      "Type" : "Custom::GetOpenVPNASImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::ImportValue" : { "Fn::Sub" : "${CustomAMIFunctionsStackName}-GetOpenVPNASImageIdFunctionArn" }},
+        "Region" : { "Ref" : "AWS::Region" },
+        "License" : { "Ref" : "UtilityLicense" },
+        "Version" : { "Ref" : "UtilityVersion" }
+      }
+    },
+
     "Instance" : {
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
-        "ImageId" : { "Fn::FindInMap" : [ "ImageIdMap", { "Ref" : "AWS::Region" } , { "Ref" : "UtilityLicense" }]},
+        "ImageId" : { "Fn::GetAtt" : [ "GetOpenVPNASImageId", "ImageId" ]},
         "InstanceType" : { "Fn::FindInMap" : [ "InstanceTypeMap", "OpenVPNAS", { "Ref" : "EnvironmentType" }]},
         "KeyName" : { "Fn::If" : [ "ConfigureKey", { "Ref" : "KeyName" }, { "Ref" : "AWS::NoValue" }]},
         "NetworkInterfaces" : [{
