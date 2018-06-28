@@ -173,7 +173,7 @@
       "Description" : "ID of an existing SecurityGroup which controls access to the Instances",
       "Type" : "AWS::EC2::SecurityGroup::Id",
       "MaxLength" : 32,
-      "AllowedPattern" : "^sg-[0-9a-f]{8}$",
+      "AllowedPattern" : "^sg-[0-9a-f]{17}$",
       "ConstraintDescription" : "must be the name of an existing SecurityGroup."
     },
 
@@ -217,8 +217,8 @@
       "Description" : "The Operating System to use for Instances",
       "Type" : "String",
       "Default" : "Amazon Linux",
-      "AllowedValues" : [ "Amazon Linux", "Amazon Linux 2017.03.0", "Amazon Linux 2016.09.1", "Amazon Linux 2016.09.0", "RHEL 7", "RHEL 7.4", "RHEL 7.3" ],
-      "ConstraintDescription" : "must be \"Amazon Linux\" (latest), \"Amazon Linux 2017.03.0\", \"Amazon Linux 2016.09.1\", \"Amazon Linux 2016.09.0\", \"RHEL 7\" (latest), \"RHEL 7.4\" or \"RHEL 7.3\"."
+      "AllowedValues" : [ "Amazon Linux", "Amazon Linux 2018.03.0", "Amazon Linux 2017.09.1", "Amazon Linux 2017.09.0", "Amazon Linux 2017.03.1", "Amazon Linux 2017.03.0", "RHEL 7", "RHEL 7.5", "RHEL 7.4" ],
+      "ConstraintDescription" : "must be \"Amazon Linux\" (latest), \"Amazon Linux 2018.03.0\", \"Amazon Linux 2017.09.1\", \"Amazon Linux 2017.09.0\", \"Amazon Linux 2017.03.1\", \"Amazon Linux 2017.03.0\", \"RHEL 7\" (latest), \"RHEL 7.5\" or \"RHEL 7.4\"."
     },
 
     "SharedScriptFolder" : {
@@ -310,7 +310,7 @@
     "NormalSchedule" : {
       "Description" : "Normal Schedule in constrained Cron format (UTC) (blank disables Normal Schedule)",
       "Type" : "String",
-      "Default" : "0 11 * * 1-5",
+      "Default" : "0 6 * * 1-5",
       "AllowedPattern" : "(^$|^0 ([5-9]|1[0-6]) \\* \\* 1-5$)",
       "ConstraintDescription" : "must follow constrained cron syntax: \"0 H * * 1-5\", where H = 5-16."
     },
@@ -318,7 +318,7 @@
     "ReducedSchedule" : {
       "Description" : "Off Schedule in constrained Cron format (UTC) (blank disables Reduced Schedule)",
       "Type" : "String",
-      "Default" : "0 4 * * *",
+      "Default" : "0 2 * * *",
       "AllowedPattern" : "(^$|0 [0-7] \\* \\* \\*$)",
       "ConstraintDescription" : "must follow constrained cron syntax: \"0 H * * *\", where H = 0-7."
     }

@@ -223,35 +223,35 @@ if [ -z $environment ]; then
 else
     case $environment in
       Production)
-        os_name="RHEL 7.4"
+        os_name="RHEL 7.5"
         log_retention=30
-        normal_schedule=""    # 11:00 UTC = 3:00 AM PST = 6:00 AM EST, Mon-Fri
-        reduced_schedule="";; # 4:00 UTC = 8:00 PM PST = 11:00 PM EST, Mon-Fri
+        normal_schedule=""    #  6:00 UTC = 10:00 PM PDT =  1:00 AM EDT, Mon-Fri
+        reduced_schedule="";; #  2:00 UTC =  6:00 PM PDT =  9:00 PM EDT, Mon-Fri
       Staging)
-        os_name="Amazon Linux 2017.03.0"
+        os_name="Amazon Linux 2017.09.1"
         log_retention=7
-        normal_schedule="0 11 * * 1-5" # 11:00 UTC = 3:00 AM PST = 6:00 AM EST, Mon-Fri
-        reduced_schedule="0 4 * * *";; # 4:00 UTC = 8:00 PM PST = 11:00 PM EST, Mon-Fri
+        normal_schedule="0 6 * * 1-5"  #  6:00 UTC = 10:00 PM PDT =  1:00 AM EDT, Mon-Fri
+        reduced_schedule="0 2 * * *";; #  2:00 UTC =  6:00 PM PDT =  9:00 PM EDT, Mon-Fri
       Testing)
         os_name="Amazon Linux"
         log_retention=0
-        normal_schedule="0 13 * * 1-5" # 13:00 UTC = 5:00 AM PST = 8:00 AM EST, Mon-Fri
-        reduced_schedule="0 2 * * *";; # 2:00 UTC = 6:00 PM PST = 9:00 PM EST, Mon-Fri
+        normal_schedule="0 7 * * 1-5"  #  7:00 UTC = 11:00 PM PDT =  2:00 AM EDT, Mon-Fri
+        reduced_schedule="0 2 * * *";; #  2:00 UTC =  6:00 PM PDT =  9:00 PM EDT, Mon-Fri
       Development)
         os_name="Amazon Linux"
         log_retention=0
-        normal_schedule="0 13 * * 1-5" # 13:00 UTC = 5:00 AM PST = 8:00 AM EST, Mon-Fri
-        reduced_schedule="0 2 * * *";; # 2:00 UTC = 6:00 PM PST = 9:00 PM EST, Mon-Fri
+        normal_schedule="0 7 * * 1-5"  #  7:00 UTC = 11:00 PM PDT =  2:00 AM EDT, Mon-Fri
+        reduced_schedule="0 2 * * *";; #  2:00 UTC =  6:00 PM PDT =  9:00 PM EDT, Mon-Fri
       Core)
         os_name="Amazon Linux"
         log_retention=14
-        normal_schedule=""    # 13:00 UTC = 5:00 AM PST = 8:00 AM EST, Mon-Fri
-        reduced_schedule="";; # 2:00 UTC = 6:00 PM PST = 9:00 PM EST, Mon-Fri
+        normal_schedule="0 7 * * 1-5"  #  7:00 UTC = 11:00 PM PDT =  2:00 AM EDT, Mon-Fri
+        reduced_schedule="0 2 * * *";; #  2:00 UTC =  6:00 PM PDT =  9:00 PM EDT, Mon-Fri
       Build)
         os_name="Amazon Linux"
         log_retention=0
-        normal_schedule="0 13 * * 1-5" # 13:00 UTC = 5:00 AM PST = 8:00 AM EST, Mon-Fri
-        reduced_schedule="0 2 * * *";; # 2:00 UTC = 6:00 PM PST = 9:00 PM EST, Mon-Fri
+        normal_schedule="0 7 * * 1-5"  #  7:00 UTC = 11:00 PM PDT =  2:00 AM EDT, Mon-Fri
+        reduced_schedule="0 2 * * *";; #  2:00 UTC =  6:00 PM PDT =  9:00 PM EDT, Mon-Fri
       *)
         echo "-E $environment invalid! Must be Production, Staging, Testing, Development, Core or Build"
         exit 21;;
