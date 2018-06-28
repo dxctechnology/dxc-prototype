@@ -95,7 +95,7 @@
       "Type" : "AWS::Route53::RecordSet",
       "Properties" : {
         "HostedZoneId" : { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-PublicHostedZone" }},
-        "Comment" : { "Fn::Sub" : "Public DNS HostName for ${ApplicationName} Instance." },
+        "Comment" : { "Fn::Join" : [ "", [ "Public DNS HostName for ", { "Ref" : "ApplicationName" }, " Instance" ]]},
         "Name" : { "Fn::Sub" : "${InstanceHostName}." },
         "Type" : "A",
         "TTL" : "900",
@@ -107,7 +107,7 @@
       "Type" : "AWS::Route53::RecordSet",
       "Properties" : {
         "HostedZoneId" : { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-PublicHostedZone" }},
-        "Comment" : { "Fn::Sub" : "Public DNS ServiceName for ${ApplicationName}." },
+        "Comment" : { "Fn::Join" : [ "", [ "Public DNS ServiceName for ", { "Ref" : "ApplicationName" } ]]},
         "Name" : { "Fn::Join" : [ "", [ { "Ref" : "ApplicationDomain" }, ".", { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPCPublicDomain" }}, "." ]]},
         "Type" : "CNAME",
         "TTL" : "900",

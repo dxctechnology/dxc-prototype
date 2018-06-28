@@ -155,7 +155,7 @@
       "Description" : "ID of an existing SecurityGroup which controls access to the Instance",
       "Type" : "AWS::EC2::SecurityGroup::Id",
       "MaxLength" : 32,
-      "AllowedPattern" : "^sg-[0-9a-f]{8}$",
+      "AllowedPattern" : "^sg-[0-9a-f]{17}$",
       "ConstraintDescription" : "must be the name of an existing SecurityGroup."
     },
 
@@ -191,8 +191,8 @@
       "Description" : "The Operating System to use for Instances",
       "Type" : "String",
       "Default" : "Amazon Linux",
-      "AllowedValues" : [ "Amazon Linux", "Amazon Linux 2017.03.0", "Amazon Linux 2016.09.1", "Amazon Linux 2016.09.0", "RHEL 7", "RHEL 7.4", "RHEL 7.3" ],
-      "ConstraintDescription" : "must be \"Amazon Linux\" (latest), \"Amazon Linux 2017.03.0\", \"Amazon Linux 2016.09.1\", \"Amazon Linux 2016.09.0\", \"RHEL 7\" (latest), \"RHEL 7.4\" or \"RHEL 7.3\"."
+      "AllowedValues" : [ "Amazon Linux", "Amazon Linux 2018.03.0", "Amazon Linux 2017.09.1", "Amazon Linux 2017.09.0", "Amazon Linux 2017.03.1", "Amazon Linux 2017.03.0", "RHEL 7", "RHEL 7.5", "RHEL 7.4" ],
+      "ConstraintDescription" : "must be \"Amazon Linux\" (latest), \"Amazon Linux 2018.03.0\", \"Amazon Linux 2017.09.1\", \"Amazon Linux 2017.09.0\", \"Amazon Linux 2017.03.1\", \"Amazon Linux 2017.03.0\", \"RHEL 7\" (latest), \"RHEL 7.5\" or \"RHEL 7.4\"."
     },
 
     "SharedScriptFolder" : {
@@ -757,8 +757,23 @@
       },
       "CreationPolicy" : {
         "ResourceSignal" : {
-          "Timeout" : { "Fn::If" : [ "ConfigureAMZN", "PT5M", "PT10M" ]}
+          "Timeout" : { "Fn::If" : [ "ConfigureAMZN", "PT5M", "PT15M" ]}
         }
+      }
+    },
+
+    "EIP" : {
+      "Type" : "AWS::EC2::EIP",
+      "Properties" : {
+        "Domain" : "vpc"
+      }
+    },
+
+    "EIPAssociation" : {
+      "Type" : "AWS::EC2::EIPAssociation",
+      "Properties" : {
+        "AllocationId" : { "Fn::GetAtt" : [ "EIP", "AllocationId" ]},
+        "InstanceId" : { "Ref" : "Instance" }
       }
     }
   },
@@ -776,7 +791,7 @@
 
     "InstancePublicIp" : {
       "Description" : "The Instance PublicIp",
-      "Value" : { "Fn::GetAtt" : [ "Instance", "PublicIp" ]}
+      "Value" : { "Ref" : "EIP" }
     }
   }
 }
