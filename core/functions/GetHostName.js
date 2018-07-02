@@ -86,6 +86,8 @@ var applicationNameToCode = {
   'PAX'                     : 'pax',
   'SiteScope'               : 'ss',
   'Octopus'                 : 'oct',
+  'RiskMasterAccelerator'   : 'rma',
+  'LegalSolutionsSuite'     : 'lss',
   'LinuxWebServer'          : 'lws',
   'LinuxWebServers'         : 'mlws',
   'NestedLinuxWebServer'    : 'nlws',

@@ -1,0 +1,97 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "Example-GetCISAmazonLinuxImageIdCustomResource Template. This demonstrates how to dynamically get the most recent Center for Internet Security Amazon Linux ImageId, given the Version and Region.",
+
+  "Parameters" : {
+    "AmazonLinuxVersion" : {
+      "Description" : "Amazon Linux Version",
+      "Type" : "String",
+      "Default" : "Amazon Linux",
+      "AllowedValues" : [
+        "Amazon Linux"
+      ],
+      "ConstraintDescription" : "Must be a valid Amazon Linux version."
+    },
+
+    "CISBenchmark" : {
+      "Description" : "Optional CIS Benchmark, specify to select a specific benchmark for the Image",
+      "Type" : "String",
+      "Default" : "2.0.0.1",
+      "AllowedPattern" : "(^$|^[0-9]\\.[0-9]\\.[0-9]\\.[0-9]$)",
+      "ConstraintDescription" : "Must be a valid benchmark of the form x.x.x.x."
+    },
+
+    "CISLevel" : {
+      "Description" : "Optional CIS Level, specify to select a specific level for the Image",
+      "Type" : "String",
+      "Default" : "1",
+      "AllowedValues" : [ "", "1", "2" ],
+      "ConstraintDescription" : "Must be blank, 1 or 2."
+    }
+  },
+
+  "Resources" : {
+    "GetLatestCISAmazonLinuxImageId" : {
+      "Type" : "Custom::GetCISAmazonLinuxImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISAmazonLinuxImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    },
+
+    "GetLatestVersionedCISAmazonLinuxImageId" : {
+      "Type" : "Custom::GetCISAmazonLinuxImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISAmazonLinuxImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "OSName" : { "Ref" : "AmazonLinuxVersion" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    },
+
+    "GetSpecificVersionedCISAmazonLinuxImageId" : {
+      "Type" : "Custom::GetCISAmazonLinuxImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISAmazonLinuxImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "OSName" : { "Ref" : "AmazonLinuxVersion" },
+        "CISBenchmark" : { "Ref" : "CISBenchmark" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    }
+  },
+
+  "Outputs" : {
+    "LatestImageId" : {
+      "Description" : "The Latest ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestCISAmazonLinuxImageId", "ImageId" ]}
+    },
+
+    "LatestName" : {
+      "Description" : "The Latest Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestCISAmazonLinuxImageId", "Name" ]}
+    },
+
+    "LatestVersionedImageId" : {
+      "Description" : "The Latest Versioned ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestVersionedCISAmazonLinuxImageId", "ImageId" ]}
+    },
+
+    "LatestVersionedName" : {
+      "Description" : "The Latest Versioned Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestVersionedCISAmazonLinuxImageId", "Name" ]}
+    },
+
+    "SpecificVersionedImageId" : {
+      "Description" : "The Specific Versioned ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificVersionedCISAmazonLinuxImageId", "ImageId" ]}
+    },
+
+    "SpecificVersionedName" : {
+      "Description" : "The Specific Versioned Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificVersionedCISAmazonLinuxImageId", "Name" ]}
+    }
+  }
+}

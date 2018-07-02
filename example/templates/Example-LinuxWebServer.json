@@ -182,8 +182,8 @@
       "Description" : "The Operating System to use for Instances",
       "Type" : "String",
       "Default" : "Amazon Linux",
-      "AllowedValues" : [ "Amazon Linux", "Amazon Linux 2017.03.0", "Amazon Linux 2016.09.1", "Amazon Linux 2016.09.0", "RHEL 7", "RHEL 7.4", "RHEL 7.3" ],
-      "ConstraintDescription" : "must be \"Amazon Linux\" (latest), \"Amazon Linux 2017.03.0\", \"Amazon Linux 2016.09.1\", \"Amazon Linux 2016.09.0\", \"RHEL 7\" (latest), \"RHEL 7.4\" or \"RHEL 7.3\"."
+      "AllowedValues" : [ "Amazon Linux", "Amazon Linux 2018.03.0", "Amazon Linux 2017.09.1", "Amazon Linux 2017.09.0", "Amazon Linux 2017.03.1", "Amazon Linux 2017.03.0", "RHEL 7", "RHEL 7.5", "RHEL 7.4" ],
+      "ConstraintDescription" : "must be \"Amazon Linux\" (latest), \"Amazon Linux 2018.03.0\", \"Amazon Linux 2017.09.1\", \"Amazon Linux 2017.09.0\", \"Amazon Linux 2017.03.1\", \"Amazon Linux 2017.03.0\", \"RHEL 7\" (latest), \"RHEL 7.5\" or \"RHEL 7.4\"."
     },
 
     "SharedScriptFolder" : {
@@ -1051,8 +1051,23 @@
       },
       "CreationPolicy" : {
         "ResourceSignal" : {
-          "Timeout" : { "Fn::If" : [ "ConfigureAMZN", "PT5M", "PT10M" ]}
+          "Timeout" : { "Fn::If" : [ "ConfigureAMZN", "PT5M", "PT15M" ]}
         }
+      }
+    },
+
+    "EIP" : {
+      "Type" : "AWS::EC2::EIP",
+      "Properties" : {
+        "Domain" : "vpc"
+      }
+    },
+
+    "EIPAssociation" : {
+      "Type" : "AWS::EC2::EIPAssociation",
+      "Properties" : {
+        "AllocationId" : { "Fn::GetAtt" : [ "EIP", "AllocationId" ]},
+        "InstanceId" : { "Ref" : "Instance" }
       }
     },
 
@@ -1060,11 +1075,11 @@
       "Type" : "AWS::Route53::RecordSet",
       "Properties" : {
         "HostedZoneId" : { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-PublicHostedZone" }},
-        "Comment" : { "Fn::Sub" : "Public DNS HostName for ${ApplicationName} Instance." },
+        "Comment" : { "Fn::Join" : [ "", [ "Public DNS HostName for ", { "Ref" : "ApplicationName" }, " Instance" ]]},
         "Name" : { "Fn::Join" : [ "", [ { "Fn::GetAtt" : [ "GetHostName", "HostName" ]}, "01.", { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPCPublicDomain" }}, "." ]]},
         "Type" : "A",
         "TTL" : "900",
-        "ResourceRecords" : [{ "Fn::GetAtt" : [ "Instance", "PublicIp" ]}]
+        "ResourceRecords" : [{ "Ref" : "EIP" }]
       }
     },
 
@@ -1072,7 +1087,7 @@
       "Type" : "AWS::Route53::RecordSet",
       "Properties" : {
         "HostedZoneId" : { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-PublicHostedZone" }},
-        "Comment" : { "Fn::Sub" : "Public DNS ServiceName for ${ApplicationName}." },
+        "Comment" : { "Fn::Join" : [ "", [ "Public DNS ServiceName for ", { "Ref" : "ApplicationName" } ]]},
         "Name" : { "Fn::Join" : [ "", [ { "Ref" : "ApplicationDomain" }, ".", { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPCPublicDomain" }}, "." ]]},
         "Type" : "CNAME",
         "TTL" : "900",

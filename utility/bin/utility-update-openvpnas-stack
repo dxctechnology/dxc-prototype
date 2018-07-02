@@ -29,6 +29,7 @@ environment=${ENVIRONMENT_NAME:-Production}
 environment_type=small  # By default, these should use small
 utility=${UTILITY_NAME:-OpenVPNAS}
 utility_domain=${UTILITY_DOMAIN:-vpn}
+utility_version=${UTILITY_VERSION:-2.5.0}
 utility_license=${UTILITY_LICENSE:-2}
 user_networks=${OPENVPN_USER_NETWORKS:-0.0.0.0/0,NONE,NONE,NONE,NONE,NONE,NONE,NONE}  # This should be global for the VPN to work
 administrator_networks=${OPENVPN_ADMINISTRATOR_NETWORKS:-NONE,NONE,NONE,NONE,NONE,NONE,NONE,NONE}
@@ -44,7 +45,7 @@ usage () {
     echo "Usage: ${BASH_SOURCE##*/} [[-i] | [-s | -f]] [-v] [-m] [-o]"
     echo "                  [-O owner] [-C company] [-S system]"
     echo "                  [-E environment] [-T type]"
-    echo "                  [-U utility] [-D domain] [-L license]"
+    echo "                  [-U utility] [-D domain] [-V version] [-L license]"
     echo "                  [-n networks] [-N networks]"
     echo "                  [-r region] [-a account] [-u user] [-k key]"
     echo "  -i              interactive"
@@ -60,6 +61,7 @@ usage () {
     echo "  -T type         Environment Type (default: $environment_type)"
     echo "  -U utility      Utility Name (default: $utility)"
     echo "  -D domain       Utility Domain (default: $utility_domain)"
+    echo "  -V version      Utility Version (default: $utility_version)"
     echo "  -L license      Utility License (default: $utility_license)"
     echo "  -n networks     User Networks (default: $user_networks)"
     echo "  -N networks     Administrator Networks (default: $administrator_networks)"
@@ -149,7 +151,7 @@ next() {
 
 #  3. Parse command line options
 
-while getopts isfvmoO:C:S:E:T:U:D:L:n:N:r:a:u:k:? arg; do
+while getopts isfvmoO:C:S:E:T:U:D:V:L:n:N:r:a:u:k:? arg; do
     case $arg in
     i)  interactive=1;;
     s)  ((speed < speed_max)) && ((speed=speed+25));;
@@ -164,6 +166,7 @@ while getopts isfvmoO:C:S:E:T:U:D:L:n:N:r:a:u:k:? arg; do
     T)  environment_type="$OPTARG";;
     U)  utility="$OPTARG";;
     D)  utility_domain="$OPTARG";;
+    V)  utility_version="$OPTARG";;
     L)  utility_license="$OPTARG";;
     n)  user_networks="$OPTARG";;
     N)  administrator_networks="$OPTARG";;
@@ -246,10 +249,10 @@ if [ -z $environment_type ]; then
     exit 22
 else
     case $environment_type in
-      micro|small|medium|large|xlarge)
+      nano|micro|small|medium|large|xlarge)
         ;;
       *)
-        echo "-T $environment_type invalid! Must be micro, small, medium, large or xlarge"
+        echo "-T $environment_type invalid! Must be nano, micro, small, medium, large or xlarge"
         exit 23;;
     esac
 fi
@@ -274,17 +277,23 @@ if [ -z $utility_domain ]; then
     exit 32
 fi
 
+if [ -z $utility_version ]; then
+    echo "-V version missing!"
+    echo "Could not automatically determine version, and it was not specified as a parameter"
+    exit 34
+fi
+
 if [ -z $utility_license ]; then
     echo "-L license missing!"
     echo "Could not automatically determine license, and it was not specified as a parameter"
-    exit 34
+    exit 36
 else
     case $utility_license in
-      2|10|25|50)
+      2|10|25|50|100)
         openvpnas_license=OpenVPNAS$utility_license;;
       *)
-        echo "-L $utility_license invalid! Must be 2, 10, 25 or 50."
-        exit 35;;
+        echo "-L $utility_license invalid! Must be 2, 10, 25, 50 or 100."
+        exit 37;;
     esac
 fi
 
@@ -349,6 +358,16 @@ if ! aws cloudformation describe-stacks --stack-name $environment-$utility \
     echo
     echo "Unable to update - $environment-$utility Stack does not exist!"
     exit 98
+else
+    echo -n "."
+fi
+
+activedirectory_stack=$environment-ActiveDirectory
+if ! aws cloudformation describe-stacks --stack-name $activedirectory_stack \
+                                        --profile $profile --region $region --output text &> /dev/null; then
+    echo
+    echo "Stack optional dependency missing - $environment-ActiveDirectory Stack does not exist!"
+    activedirectory_stack=""
 else
     echo -n "."
 fi
@@ -455,7 +474,7 @@ aws cloudformation update-stack --stack-name $environment-$utility \\
                                 --parameters ParameterKey=ActiveDirectoryStackName,ParameterValue=$activedirectory_stack \\
                                              ParameterKey=VPCStackName,ParameterValue=$environment-VPC \\
                                              ParameterKey=CustomIdentifierFunctionsStackName,ParameterValue=CustomIdentifierFunctions \\
-                                             ParameterKey=StandardAMIFunctionsStackName,ParameterValue=StandardAMIFunctions \\
+                                             ParameterKey=CustomAMIFunctionsStackName,ParameterValue=CustomAMIFunctions \\
                                              ParameterKey=StandardBucketsStackName,ParameterValue=StandardBuckets \\
                                              ParameterKey=StandardTopicsStackName,ParameterValue=StandardTopics \\
                                              ParameterKey=KeyName,ParameterValue=$key \\
@@ -464,6 +483,7 @@ aws cloudformation update-stack --stack-name $environment-$utility \\
                                              ParameterKey=EnvironmentType,ParameterValue=$environment_type \\
                                              ParameterKey=UtilityName,ParameterValue=$utility \\
                                              ParameterKey=UtilityDomain,ParameterValue=$utility_domain \\
+                                             ParameterKey=UtilityVersion,ParameterValue=$utility_version \\
                                              ParameterKey=UtilityLicense,ParameterValue=$openvpnas_license \\
                                              ParameterKey=UserNetworks,ParameterValue=\"$user_networks\" \\
                                              ParameterKey=AdministratorNetworks,ParameterValue=\"$administrator_networks\" \\

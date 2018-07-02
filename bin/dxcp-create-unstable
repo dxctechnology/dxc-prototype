@@ -21,21 +21,22 @@
 #
 #  4. Create Lambda Functions
 #      4.1 Create StandardAMIFunctions Stack
-#      4.2 Create StandardCIDRFunctions Stack
-#      4.3 Create StandardScheduleFunctions Stack
-#      4.4 Create CustomIdentifierFunctions Stack
+#      4.2 Create CustomAMIFunctions Stack
+#      4.3 Create StandardCIDRFunctions Stack
+#      4.4 Create StandardScheduleFunctions Stack
+#      4.5 Create CustomIdentifierFunctions Stack
 #
 #  5. Create VPCs
-#      5.1. Create Build-VPC Stack
-#      5.2. Create Core-VPC Stack
+#      5.1. Create Core-VPC Stack
+#      5.2. Create Build-VPC Stack
 #      5.3. Create Development-VPC Stack
 #      5.4. Create Testing-VPC Stack
 #      5.5. Create Staging-VPC Stack
 #      5.6. Create Production-VPC Stack
 #
 #  6. Create NetworkACLs
-#      6.1. Create Build-NetworkAcls Stack
-#      6.2. Create Core-NetworkAcls Stack
+#      6.1. Create Core-NetworkAcls Stack
+#      6.2. Create Build-NetworkAcls Stack
 #      6.3. Create Development-NetworkAcls Stack
 #      6.4. Create Testing-NetworkAcls Stack
 #      6.5. Create Staging-NetworkAcls Stack
@@ -45,8 +46,8 @@
 #      7.1. Create SantaBarbaraCustomerGateway Stack
 #
 #  8. Create VPNConnections
-#      8.1. Create Build-SantaBarbaraVPNConnection Stack
-#      8.2. Create Core-SantaBarbaraVPNConnection Stack
+#      8.1. Create Core-SantaBarbaraVPNConnection Stack
+#      8.2. Create Build-SantaBarbaraVPNConnection Stack
 #      8.3. Create Development-SantaBarbaraVPNConnection Stack
 #      8.4. Create Testing-SantaBarbaraVPNConnection Stack
 #      8.5. Create Staging-SantaBarbaraVPNConnection Stack
@@ -59,16 +60,16 @@
 #     9.2. Create Production-StagingVPCPeeringConnection Stack
 #
 # 10. Create ActiveDirectory Instances
-#     10.1. Create Build-ActiveDirectory Stack
-#     10.2. Create Core-ActiveDirectory Stack
+#     10.1. Create Core-ActiveDirectory Stack
+#     10.2. Create Build-ActiveDirectory Stack
 #     10.3. Create Development-ActiveDirectory Stack
 #     10.4. Create Testing-ActiveDirectory Stack
 #     10.5. Create Staging-ActiveDirectory Stack
 #     10.6. Create Production-ActiveDirectory Stack
 #
 # 11. Create OpenVPNAS Instances
-#     11.1. Create Build-OpenVPNAS Stack
-#     11.2. Create Core-OpenVPNAS Stack
+#     11.1. Create Core-OpenVPNAS Stack
+#     11.2. Create Build-OpenVPNAS Stack
 #     11.3. Create Development-OpenVPNAS Stack
 #     11.4. Create Testing-OpenVPNAS Stack
 #     11.5. Create Staging-OpenVPNAS Stack
@@ -167,6 +168,7 @@ run() {
 bindir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 applicationbindir=${bindir%/*}/application/bin
 billingbindir=${bindir%/*}/billing/bin
+buildbindir=${bindir%/*}/build/bin
 commonbindir=${bindir%/*}/common/bin
 corebindir=${bindir%/*}/core/bin
 environmentbindir=${bindir%/*}/environment/bin
@@ -207,36 +209,38 @@ echo
 
 #  4. Create Lambda Functions
 #      4.1 Create StandardAMIFunctions Stack
-#      4.2 Create StandardCIDRFunctions Stack
-#      4.3 Create StandardScheduleFunctions Stack
-#      4.4 Create CustomIdentifierFunctions Stack
+#      4.2 Create CustomAMIFunctions Stack
+#      4.3 Create StandardCIDRFunctions Stack
+#      4.4 Create StandardScheduleFunctions Stack
+#      4.5 Create CustomIdentifierFunctions Stack
 
 source $bindir/dxcp-define-unstable-production
 run "$corebindir/core-create-standardamifunctions-stack -E Core $i $f"
+run "$corebindir/core-create-customamifunctions-stack -E Core $i $f"
 run "$corebindir/core-create-standardcidrfunctions-stack -E Core $i $f"
 run "$corebindir/core-create-standardschedulefunctions-stack -E Core $i $f"
 run "$corebindir/core-create-customidentifierfunctions-stack -E Core -m $i $f"
 
 
 #  5. Create VPCs
-#      5.1. Create Build-VPC Stack
-#      5.2. Create Core-VPC Stack
+#      5.1. Create Core-VPC Stack
+#      5.2. Create Build-VPC Stack
 #      5.3. Create Development-VPC Stack
 #      5.4. Create Testing-VPC Stack
 #      5.5. Create Staging-VPC Stack
 #      5.6. Create Production-VPC Stack
 
 source $bindir/dxcp-define-unstable-production
-run "$corebindir/build-create-vpc-stack -E Build -N 172.21.124.0/23 -D b.us-east-2.dxcp.technology -d b.dxcp.technology -b dxcpb $i $f"
-run "$corebindir/core-create-vpc-stack -E Core -N 172.21.120.0/22 -D c.us-east-2.dxcp.technology -d c.dxcp.technology -b dxcpc $i $f"
+run "$corebindir/core-create-vpc-stack -E Core -T micro -Z 1 -N 172.21.120.0/22 -D c.us-east-2.dxcp.technology -d c.dxcp.technology -b dxcpc $i $f"
+run "$buildbindir/build-create-vpc-stack -E Build -T micro -Z 1 -N 172.21.124.0/23 -D b.us-east-2.dxcp.technology -d b.dxcp.technology -b dxcpb $i $f"
 source $bindir/dxcp-define-unstable-development
-run "$environmentbindir/environment-create-vpc-stack -E Development -N 172.21.88.0/21 -D d.us-east-2.dxcp.technology -d d.dxcp.technology -b dxcpd $i $f"
+run "$environmentbindir/environment-create-vpc-stack -E Development -T micro -Z 1 -N 172.21.88.0/21 -D d.us-east-2.dxcp.technology -d d.dxcp.technology -b dxcpd $i $f"
 #source $bindir/dxcp-define-unstable-testing
-#run "$environmentbindir/environment-create-vpc-stack -E Testing -N 172.21.80.0/21 -D t.us-east-2.dxcp.technology -d t.dxcp.technology -b dxcpt $i $f"
+#run "$environmentbindir/environment-create-vpc-stack -E Testing -T micro -Z 1 -N 172.21.80.0/21 -D t.us-east-2.dxcp.technology -d t.dxcp.technology -b dxcpt $i $f"
 #source $bindir/dxcp-define-unstable-staging
-#run "$environmentbindir/environment-create-vpc-stack -E Staging -N 172.21.72.0/21 -D s.us-east-2.dxcp.technology -d s.dxcp.technology -b dxcps $i $f"
+#run "$environmentbindir/environment-create-vpc-stack -E Staging -T small -Z 1 -N 172.21.72.0/21 -D s.us-east-2.dxcp.technology -d s.dxcp.technology -b dxcps $i $f"
 source $bindir/dxcp-define-unstable-production
-run "$environmentbindir/environment-create-vpc-stack -E Production -N 172.21.64.0/21 -D us-east-2.dxcp.technology -d dxcp.technology -b dxcp -m $i $f"
+run "$environmentbindir/environment-create-vpc-stack -E Production -T large -Z 1 -N 172.21.64.0/21 -D us-east-2.dxcp.technology -d dxcp.technology -b dxcp -m $i $f"
 
 echo
 echo "Note: Currently, you must manually create the NS records which are needed in each"
@@ -245,16 +249,16 @@ echo
 
 
 #  6. Create NetworkACLs
-#      6.1. Create Build-NetworkAcls Stack
-#      6.2. Create Core-NetworkAcls Stack
+#      6.1. Create Core-NetworkAcls Stack
+#      6.2. Create Build-NetworkAcls Stack
 #      6.3. Create Development-NetworkAcls Stack
 #      6.4. Create Testing-NetworkAcls Stack
 #      6.5. Create Staging-NetworkAcls Stack
 #      6.6. Create Production-NetworkAcls Stack
 
 source $bindir/dxcp-define-unstable-production
-run "$corebindir/build-create-networkacls-stack -E Build $i $f"
 run "$corebindir/core-create-networkacls-stack -E Core $i $f"
+run "$buildbindir/build-create-networkacls-stack -E Build $i $f"
 source $bindir/dxcp-define-unstable-development
 run "$environmentbindir/environment-create-networkacls-stack -E Development $i $f"
 #source $bindir/dxcp-define-unstable-testing
@@ -269,20 +273,20 @@ run "$environmentbindir/environment-create-networkacls-stack -E Production -m $i
 #      7.1. Create SantaBarbaraCustomerGateway Stack
 
 source $bindir/dxcp-define-unstable-production
-run "$commonbindir/common-create-customergateway-stack -E Core -G SantaBarbara -A 72.215.187.179 -m $i $f"
+run "$commonbindir/common-create-customergateway-stack -E Core -G SantaBarbara -A 98.185.226.44 -m $i $f"
 
 
 #  8. Create VPNConnections
-#      8.1. Create Build-SantaBarbaraVPNConnection Stack
-#      8.2. Create Core-SantaBarbaraVPNConnection Stack
+#      8.1. Create Core-SantaBarbaraVPNConnection Stack
+#      8.2. Create Build-SantaBarbaraVPNConnection Stack
 #      8.3. Create Development-SantaBarbaraVPNConnection Stack
 #      8.4. Create Testing-SantaBarbaraVPNConnection Stack
 #      8.5. Create Staging-SantaBarbaraVPNConnection Stack
 #      8.6. Create Production-SantaBarbaraVPNConnection Stack
 
 source $bindir/dxcp-define-unstable-production
-run "$commonbindir/common-create-vpnconnection-stack -E Build -G SantaBarbara -N 10.0.0.0/16 $i $f"
 run "$commonbindir/common-create-vpnconnection-stack -E Core -G SantaBarbara -N 10.0.0.0/16 $i $f"
+run "$commonbindir/common-create-vpnconnection-stack -E Build -G SantaBarbara -N 10.0.0.0/16 $i $f"
 source $bindir/dxcp-define-unstable-development
 run "$commonbindir/common-create-vpnconnection-stack -E Development -G SantaBarbara -N 10.0.0.0/16 $i $f"
 #source $bindir/dxcp-define-unstable-testing
@@ -309,16 +313,16 @@ run "$environmentbindir/environment-create-vpcpeeringconnection-stack -E Product
 
 
 # 10. Create ActiveDirectory Instances
-#     10.1. Create Build-ActiveDirectory Stack
-#     10.2. Create Core-ActiveDirectory Stack
+#     10.1. Create Core-ActiveDirectory Stack
+#     10.2. Create Build-ActiveDirectory Stack
 #     10.3. Create Development-ActiveDirectory Stack
 #     10.4. Create Testing-ActiveDirectory Stack
 #     10.5. Create Staging-ActiveDirectory Stack
 #     10.6. Create Production-ActiveDirectory Stack
 
 source $bindir/dxcp-define-unstable-production
-run "$utilitybindir/utility-create-activedirectory-stack -E Build -T small -Z 2 $i $f"
 run "$utilitybindir/utility-create-activedirectory-stack -E Core -T small -Z 2 $i $f"
+run "$utilitybindir/utility-create-activedirectory-stack -E Build -T small -Z 2 $i $f"
 source $bindir/dxcp-define-unstable-development
 run "$utilitybindir/utility-create-activedirectory-stack -E Development -T small -Z 2 $i $f"
 #source $bindir/dxcp-define-unstable-testing
@@ -330,16 +334,16 @@ run "$utilitybindir/utility-create-activedirectory-stack -E Production -T small 
 
 
 # 11. Create OpenVPNAS Instances
-#     11.1. Create Build-OpenVPNAS Stack
-#     11.2. Create Core-OpenVPNAS Stack
+#     11.1. Create Core-OpenVPNAS Stack
+#     11.2. Create Build-OpenVPNAS Stack
 #     11.3. Create Development-OpenVPNAS Stack
 #     11.4. Create Testing-OpenVPNAS Stack
 #     11.5. Create Staging-OpenVPNAS Stack
 #     11.6. Create Production-OpenVPNAS Stack
 
 source $bindir/dxcp-define-unstable-production
-run "$utilitybindir/utility-create-openvpnas-stack -E Build -T micro $i $f"
 run "$utilitybindir/utility-create-openvpnas-stack -E Core -T micro $i $f"
+run "$utilitybindir/utility-create-openvpnas-stack -E Build -T micro $i $f"
 source $bindir/dxcp-define-unstable-development
 run "$utilitybindir/utility-create-openvpnas-stack -E Development -T micro $i $f"
 #source $bindir/dxcp-define-unstable-testing
@@ -378,7 +382,6 @@ run "$utilitybindir/utility-create-openvpnas-stack -E Production -T micro -m $i 
 
 
 # 21. Create Magento Instances (Only in Unstable with Bastions and Examples)
-
 
 
 # 22. Create Octopus Instances

@@ -319,26 +319,6 @@
   },
 
   "Resources" : {
-    "GetHostName" : {
-      "Type" : "Custom::GetHostName",
-      "Properties" : {
-        "ServiceToken" : { "Fn::ImportValue" : { "Fn::Sub" : "${CustomIdentifierFunctionsStackName}-GetHostNameFunctionArn" }},
-        "CompanyName" : { "Ref" : "CompanyName" },
-        "LocationName" : { "Ref": "AWS::Region" },
-        "EnvironmentName" : { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPCName" }},
-        "ApplicationName" : { "Ref" : "ApplicationName" }
-      }
-    },
-
-    "GetWindowsImageId" : {
-      "Type" : "Custom::GetWindowsImageId",
-      "Properties" : {
-        "ServiceToken" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardAMIFunctionsStackName}-GetWindowsImageIdFunctionArn" }},
-        "Region" : { "Ref" : "AWS::Region" },
-        "OSName" : { "Ref" : "OSName" }
-      }
-    },
-
     "Role" : {
       "Type" : "AWS::IAM::Role",
       "Properties" : {
@@ -608,6 +588,26 @@
         "Tags" : [
           { "Key" : "Name", "Value" : { "Fn::Join" : [ "-", [ { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPCName" }}, { "Ref" : "ApplicationName" }, "InstanceSecurityGroup" ]]}}
         ]
+      }
+    },
+
+    "GetHostName" : {
+      "Type" : "Custom::GetHostName",
+      "Properties" : {
+        "ServiceToken" : { "Fn::ImportValue" : { "Fn::Sub" : "${CustomIdentifierFunctionsStackName}-GetHostNameFunctionArn" }},
+        "CompanyName" : { "Ref" : "CompanyName" },
+        "LocationName" : { "Ref": "AWS::Region" },
+        "EnvironmentName" : { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPCName" }},
+        "ApplicationName" : { "Ref" : "ApplicationName" }
+      }
+    },
+
+    "GetWindowsImageId" : {
+      "Type" : "Custom::GetWindowsImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::ImportValue" : { "Fn::Sub" : "${StandardAMIFunctionsStackName}-GetWindowsImageIdFunctionArn" }},
+        "Region" : { "Ref" : "AWS::Region" },
+        "OSName" : { "Ref" : "OSName" }
       }
     },
 
@@ -969,15 +969,30 @@
       }
     },
 
+    "EIP" : {
+      "Type" : "AWS::EC2::EIP",
+      "Properties" : {
+        "Domain" : "vpc"
+      }
+    },
+
+    "EIPAssociation" : {
+      "Type" : "AWS::EC2::EIPAssociation",
+      "Properties" : {
+        "AllocationId" : { "Fn::GetAtt" : [ "EIP", "AllocationId" ]},
+        "InstanceId" : { "Ref" : "Instance" }
+      }
+    },
+
     "HostNameRecordSet" : {
       "Type" : "AWS::Route53::RecordSet",
       "Properties" : {
         "HostedZoneId" : { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-PublicHostedZone" }},
-        "Comment" : { "Fn::Sub" : "Public DNS HostName for ${ApplicationName} Instance." },
+        "Comment" : { "Fn::Join" : [ "", [ "Public DNS HostName for ", { "Ref" : "ApplicationName" }, " Instance" ]]},
         "Name" : { "Fn::Join" : [ "", [ { "Fn::GetAtt" : [ "GetHostName", "HostName" ]}, "01.", { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPCPublicDomain" }}, "." ]]},
         "Type" : "A",
         "TTL" : "900",
-        "ResourceRecords" : [{ "Fn::GetAtt" : [ "Instance", "PublicIp" ]}]
+        "ResourceRecords" : [{ "Ref" : "EIP" }]
       }
     },
 
@@ -985,7 +1000,7 @@
       "Type" : "AWS::Route53::RecordSet",
       "Properties" : {
         "HostedZoneId" : { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-PublicHostedZone" }},
-        "Comment" : { "Fn::Sub" : "Public DNS ServiceName for ${ApplicationName}." },
+        "Comment" : { "Fn::Join" : [ "", [ "Public DNS ServiceName for ", { "Ref" : "ApplicationName" } ]]},
         "Name" : { "Fn::Join" : [ "", [ { "Ref" : "ApplicationDomain" }, ".", { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPCPublicDomain" }}, "." ]]},
         "Type" : "CNAME",
         "TTL" : "900",

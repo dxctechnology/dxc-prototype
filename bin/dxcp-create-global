@@ -38,9 +38,10 @@
 #
 #  8. Create Lambda Functions
 #      8.1 Create StandardAMIFunctions Stack
-#      8.2 Create StandardCIDRFunctions Stack
-#      8.3 Create StandardScheduleFunctions Stack
-#      8.4 Create CustomIdentifierFunctions Stack
+#      8.2 Create CustomAMIFunctions Stack
+#      8.3 Create StandardCIDRFunctions Stack
+#      8.4 Create StandardScheduleFunctions Stack
+#      8.5 Create CustomIdentifierFunctions Stack
 #
 #  9. Create SNS Billing Topics and Subscriptions
 #      9.1 Create BillingTopics Stack
@@ -128,6 +129,12 @@ run "$identitybindir/identity-create-standardusers-stack -E Identity -m $i $f"
 run "$identitybindir/identity-create-customusers-stack -E Identity -m $i $f"
 run "$identitybindir/identity-create-reviewusers-stack -E Identity -m $i $f"
 
+
+#  5. Create IAM Roles
+#      5.1 Create StandardRoles Stack
+
+run "$identitybindir/identity-create-standardroles-stack -E Identity -A 197109511535 -m $i $f"
+
 echo
 echo "Stop! We now want to switch from using the bootstrapadministrator to the permanent"
 echo "      administrator user for future scripts. You must manually setup the administrator"
@@ -135,12 +142,6 @@ echo "      user created to add a password, access key and MFA, then configure A
 echo "      these values next, then resume this script"
 
 unset AWS_USER_NAME
-
-
-#  5. Create IAM Roles
-#      5.1 Create StandardRoles Stack
-
-run "$identitybindir/identity-create-standardroles-stack -E Identity -m $i $f"
 
 
 #  6. Create SNS Topics and Subscriptions
@@ -161,11 +162,13 @@ run "$corebindir/core-create-standardbuckets-stack -E Core -r us-east-1 -m $i $f
 
 #  8. Create Lambda Functions
 #      8.1 Create StandardAMIFunctions Stack
-#      8.2 Create StandardCIDRFunctions Stack
-#      8.3 Create StandardScheduleFunctions Stack
-#      8.4 Create CustomIdentifierFunctions Stack
+#      8.2 Create CustomAMIFunctions Stack
+#      8.3 Create StandardCIDRFunctions Stack
+#      8.4 Create StandardScheduleFunctions Stack
+#      8.5 Create CustomIdentifierFunctions Stack
 
 run "$corebindir/core-create-standardamifunctions-stack -E Core -r us-east-1 $i $f"
+run "$corebindir/core-create-customamifunctions-stack -E Core -r us-east-1 $i $f"
 run "$corebindir/core-create-standardcidrfunctions-stack -E Core -r us-east-1 $i $f"
 run "$corebindir/core-create-standardschedulefunctions-stack -E Core -r us-east-1 $i $f"
 run "$corebindir/core-create-customidentifierfunctions-stack -E Core -r us-east-1 -m $i $f"

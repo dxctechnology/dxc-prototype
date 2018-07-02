@@ -199,8 +199,8 @@
       "Description" : "The Operating System to use for Instances",
       "Type" : "String",
       "Default" : "Amazon Linux",
-      "AllowedValues" : [ "Amazon Linux", "Amazon Linux 2017.03.0", "Amazon Linux 2016.09.1", "Amazon Linux 2016.09.0", "RHEL 7", "RHEL 7.4", "RHEL 7.3" ],
-      "ConstraintDescription" : "must be \"Amazon Linux\" (latest), \"Amazon Linux 2017.03.0\", \"Amazon Linux 2016.09.1\", \"Amazon Linux 2016.09.0\", \"RHEL 7\" (latest), \"RHEL 7.4\" or \"RHEL 7.3\"."
+      "AllowedValues" : [ "Amazon Linux", "Amazon Linux 2018.03.0", "Amazon Linux 2017.09.1", "Amazon Linux 2017.09.0", "Amazon Linux 2017.03.1", "Amazon Linux 2017.03.0", "RHEL 7", "RHEL 7.5", "RHEL 7.4" ],
+      "ConstraintDescription" : "must be \"Amazon Linux\" (latest), \"Amazon Linux 2018.03.0\", \"Amazon Linux 2017.09.1\", \"Amazon Linux 2017.09.0\", \"Amazon Linux 2017.03.1\", \"Amazon Linux 2017.03.0\", \"RHEL 7\" (latest), \"RHEL 7.5\" or \"RHEL 7.4\"."
     },
 
     "SharedScriptFolder" : {

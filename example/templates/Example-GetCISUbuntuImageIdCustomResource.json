@@ -1,0 +1,98 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "Example-GetCISUbuntuImageIdCustomResource Template. This demonstrates how to dynamically get the most recent Center for Internet Security Ubuntu ImageId, given the Version and Region.",
+
+  "Parameters" : {
+    "UbuntuVersion" : {
+      "Description" : "Ubuntu Version",
+      "Type" : "String",
+      "Default" : "Ubuntu Server 14.04 LTS",
+      "AllowedValues" : [
+        "Ubuntu Server 16.04 LTS",
+        "Ubuntu Server 14.04 LTS"
+      ],
+      "ConstraintDescription" : "Must be a valid Ubuntu LTS version."
+    },
+
+    "CISBenchmark" : {
+      "Description" : "Optional CIS Benchmark, specify to select a specific benchmark for the Image",
+      "Type" : "String",
+      "Default" : "2.0.0.1",
+      "AllowedPattern" : "(^$|^[0-9]\\.[0-9]\\.[0-9]\\.[0-9]$)",
+      "ConstraintDescription" : "Must be a valid benchmark of the form x.x.x.x."
+    },
+
+    "CISLevel" : {
+      "Description" : "Optional CIS Level, specify to select a specific level for the Image",
+      "Type" : "String",
+      "Default" : "1",
+      "AllowedValues" : [ "", "1", "2" ],
+      "ConstraintDescription" : "Must be blank, 1 or 2."
+    }
+  },
+
+  "Resources" : {
+    "GetLatestCISUbuntuImageId" : {
+      "Type" : "Custom::GetCISUbuntuImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISUbuntuImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    },
+
+    "GetLatestVersionedCISUbuntuImageId" : {
+      "Type" : "Custom::GetCISUCISbuntuImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISUbuntuImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "OSName" : { "Ref" : "UbuntuVersion" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    },
+
+    "GetSpecificVersionedCISUbuntuImageId" : {
+      "Type" : "Custom::GetCISUCISbuntuImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISUbuntuImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "OSName" : { "Ref" : "UbuntuVersion" },
+        "CISBenchmark" : { "Ref" : "CISBenchmark" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    }
+  },
+
+  "Outputs" : {
+    "LatestImageId" : {
+      "Description" : "The Latest ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestCISUbuntuImageId", "ImageId" ]}
+    },
+
+    "LatestName" : {
+      "Description" : "The Latest Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestCISUbuntuImageId", "Name" ]}
+    },
+
+    "LatestVersionedImageId" : {
+      "Description" : "The Latest Versioned ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestVersionedCISUbuntuImageId", "ImageId" ]}
+    },
+
+    "LatestVersionedName" : {
+      "Description" : "The Latest Versioned Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestVersionedCISUbuntuImageId", "Name" ]}
+    },
+
+    "SpecificVersionedImageId" : {
+      "Description" : "The Specific Versioned ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificVersionedCISUbuntuImageId", "ImageId" ]}
+    },
+
+    "SpecificVersionedName" : {
+      "Description" : "The Specific Versioned Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificVersionedCISUbuntuImageId", "Name" ]}
+    }
+  }
+}

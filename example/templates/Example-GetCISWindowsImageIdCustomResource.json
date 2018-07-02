@@ -1,0 +1,98 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "Example-GetCISWindowsImageIdCustomResource Template. This demonstrates how to dynamically get the most recent Center for Internet Security Windows ImageId, given the OS Variant, CIS Baseline, CIS Level and Region.",
+
+  "Parameters" : {
+    "WindowsVersion" : {
+      "Description" : "Windows Version",
+      "Type" : "String",
+      "Default" : "Windows Server 2012 R2",
+      "AllowedValues" : [
+        "Windows Server 2016",
+        "Windows Server 2012 R2"
+      ],
+      "ConstraintDescription" : "Must be a valid Windows version."
+    },
+
+    "CISBenchmark" : {
+      "Description" : "Optional CIS Benchmark, specify to select a specific benchmark for the Image",
+      "Type" : "String",
+      "Default" : "2.2.1.4",
+      "AllowedPattern" : "(^$|^[0-9]\\.[0-9]\\.[0-9]\\.[0-9]$)",
+      "ConstraintDescription" : "Must be a valid benchmark of the form x.x.x.x."
+    },
+
+    "CISLevel" : {
+      "Description" : "Optional CIS Level, specify to select a specific level for the Image",
+      "Type" : "String",
+      "Default" : "2",
+      "AllowedValues" : [ "", "1", "2" ],
+      "ConstraintDescription" : "Must be blank, 1 or 2."
+    }
+  },
+
+  "Resources" : {
+    "GetLatestCISWindowsImageId" : {
+      "Type" : "Custom::GetCISWindowsImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISWindowsImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    },
+
+    "GetLatestVersionedCISWindowsImageId" : {
+      "Type" : "Custom::GetCISWindowsImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISWindowsImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "OSName" : { "Ref" : "WindowsVersion" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    },
+
+    "GetSpecificVersionedCISWindowsImageId" : {
+      "Type" : "Custom::GetCISWindowsCISImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISWindowsImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "OSName" : { "Ref" : "WindowsVersion" },
+        "CISBenchmark" : { "Ref" : "CISBenchmark" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    }
+  },
+
+  "Outputs" : {
+    "LatestImageId" : {
+      "Description" : "The Latest ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestCISWindowsImageId", "ImageId" ]}
+    },
+
+    "LatestName" : {
+      "Description" : "The Latest Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestCISWindowsImageId", "Name" ]}
+    },
+
+    "LatestVersionedImageId" : {
+      "Description" : "The Latest Versioned ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestVersionedCISWindowsImageId", "ImageId" ]}
+    },
+
+    "LatestVersionedName" : {
+      "Description" : "The Latest Versioned Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestVersionedCISWindowsImageId", "Name" ]}
+    },
+
+    "SpecificVersionedImageId" : {
+      "Description" : "The Specific Versioned ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificVersionedCISWindowsImageId", "ImageId" ]}
+    },
+
+    "SpecificVersionedName" : {
+      "Description" : "The Specific Versioned Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificVersionedCISWindowsImageId", "Name" ]}
+    }
+  }
+}

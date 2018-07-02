@@ -49,7 +49,7 @@
       "Description" : "ID of an existing SecurityGroup which controls access to the LoadBalancer",
       "Type" : "AWS::EC2::SecurityGroup::Id",
       "MaxLength" : 32,
-      "AllowedPattern" : "^sg-[0-9a-f]{8}$",
+      "AllowedPattern" : "^sg-[0-9a-f]{17}$",
       "ConstraintDescription" : "must be the name of an existing SecurityGroup."
     },
 

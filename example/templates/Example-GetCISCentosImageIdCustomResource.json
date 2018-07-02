@@ -1,0 +1,98 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "Example-GetCISCentosImageIdCustomResource Template. This demonstrates how to dynamically get the most recent Center for Internet Security Centos ImageId, given the OS Variant, CIS Baseline, CIS Level and Region.",
+
+  "Parameters" : {
+    "CentosVersion" : {
+      "Description" : "Centos Version",
+      "Type" : "String",
+      "Default" : "Centos 6",
+      "AllowedValues" : [
+        "Centos 7",
+        "Centos 6"
+      ],
+      "ConstraintDescription" : "Must be a valid Centos version."
+    },
+
+    "CISBenchmark" : {
+      "Description" : "Optional CIS Benchmark, specify to select a specific benchmark for the Image",
+      "Type" : "String",
+      "Default" : "2.0.1",
+      "AllowedPattern" : "(^$|^[0-9]\\.[0-9]\\.[0-9](\\.[0-9])?$)",
+      "ConstraintDescription" : "Must be a valid benchmark of the form x.x.x.x."
+    },
+
+    "CISLevel" : {
+      "Description" : "Optional CIS Level, specify to select a specific level for the Image",
+      "Type" : "String",
+      "Default" : "1",
+      "AllowedValues" : [ "", "1", "2" ],
+      "ConstraintDescription" : "Must be blank, 1 or 2."
+    }
+  },
+
+  "Resources" : {
+    "GetLatestCISCentosImageId" : {
+      "Type" : "Custom::GetCISCentosImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISCentosImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    },
+
+    "GetLatestVersionedCISCentosImageId" : {
+      "Type" : "Custom::GetCISCentosImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISCentosImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "OSName" : { "Ref" : "CentosVersion" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    },
+
+    "GetSpecificVersionedCISCentosImageId" : {
+      "Type" : "Custom::GetCISCentosImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetCISCentosImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "OSName" : { "Ref" : "CentosVersion" },
+        "CISBenchmark" : { "Ref" : "CISBenchmark" },
+        "CISLevel" : { "Ref" : "CISLevel" }
+      }
+    }
+  },
+
+  "Outputs" : {
+    "LatestImageId" : {
+      "Description" : "The Latest ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestCISCentosImageId", "ImageId" ]}
+    },
+
+    "LatestName" : {
+      "Description" : "The Latest Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestCISCentosImageId", "Name" ]}
+    },
+
+    "LatestVersionedImageId" : {
+      "Description" : "The Latest Versioned ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestVersionedCISCentosImageId", "ImageId" ]}
+    },
+
+    "LatestVersionedName" : {
+      "Description" : "The Latest Versioned Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestVersionedCISCentosImageId", "Name" ]}
+    },
+
+    "SpecificVersionedImageId" : {
+      "Description" : "The Specific Versioned ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificVersionedCISCentosImageId", "ImageId" ]}
+    },
+
+    "SpecificVersionedName" : {
+      "Description" : "The Specific Versioned Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificVersionedCISCentosImageId", "Name" ]}
+    }
+  }
+}

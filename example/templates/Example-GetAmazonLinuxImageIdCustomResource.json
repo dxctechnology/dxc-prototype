@@ -10,6 +10,10 @@
       "Default" : "Amazon Linux 2016.09.1",
       "AllowedValues" : [
         "Amazon Linux",
+        "Amazon Linux 2018.03.0",
+        "Amazon Linux 2017.09.1",
+        "Amazon Linux 2017.09.0"
+        "Amazon Linux 2017.03.1",
         "Amazon Linux 2017.03.0",
         "Amazon Linux 2016.09.1",
         "Amazon Linux 2016.09.0"

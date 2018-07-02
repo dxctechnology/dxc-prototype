@@ -226,10 +226,10 @@ if [ -z $environment ]; then
 else
     case $environment in
       Production)
-        os_name="RHEL 7.4"
+        os_name="RHEL 7.5"
         log_retention=30;;
       Staging)
-        os_name="Amazon Linux 2017.03.0"
+        os_name="Amazon Linux 2017.09.1"
         log_retention=7;;
       Testing)
         os_name="Amazon Linux"

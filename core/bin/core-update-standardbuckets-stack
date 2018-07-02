@@ -200,6 +200,7 @@ if [ -z $environment ]; then
 else
     case $environment in
       Core)
+        use_glacier=true
         ;;
       *)
         echo "-E $environment invalid! Must be Core"
@@ -356,6 +357,7 @@ aws cloudformation update-stack --stack-name StandardBuckets \\
                                 $template_parameter \\
                                 $stack_policy_parameter \\
                                 --parameters ParameterKey=AccountAlias,ParameterValue=$account \\
+                                             ParameterKey=UseGlacier,ParameterValue=$use_glacier \\
                                 --tags Key=Owner,Value=$owner \\
                                        Key=Company,Value=$company \\
                                        Key=System,Value=$system \\

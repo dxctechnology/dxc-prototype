@@ -228,37 +228,37 @@ else
     case $environment in
       Production)
         os_name="Windows Server 2012 R2"
-        os_date="20171013"
+        os_date="20180509"
         use_static_address=true
         log_retention=3653;;
       Staging)
         os_name="Windows Server 2012 R2"
-        os_date="20171013"
+        os_date="20180509"
         use_static_address=true
         log_retention=180;;
       Testing)
         os_name="Windows Server 2012 R2"
-        os_date="20171013"
+        os_date="20180509"
         use_static_address=true
         log_retention=180;;
       Development)
         os_name="Windows Server 2012 R2"
-        os_date="20171013"
+        os_date="20180509"
         use_static_address=true
         log_retention=365;;
       Core)
         os_name="Windows Server 2012 R2"
-        os_date="20171013"
+        os_date="20180509"
         use_static_address=true
         log_retention=3653;;
       Build)
         os_name="Windows Server 2012 R2"
-        os_date="20171013"
+        os_date="20180509"
         use_static_address=true
         log_retention=365;;
       Identity)
         os_name="Windows Server 2012 R2"
-        os_date="20171013"
+        os_date="20180509"
         use_static_address=true
         log_retention=3653;;
       *)
@@ -273,10 +273,10 @@ if [ -z $environment_type ]; then
     exit 22
 else
     case $environment_type in
-      micro|small|medium|large|xlarge)
+      nano|micro|small|medium|large|xlarge)
         ;;
       *)
-        echo "-T $environment_type invalid! Must be micro, small, medium, large or xlarge"
+        echo "-T $environment_type invalid! Must be nano, micro, small, medium, large or xlarge"
         exit 23;;
     esac
 fi

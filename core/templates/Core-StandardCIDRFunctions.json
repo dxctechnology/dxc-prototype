@@ -180,7 +180,7 @@
             "  }",
             "",
             "  console.log('Validating input properties...');",
-            "  if (! /^subnet-[0-9a-f]{8}$/.test(event.ResourceProperties.SubnetId)) {",
+            "  if (! /^subnet-[0-9a-f]{17}$/.test(event.ResourceProperties.SubnetId)) {",
             "    responseData = {Error: 'SubnetId invalid: must be valid Subnet ID'};",
             "    console.error(responseData.Error);",
             "    response.send(event, context, response.FAILED, responseData);",

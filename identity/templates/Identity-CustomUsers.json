@@ -103,10 +103,10 @@
       }
     },
 
-    "BRamachandranUser" : {
+    "IJoelPitcherUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
-        "UserName" : "bramachandran",
+        "UserName" : "ijoelpitcher",
         "Path" : "/",
         "Groups" : [
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
@@ -127,10 +127,10 @@
       }
     },
 
-    "EIgbokweUser" : {
+    "YKumarUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
-        "UserName" : "eigbokwe",
+        "UserName" : "ykumar",
         "Path" : "/",
         "Groups" : [
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
@@ -187,6 +187,18 @@
       }
     },
 
+    "DDriscollUser" : {
+      "Type" : "AWS::IAM::User",
+      "Properties" : {
+        "UserName" : "ddriscoll",
+        "Path" : "/",
+        "Groups" : [
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
+          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
+        ]
+      }
+    },
+
     "WFranklinUser" : {
       "Type" : "AWS::IAM::User",
       "Properties" : {
@@ -227,18 +239,6 @@
       "Type" : "AWS::IAM::User",
       "Properties" : {
         "UserName" : "gwightman",
-        "Path" : "/",
-        "Groups" : [
-          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},
-          { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-BastionUsersGroup" }}
-        ]
-      }
-    },
-
-    "MBaigUser" : {
-      "Type" : "AWS::IAM::User",
-      "Properties" : {
-        "UserName" : "mbaig",
         "Path" : "/",
         "Groups" : [
           { "Fn::ImportValue" : { "Fn::Sub" : "${StandardGroupsStackName}-UsersGroup" }},

@@ -12,7 +12,7 @@
             "ActiveDirectoryStackName",
             "VPCStackName",
             "CustomIdentifierFunctionsStackName",
-            "StandardAMIFunctionsStackName",
+            "CustomAMIFunctionsStackName",
             "StandardBucketsStackName",
             "StandardTopicsStackName"
           ]
@@ -41,6 +41,7 @@
           "Parameters" : [
             "UtilityName",
             "UtilityDomain",
+            "UtilityVersion",
             "UtilityLicense"
           ]
         },
@@ -57,7 +58,7 @@
         "ActiveDirectoryStackName" : { "default" : "Active Directory Stack Name" },
         "VPCStackName" : { "default" : "VPC Stack Name" },
         "CustomIdentifierFunctionsStackName" : { "default" : "CustomIdentifierFunctions Stack Name" },
-        "StandardAMIFunctionsStackName" : { "default" : "StandardAMIFunctions Stack Name" },
+        "CustomAMIFunctionsStackName" : { "default" : "CustomAMIFunctions Stack Name" },
         "StandardBucketsStackName" : { "default" : "StandardBuckets Stack Name" },
         "StandardTopicsStackName" : { "default" : "StandardTopics Stack Name" },
         "KeyName" : { "default" : "Key Name" },
@@ -66,6 +67,7 @@
         "EnvironmentType" : { "default" : "Environment Type" },
         "UtilityName" : { "default" : "Utility Name" },
         "UtilityDomain" : { "default" : "Utility Domain" },
+        "UtilityVersion" : { "default" : "Utility Version" },
         "UtilityLicense" : { "default" : "Utility License" },
         "UserNetworks" : { "default" : "User Networks" },
         "AdministratorNetworks" : { "default" : "Administrator Networks" },
@@ -103,12 +105,12 @@
       "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters and dashes."
     },
 
-    "StandardAMIFunctionsStackName" : {
+    "CustomAMIFunctionsStackName" : {
       "Description" : "Name of the CloudFormation Stack containing the Standard AMI Functions",
       "Type" : "String",
       "MinLength" : 8,
       "MaxLength" : 64,
-      "Default" : "StandardAMIFunctions",
+      "Default" : "CustomAMIFunctions",
       "AllowedPattern" : "^[A-Z][-a-zA-Z0-9]*$",
       "ConstraintDescription" : "must begin with an upper case letter and contain alphanumeric characters and dashes."
     },
@@ -189,12 +191,20 @@
       "ConstraintDescription" : "must begin with a lower case letter and contain only lower case letters, numbers and dashes."
     },
 
+    "UtilityVersion" : {
+      "Description" : "OpenVPN Access Server Version. Used to select a specific OpenVPN Access Server version if non-blank",
+      "Type" : "String",
+      "Default" : "",
+      "AllowedPattern" : "(^$|^[2-9]\\.[0-9]\\.[0-9]$)",
+      "ConstraintDescription" : "must be a version of the form x.y.z."
+    },
+
     "UtilityLicense" : {
       "Description" : "OpenVPN Access Server License. Used to select the OpenVPN Access Server AMI, which limits the number of Users",
       "Type" : "String",
       "Default" : "OpenVPNAS2",
-      "AllowedValues" : [ "OpenVPNAS2", "OpenVPNAS10", "OpenVPNAS25", "OpenVPNAS50" ],
-      "ConstraintDescription" : "must be OpenVPNAS2, OpenVPNAS10, OpenVPNAS25 or OpenVPNAS50."
+      "AllowedValues" : [ "OpenVPNAS2", "OpenVPNAS10", "OpenVPNAS25", "OpenVPNAS50", "OpenVPNAS100" ],
+      "ConstraintDescription" : "must be OpenVPNAS2, OpenVPNAS10, OpenVPNAS25, OpenVPNAS50 or OpenVPNAS100."
     },
 
     "UserNetworks" : {
@@ -213,27 +223,6 @@
   },
 
   "Mappings" : {
-    "ImageIdMap" : {
-      "AMI"            : { "OpenVPNAS2"  : "OpenVPN 2.1.4 Appliance (2 users)",
-                           "OpenVPNAS10" : "OpenVPN 2.1.4 Appliance (10 users)",
-                           "OpenVPNAS25" : "OpenVPN 2.1.4 Appliance (25 users)",
-                           "OpenVPNAS50" : "OpenVPN 2.1.4 Appliance (50 users)" },
-      "us-east-1"      : { "OpenVPNAS2"  : "ami-44aaf953", "OpenVPNAS10" : "ami-b4affca3", "OpenVPNAS25" : "ami-65a9fa72", "OpenVPNAS50" : "ami-78aaf96f" },
-      "us-east-2"      : { "OpenVPNAS2"  : "ami-ae3e64cb", "OpenVPNAS10" : "ami-5f3f653a", "OpenVPNAS25" : "ami-b63b61d3", "OpenVPNAS50" : "ami-94075df1" },
-      "us-west-1"      : { "OpenVPNAS2"  : "ami-fa105b9a", "OpenVPNAS10" : "ami-42165d22", "OpenVPNAS25" : "ami-57175c37", "OpenVPNAS50" : "ami-1c12597c" },
-      "us-west-2"      : { "OpenVPNAS2"  : "ami-e8d67288", "OpenVPNAS10" : "ami-a6d773c6", "OpenVPNAS25" : "ami-a3d175c3", "OpenVPNAS50" : "ami-abd773cb" },
-      "ca-central-1"   : { "OpenVPNAS2"  : "ami-24ad1f40", "OpenVPNAS10" : "ami-3fa5175b", "OpenVPNAS25" : "ami-3da81a59", "OpenVPNAS50" : "ami-22a71546" },
-      "eu-west-1"      : { "OpenVPNAS2"  : "ami-07783674", "OpenVPNAS10" : "ami-7a793709", "OpenVPNAS25" : "ami-40763833", "OpenVPNAS50" : "ami-a57b35d6" },
-      "eu-central-1"   : { "OpenVPNAS2"  : "ami-3f788150", "OpenVPNAS10" : "ami-0207fe6d", "OpenVPNAS25" : "ami-1d798072", "OpenVPNAS50" : "ami-e206ff8d" },
-      "eu-west-2"      : { "OpenVPNAS2"  : "ami-86c3c9e2", "OpenVPNAS10" : "ami-a3c1cbc7", "OpenVPNAS25" : "ami-85c3c9e1", "OpenVPNAS50" : "ami-a1c5cfc5" },
-      "ap-southeast-1" : { "OpenVPNAS2"  : "ami-d72a8cb4", "OpenVPNAS10" : "ami-33369050", "OpenVPNAS25" : "ami-15288e76", "OpenVPNAS50" : "ami-d62a8cb5" },
-      "ap-southeast-2" : { "OpenVPNAS2"  : "ami-5e3b063d", "OpenVPNAS10" : "ami-d33b06b0", "OpenVPNAS25" : "ami-fb340998", "OpenVPNAS50" : "ami-393a075a" },
-      "ap-northeast-2" : { "OpenVPNAS2"  : "ami-b6e733d8", "OpenVPNAS10" : "ami-dbe337b5", "OpenVPNAS25" : "ami-cde236a3", "OpenVPNAS50" : "ami-b7e733d9" },
-      "ap-northeast-1" : { "OpenVPNAS2"  : "ami-2f66c04e", "OpenVPNAS10" : "ami-2967c148", "OpenVPNAS25" : "ami-ec983e8d", "OpenVPNAS50" : "ami-499a3c28" },
-      "ap-south-1"     : { "OpenVPNAS2"  : "ami-066f1b69", "OpenVPNAS10" : "ami-6354200c", "OpenVPNAS25" : "ami-076f1b68", "OpenVPNAS50" : "ami-2455214b" },
-      "sa-east-1"      : { "OpenVPNAS2"  : "ami-283fa244", "OpenVPNAS10" : "ami-1e34a972", "OpenVPNAS25" : "ami-e43ea388", "OpenVPNAS50" : "ami-4d38a521" }
-    },
-
     "InstanceTypeMap" : {
       "OpenVPNAS" : { "micro" : "t2.micro", "small" : "t2.small", "medium" : "t2.medium", "large" : "c4.large", "xlarge" : "c4.xlarge" }
     }
@@ -394,7 +383,7 @@
     "DomainControllerSecurityGroupIngress3389" : {
       "Type" : "AWS::EC2::SecurityGroupIngress",
       "Properties" : {
-        "GroupId" : { "Fn::ImportValue" : { "Fn::Sub" : "${ActiveDirectoryStackName}-DomainControllerSecurityGroup" }}, "IpProtocol" : "tcp", "FromPort" :  "3389", "ToPort" :  "3389", "SourceSecurityGroupId": { "Ref": "InstanceSecurityGroup" }
+        "GroupId" : { "Fn::ImportValue" : { "Fn::Sub" : "${ActiveDirectoryStackName}-DomainControllerSecurityGroup" }}, "IpProtocol" : "tcp", "FromPort" :  "3389", "ToPort" :  "3389", "SourceSecurityGroupId" : { "Ref" : "InstanceSecurityGroup" }
       },
       "Condition" : "ConfigureActiveDirectoryIntegration"
     },
@@ -404,16 +393,26 @@
       "Properties" : {
         "ServiceToken" : { "Fn::ImportValue" : { "Fn::Sub" : "${CustomIdentifierFunctionsStackName}-GetHostNameFunctionArn" }},
         "CompanyName" : { "Ref" : "CompanyName" },
-        "LocationName" : { "Ref": "AWS::Region" },
+        "LocationName" : { "Ref" : "AWS::Region" },
         "EnvironmentName" : { "Fn::ImportValue" : { "Fn::Sub" : "${VPCStackName}-VPCName" }},
         "ApplicationName" : { "Ref" : "UtilityName" }
+      }
+    },
+
+    "GetOpenVPNASImageId" : {
+      "Type" : "Custom::GetOpenVPNASImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::ImportValue" : { "Fn::Sub" : "${CustomAMIFunctionsStackName}-GetOpenVPNASImageIdFunctionArn" }},
+        "Region" : { "Ref" : "AWS::Region" },
+        "License" : { "Ref" : "UtilityLicense" },
+        "Version" : { "Ref" : "UtilityVersion" }
       }
     },
 
     "Instance" : {
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
-        "ImageId" : { "Fn::FindInMap" : [ "ImageIdMap", { "Ref" : "AWS::Region" } , { "Ref" : "UtilityLicense" }]},
+        "ImageId" : { "Fn::GetAtt" : [ "GetOpenVPNASImageId", "ImageId" ]},
         "InstanceType" : { "Fn::FindInMap" : [ "InstanceTypeMap", "OpenVPNAS", { "Ref" : "EnvironmentType" }]},
         "KeyName" : { "Fn::If" : [ "ConfigureKey", { "Ref" : "KeyName" }, { "Ref" : "AWS::NoValue" }]},
         "NetworkInterfaces" : [{

@@ -1,0 +1,84 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "Example-GetOpenVPNASImageIdCustomResource Template. This demonstrates how to dynamically get the most recent OpenVPN Access Server ImageId, given the License and Region.",
+
+  "Parameters" : {
+    "License" : {
+      "Description" : "OpenVPN Access Server License. Used to select the OpenVPN Access Server AMI, which limits the number of Users",
+      "Type" : "String",
+      "Default" : "OpenVPNAS10",
+      "AllowedValues" : [ "OpenVPNAS2", "OpenVPNAS10", "OpenVPNAS25", "OpenVPNAS50", "OpenVPNAS100" ],
+      "ConstraintDescription" : "must be OpenVPNAS2, OpenVPNAS10, OpenVPNAS25, OpenVPNAS50 or OpenVPNAS100."
+    },
+
+    "Version" : {
+      "Description" : "OpenVPN Access Server Version. Used to select a prior OpenVPN Access Server version if non-blank",
+      "Type" : "String",
+      "Default" : "2.1.9",
+      "AllowedPattern" : "(^$|^[2-9]\\.[0-9]\\.[0-9]$)",
+      "ConstraintDescription" : "must be a version of the form x.y.z."
+    }
+  },
+
+  "Resources" : {
+    "GetLatestOpenVPNASImageId" : {
+      "Type" : "Custom::GetOpenVPNASImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetOpenVPNASImageId" },
+        "Region" : { "Ref" : "AWS::Region" }
+      }
+    },
+
+    "GetLatestLicensedOpenVPNASImageId" : {
+      "Type" : "Custom::GetOpenVPNASImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetOpenVPNASImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "License" : { "Ref" : "License" }
+      }
+    },
+
+    "GetSpecificLicensedOpenVPNASImageId" : {
+      "Type" : "Custom::GetOpenVPNASImageId",
+      "Properties" : {
+        "ServiceToken" : { "Fn::Sub" : "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:GetOpenVPNASImageId" },
+        "Region" : { "Ref" : "AWS::Region" },
+        "License" : { "Ref" : "License" },
+        "Version" : { "Ref" : "Version" }
+      }
+    }
+  },
+
+  "Outputs" : {
+    "LatestImageId" : {
+      "Description" : "The Latest ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestOpenVPNASImageId", "ImageId" ]}
+    },
+
+    "LatestName" : {
+      "Description" : "The Latest Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestOpenVPNASImageId", "Name" ]}
+    },
+
+    "LatestLicensedImageId" : {
+      "Description" : "The Latest Licensed ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestLicensedOpenVPNASImageId", "ImageId" ]}
+    },
+
+    "LatestLicensedName" : {
+      "Description" : "The Latest Licensed Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetLatestLicensedOpenVPNASImageId", "Name" ]}
+    },
+
+    "SpecificLicensedImageId" : {
+      "Description" : "The Specific Licensed ImageId",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificLicensedOpenVPNASImageId", "ImageId" ]}
+    },
+
+    "SpecificLicensedName" : {
+      "Description" : "The Specific Licensed Image Name",
+      "Value" : { "Fn::GetAtt" : [ "GetSpecificLicensedOpenVPNASImageId", "Name" ]}
+    }
+  }
+}
